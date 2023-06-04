@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="finals:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7131092e-ea3e-442f-b743-0196e0a3e178" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../dst.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dst.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../run.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/demo/ai-talks-tokens-ru.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/demo/ai-talks-tokens.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/demo/ai-talks.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/demo/tokens-ru.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/demo/tokens.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/icons/rec_on.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/icons/tg.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/img/21246001_173551016000_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/qr/tink.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/styles/.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/styles/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/styles/menu_styles.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/agi/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/agi/chat_gpt.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/constants.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/conversation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/footer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/helpers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/lang.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/stt.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/src/utils/tts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmp/sem" beforeDir="false" afterPath="$PROJECT_DIR$/../tmp/sem" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2QhR3xfwqHA47bg70aMLjHG54CU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7131092e-ea3e-442f-b743-0196e0a3e178" name="Changes" comment="" />
+      <created>1685803635948</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1685803635948</updated>
+    </task>
+    <servers />
+  </component>
+</project>

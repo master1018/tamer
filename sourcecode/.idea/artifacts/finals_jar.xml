@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="finals:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/finals_jar</output-path>
+    <root id="archive" name="finals.jar">
+      <element id="module-output" name="finals" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/javaparser/javaparser-core/3.24.4/javaparser-core-3.24.4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

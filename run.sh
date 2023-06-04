@@ -1,0 +1,9 @@
+echo "Init..."
+rm ./result/index
+rm ./result/res_graph*
+rm ./tmp/sem
+touch ./tmp/sem
+echo 1 > ./tmp/sem
+echo "Init success,begin to start:"
+
+streamlit run main.py

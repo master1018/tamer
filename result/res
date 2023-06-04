@@ -1,0 +1,14 @@
+98%
+src
+1. if (a == 1 && b == 2)
+2.      return true;
+dst
+4. if (a[1] == 1 && a[2] == 2)
+5.      return 1;
+77%
+src
+7. int tmp = sort(a, a + 1);
+8. return binary_search(a, a + 1, tmp)
+dst
+7. int tmp = qsort(b, b + 1);
+8. return erfenchazhao(b, tmp); 
