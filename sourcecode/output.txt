@@ -1,0 +1,1615 @@
+*********
+
+class ProductPropImg extends TaobaoModel {
+
+    private static final long serialVersionUID = -5655899416065863432L;
+
+    private String productId;
+
+    private String picId;
+
+    private String props;
+
+    private String url;
+
+    private int position;
+
+    private Date created;
+
+    private Date modified;
+
+    private File image;
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProps() {
+        return props;
+    }
+
+    public void setProps(String props) {
+        this.props = props;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    public File getImage() {
+        return image;
+    }
+
+    public void setImage(File image) {
+        this.image = image;
+    }
+
+    public String getPicId() {
+        return picId;
+    }
+
+    public void setPicId(String picId) {
+        this.picId = picId;
+    }
+}
+
+*********
+
+class ProductPropImg extends TaobaoModel {
+
+    private static final long serialVersionUID = -5655899416065863432L;
+
+    private String productId;
+
+    private String picId;
+
+    private String props;
+
+    private String url;
+
+    private int position;
+
+    private Date created;
+
+    private Date modified;
+
+    private File image;
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProps() {
+        return props;
+    }
+
+    public void setProps(String props) {
+        this.props = props;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    public File getImage() {
+        return image;
+    }
+
+    public void setImage(File image) {
+        this.image = image;
+    }
+
+    public String getPicId() {
+        return picId;
+    }
+
+    public void setPicId(String picId) {
+        this.picId = picId;
+    }
+}
+
+*********
+
+class ProductPropImg extends TaobaoModel {
+
+    private static final long serialVersionUID = -5655899416065863432L;
+
+    private String productId;
+
+    private String picId;
+
+    private String props;
+
+    private String url;
+
+    private int position;
+
+    private Date created;
+
+    private Date modified;
+
+    private File image;
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProps() {
+        return props;
+    }
+
+    public void setProps(String props) {
+        this.props = props;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    public File getImage() {
+        return image;
+    }
+
+    public void setImage(File image) {
+        this.image = image;
+    }
+
+    public String getPicId() {
+        return picId;
+    }
+
+    public void setPicId(String picId) {
+        this.picId = picId;
+    }
+}
+*********
+
+ProductPropImg
+*********
+
+private static final long serialVersionUID = -5655899416065863432L;
+*********
+
+private 
+*********
+
+static 
+*********
+
+final 
+*********
+
+serialVersionUID = -5655899416065863432L
+*********
+
+long
+*********
+
+serialVersionUID
+*********
+
+-5655899416065863432L
+*********
+
+5655899416065863432L
+*********
+
+private String productId;
+*********
+
+private 
+*********
+
+productId
+*********
+
+String
+*********
+
+String
+*********
+
+productId
+*********
+
+private String picId;
+*********
+
+private 
+*********
+
+picId
+*********
+
+String
+*********
+
+String
+*********
+
+picId
+*********
+
+private String props;
+*********
+
+private 
+*********
+
+props
+*********
+
+String
+*********
+
+String
+*********
+
+props
+*********
+
+private String url;
+*********
+
+private 
+*********
+
+url
+*********
+
+String
+*********
+
+String
+*********
+
+url
+*********
+
+private int position;
+*********
+
+private 
+*********
+
+position
+*********
+
+int
+*********
+
+position
+*********
+
+private Date created;
+*********
+
+private 
+*********
+
+created
+*********
+
+Date
+*********
+
+Date
+*********
+
+created
+*********
+
+private Date modified;
+*********
+
+private 
+*********
+
+modified
+*********
+
+Date
+*********
+
+Date
+*********
+
+modified
+*********
+
+private File image;
+*********
+
+private 
+*********
+
+image
+*********
+
+File
+*********
+
+File
+*********
+
+image
+*********
+
+public String getProductId() {
+    return productId;
+}
+*********
+
+public 
+*********
+
+getProductId
+*********
+
+String
+*********
+
+String
+*********
+
+{
+    return productId;
+}
+*********
+
+return productId;
+*********
+
+productId
+*********
+
+productId
+*********
+
+public void setProductId(String productId) {
+    this.productId = productId;
+}
+*********
+
+public 
+*********
+
+setProductId
+*********
+
+String productId
+*********
+
+String
+*********
+
+String
+*********
+
+productId
+*********
+
+void
+*********
+
+{
+    this.productId = productId;
+}
+*********
+
+this.productId = productId;
+*********
+
+this.productId = productId
+*********
+
+this.productId
+*********
+
+this
+*********
+
+productId
+*********
+
+productId
+*********
+
+productId
+*********
+
+public String getProps() {
+    return props;
+}
+*********
+
+public 
+*********
+
+getProps
+*********
+
+String
+*********
+
+String
+*********
+
+{
+    return props;
+}
+*********
+
+return props;
+*********
+
+props
+*********
+
+props
+*********
+
+public void setProps(String props) {
+    this.props = props;
+}
+*********
+
+public 
+*********
+
+setProps
+*********
+
+String props
+*********
+
+String
+*********
+
+String
+*********
+
+props
+*********
+
+void
+*********
+
+{
+    this.props = props;
+}
+*********
+
+this.props = props;
+*********
+
+this.props = props
+*********
+
+this.props
+*********
+
+this
+*********
+
+props
+*********
+
+props
+*********
+
+props
+*********
+
+public String getUrl() {
+    return url;
+}
+*********
+
+public 
+*********
+
+getUrl
+*********
+
+String
+*********
+
+String
+*********
+
+{
+    return url;
+}
+*********
+
+return url;
+*********
+
+url
+*********
+
+url
+*********
+
+public void setUrl(String url) {
+    this.url = url;
+}
+*********
+
+public 
+*********
+
+setUrl
+*********
+
+String url
+*********
+
+String
+*********
+
+String
+*********
+
+url
+*********
+
+void
+*********
+
+{
+    this.url = url;
+}
+*********
+
+this.url = url;
+*********
+
+this.url = url
+*********
+
+this.url
+*********
+
+this
+*********
+
+url
+*********
+
+url
+*********
+
+url
+*********
+
+public int getPosition() {
+    return position;
+}
+*********
+
+public 
+*********
+
+getPosition
+*********
+
+int
+*********
+
+{
+    return position;
+}
+*********
+
+return position;
+*********
+
+position
+*********
+
+position
+*********
+
+public void setPosition(int position) {
+    this.position = position;
+}
+*********
+
+public 
+*********
+
+setPosition
+*********
+
+int position
+*********
+
+int
+*********
+
+position
+*********
+
+void
+*********
+
+{
+    this.position = position;
+}
+*********
+
+this.position = position;
+*********
+
+this.position = position
+*********
+
+this.position
+*********
+
+this
+*********
+
+position
+*********
+
+position
+*********
+
+position
+*********
+
+public Date getCreated() {
+    return created;
+}
+*********
+
+public 
+*********
+
+getCreated
+*********
+
+Date
+*********
+
+Date
+*********
+
+{
+    return created;
+}
+*********
+
+return created;
+*********
+
+created
+*********
+
+created
+*********
+
+public void setCreated(Date created) {
+    this.created = created;
+}
+*********
+
+public 
+*********
+
+setCreated
+*********
+
+Date created
+*********
+
+Date
+*********
+
+Date
+*********
+
+created
+*********
+
+void
+*********
+
+{
+    this.created = created;
+}
+*********
+
+this.created = created;
+*********
+
+this.created = created
+*********
+
+this.created
+*********
+
+this
+*********
+
+created
+*********
+
+created
+*********
+
+created
+*********
+
+public Date getModified() {
+    return modified;
+}
+*********
+
+public 
+*********
+
+getModified
+*********
+
+Date
+*********
+
+Date
+*********
+
+{
+    return modified;
+}
+*********
+
+return modified;
+*********
+
+modified
+*********
+
+modified
+*********
+
+public void setModified(Date modified) {
+    this.modified = modified;
+}
+*********
+
+public 
+*********
+
+setModified
+*********
+
+Date modified
+*********
+
+Date
+*********
+
+Date
+*********
+
+modified
+*********
+
+void
+*********
+
+{
+    this.modified = modified;
+}
+*********
+
+this.modified = modified;
+*********
+
+this.modified = modified
+*********
+
+this.modified
+*********
+
+this
+*********
+
+modified
+*********
+
+modified
+*********
+
+modified
+*********
+
+public File getImage() {
+    return image;
+}
+*********
+
+public 
+*********
+
+getImage
+*********
+
+File
+*********
+
+File
+*********
+
+{
+    return image;
+}
+*********
+
+return image;
+*********
+
+image
+*********
+
+image
+*********
+
+public void setImage(File image) {
+    this.image = image;
+}
+*********
+
+public 
+*********
+
+setImage
+*********
+
+File image
+*********
+
+File
+*********
+
+File
+*********
+
+image
+*********
+
+void
+*********
+
+{
+    this.image = image;
+}
+*********
+
+this.image = image;
+*********
+
+this.image = image
+*********
+
+this.image
+*********
+
+this
+*********
+
+image
+*********
+
+image
+*********
+
+image
+*********
+
+public String getPicId() {
+    return picId;
+}
+*********
+
+public 
+*********
+
+getPicId
+*********
+
+String
+*********
+
+String
+*********
+
+{
+    return picId;
+}
+*********
+
+return picId;
+*********
+
+picId
+*********
+
+picId
+*********
+
+public void setPicId(String picId) {
+    this.picId = picId;
+}
+*********
+
+public 
+*********
+
+setPicId
+*********
+
+String picId
+*********
+
+String
+*********
+
+String
+*********
+
+picId
+*********
+
+void
+*********
+
+{
+    this.picId = picId;
+}
+*********
+
+this.picId = picId;
+*********
+
+this.picId = picId
+*********
+
+this.picId
+*********
+
+this
+*********
+
+picId
+*********
+
+picId
+*********
+
+picId
+*********
+
+TaobaoModel
+*********
+
+TaobaoModel
+*********
+
+class MDVersionDTO {
+
+    private String element;
+
+    private String path;
+
+    private String role;
+
+    private long version;
+
+    /**
+     * This is the element corresponding to the UI.
+     * @return
+     */
+    public String getElement() {
+        return element;
+    }
+
+    public void setElement(String element) {
+        this.element = element;
+    }
+
+    /**
+     * This is the path to the actual list in the database (this and element may be identical).
+     */
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    /**
+     * The version number of the list corresponding to Path.
+     * @return
+     */
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+}
+
+*********
+
+class MDVersionDTO {
+
+    private String element;
+
+    private String path;
+
+    private String role;
+
+    private long version;
+
+    /**
+     * This is the element corresponding to the UI.
+     * @return
+     */
+    public String getElement() {
+        return element;
+    }
+
+    public void setElement(String element) {
+        this.element = element;
+    }
+
+    /**
+     * This is the path to the actual list in the database (this and element may be identical).
+     */
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    /**
+     * The version number of the list corresponding to Path.
+     * @return
+     */
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+}
+*********
+
+MDVersionDTO
+*********
+
+private String element;
+*********
+
+private 
+*********
+
+element
+*********
+
+String
+*********
+
+String
+*********
+
+element
+*********
+
+private String path;
+*********
+
+private 
+*********
+
+path
+*********
+
+String
+*********
+
+String
+*********
+
+path
+*********
+
+private String role;
+*********
+
+private 
+*********
+
+role
+*********
+
+String
+*********
+
+String
+*********
+
+role
+*********
+
+private long version;
+*********
+
+private 
+*********
+
+version
+*********
+
+long
+*********
+
+version
+*********
+
+/**
+ * This is the element corresponding to the UI.
+ * @return
+ */
+public String getElement() {
+    return element;
+}
+*********
+
+public 
+*********
+
+getElement
+*********
+
+String
+*********
+
+String
+*********
+
+{
+    return element;
+}
+*********
+
+return element;
+*********
+
+element
+*********
+
+element
+*********
+
+public void setElement(String element) {
+    this.element = element;
+}
+*********
+
+public 
+*********
+
+setElement
+*********
+
+String element
+*********
+
+String
+*********
+
+String
+*********
+
+element
+*********
+
+void
+*********
+
+{
+    this.element = element;
+}
+*********
+
+this.element = element;
+*********
+
+this.element = element
+*********
+
+this.element
+*********
+
+this
+*********
+
+element
+*********
+
+element
+*********
+
+element
+*********
+
+/**
+ * This is the path to the actual list in the database (this and element may be identical).
+ */
+public String getPath() {
+    return path;
+}
+*********
+
+public 
+*********
+
+getPath
+*********
+
+String
+*********
+
+String
+*********
+
+{
+    return path;
+}
+*********
+
+return path;
+*********
+
+path
+*********
+
+path
+*********
+
+public void setPath(String path) {
+    this.path = path;
+}
+*********
+
+public 
+*********
+
+setPath
+*********
+
+String path
+*********
+
+String
+*********
+
+String
+*********
+
+path
+*********
+
+void
+*********
+
+{
+    this.path = path;
+}
+*********
+
+this.path = path;
+*********
+
+this.path = path
+*********
+
+this.path
+*********
+
+this
+*********
+
+path
+*********
+
+path
+*********
+
+path
+*********
+
+/**
+ * The version number of the list corresponding to Path.
+ * @return
+ */
+public long getVersion() {
+    return version;
+}
+*********
+
+public 
+*********
+
+getVersion
+*********
+
+long
+*********
+
+{
+    return version;
+}
+*********
+
+return version;
+*********
+
+version
+*********
+
+version
+*********
+
+public void setVersion(long version) {
+    this.version = version;
+}
+*********
+
+public 
+*********
+
+setVersion
+*********
+
+long version
+*********
+
+long
+*********
+
+version
+*********
+
+void
+*********
+
+{
+    this.version = version;
+}
+*********
+
+this.version = version;
+*********
+
+this.version = version
+*********
+
+this.version
+*********
+
+this
+*********
+
+version
+*********
+
+version
+*********
+
+version
+*********
+
+public String getRole() {
+    return role;
+}
+*********
+
+public 
+*********
+
+getRole
+*********
+
+String
+*********
+
+String
+*********
+
+{
+    return role;
+}
+*********
+
+return role;
+*********
+
+role
+*********
+
+role
+*********
+
+public void setRole(String role) {
+    this.role = role;
+}
+*********
+
+public 
+*********
+
+setRole
+*********
+
+String role
+*********
+
+String
+*********
+
+String
+*********
+
+role
+*********
+
+void
+*********
+
+{
+    this.role = role;
+}
+*********
+
+this.role = role;
+*********
+
+this.role = role
+*********
+
+this.role
+*********
+
+this
+*********
+
+role
+*********
+
+role
+*********
+
+role

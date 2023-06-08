@@ -2,6 +2,7 @@ package org.example;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.NullLiteralExpr;
 
 import javax.security.auth.Destroyable;
 import java.io.*;
@@ -23,7 +24,7 @@ public class main
     public static int partition_number = 1;
     public static float filter_score = 0.15f;
     public static float final_verify_score = 0.65f;
-    public static String filedir = "/Users/haoranyan/git_rep/Tamercode/data/IJaDataset10k/IJaDataset10k";
+    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/input";
     public static HashMap<String, Integer> string2char = new HashMap<>();
     public static HashMap<String, Integer> name_list = new HashMap<>();
 

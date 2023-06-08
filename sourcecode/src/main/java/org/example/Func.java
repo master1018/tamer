@@ -24,6 +24,8 @@ public class Func
     public static int N = 16;
     public List<List<String>> Subtree_list = new ArrayList<>();
     public List<List<Integer>> Subtreelen_list = new ArrayList<>();
+    public List<List<Optional>> Subtree_pos = new ArrayList<>();
+    public List<List<Optional>> Subtree_line_msg = new ArrayList<>();
     public Func(String fileName, int n, HashMap<String, Integer> string2char, HashMap<String, Integer> name_list, CompilationUnit cu1) {
         N = n;
         Initial_Func();
@@ -51,15 +53,25 @@ public class Func
             this.Subtree_list.add(newlist);
             List<Integer> aaa = new ArrayList<>();
             this.Subtreelen_list.add(aaa);
-        }
+            List<Optional> newOptional = new ArrayList<>();
+            this.Subtree_pos.add(newOptional);
+            List<Optional> newLineMsg = new ArrayList<>();
+            this.Subtree_line_msg.add(newLineMsg)
+;        }
     }
 
     public void output_report()
     {
         // to be constructed
     }
-    public double Caculate_similarity_of_Func(Func another)
-    {
+    public double Caculate_similarity_of_Func(Func another) throws IOException {
+        String file_res = "";
+        file_res = "/Users/haoranyan/git_rep/tamer/result/output_" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
+        PrintStream out = System.out;
+        PrintStream ps = new PrintStream(file_res);
+        System.setOut(ps);
+        System.out.println(this.fileName);
+        System.out.println(another.fileName);
         double final_result = 0.000;
         int totallcs = 0;
         int maxlen = Math.max(this.funcLen, another.funcLen);
@@ -80,13 +92,23 @@ public class Func
                     String b = another.Subtree_list.get(i).get(k);
                     totallength += b.length();
                     temp_result += longestCommonSubsequence(a, b);
-
+                    if (i != 9) {
+                        System.out.println(("begin"));
+                        System.out.println(longestCommonSubsequence(a, b));
+                        System.out.println(this.Subtree_line_msg.get(i).get(j));
+                       // System.out.println(this.Subtree_pos.get(i).get(j));
+                      //  System.out.println("\n");
+                        System.out.println(another.Subtree_line_msg.get(i).get(k));
+                       // System.out.println(another.Subtree_pos.get(i).get(k));
+                       System.out.println("end");
+                    }
                 }
                 final_result += (double) temp_result / (double) (totallength - temp_result);
             }
         }
         if (final_result >= final_verify_score)
             output_report();
+        System.setOut((out));
         return final_result;
     }
 
@@ -136,6 +158,8 @@ public class Func
         }
         this.Subtreelen_list.get(index).add(count);
         this.Subtree_list.get(index).add(onesequence);
+        this.Subtree_pos.get(index).add(head.getTokenRange());
+        this.Subtree_line_msg.get(index).add(head.getRange());
     }
 
     private void Get_AST_DFS( HashMap<String, Integer> string2char, HashMap<String, Integer> name_list, CompilationUnit cu1)
@@ -169,6 +193,8 @@ public class Func
             }
             st.clear();
             this.Subtree_list.get(9).add(root);
+            this.Subtree_pos.get(9).add(cu1.getTokenRange());
+            this.Subtree_line_msg.get(9).add(cu1.getRange());
             for (int i = N - 1; i < list_cu1.size(); i++)
             {
                 String hash_temp = "";

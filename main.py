@@ -1,3 +1,4 @@
+import base64
 import time
 from graphviz import Graph
 from pathlib import Path
@@ -34,7 +35,7 @@ def build_graph(a, b, c) -> None:
     dot.attr('node', shape='box')
     dot.attr(rankdir='LR')
     dot.node("S", "代码段克隆情况")
-    for i in range(len(a) - 1, -1, -1):
+    for i in range(0, len(a)):
         a[i] = a[i].replace("\n", "\\l")
         b[i] = b[i].replace("\n", "\\l")
         dot.node('A' + str(i), a[i], color=color_arr[i % 5])
@@ -135,15 +136,27 @@ def callback2() -> None:
     fp = open("./tmp/sem", "w")
     fp.write("1")
     fp.close()
-    
+
+def get_base64(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
 def show_info() -> None:
-    st.header("Tamer：代码克隆检测")
-
-    with st.expander("关于我们"):
+    c1, c2= st.columns([0.8, 0.2])
+    c1.header("❄️ Tamer 代码克隆检测 ❄️")
+    c2.image("./image/1.png")
+    #with st.expander("关于我们"):
+     #   st.write(Path("README.md").read_text())
+    st.text("这一部分可以用typora写一些关于我们产品的介绍，使用说明等")
+    st.text("更多了解")
+    chose = st.selectbox(label="test", options=["关于我们", "Tamer的优点", "Tamer的应用场景"])
+    if chose ==  "关于我们":
         st.write(Path("README.md").read_text())
-
-    st.write(Path("README.md").read_text())
-
+    elif chose == "Tamer的优点":
+        st.write("hh")
+    else:
+        st.write("emmm")
 
 def main() -> None:
     fp = open("./tmp/sem", "r")
@@ -176,7 +189,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     st.set_page_config(
-        "Fidelity Account View by Gerard Bentley",
+        "Tamer：代码克隆检测系统",
         "📊",
         initial_sidebar_state="expanded",
         layout="wide",
