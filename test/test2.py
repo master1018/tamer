@@ -71,7 +71,7 @@ class Result:
 
     # 重复打开关闭文件效率会很差，目前时间影响不大，考虑后期进行优化
     def save_result(self):
-        fp = open("./result/res", "w")
+        fp = open("./result/res_test", "w")
         for i in range(0, len(self.similar_arr)):
             fp.write(str(self.similar_arr[i]) + "%\n")
             fp.write("src\n")
@@ -80,13 +80,20 @@ class Result:
             end = self.line_msg[i][1]
             count = 0
             fp1 = open(self.cmp_file1, "r")
+            dele_space = 0
             while True:
                 line = fp1.readline()
                 if not line:
                     break
                 count += 1
+                if count == begin:
+                    for j in range(0, len(line)):
+                        if line[j] != " ":
+                            break
+                        else:
+                            dele_space += 1
                 if count >= begin and count <= end:
-                    fp.write(str(count) + ". " + line)
+                    fp.write(str(count) + ". " + line[dele_space:len(line)])
             fp.write("dst\n")
             fp1.close()
             # cmp file 2 的内容
@@ -94,17 +101,24 @@ class Result:
             end = self.line_msg[i][3]
             count = 0
             fp2 = open(self.cmp_file2, "r")
+            dele_space = 0
             while True:
                 line = fp2.readline()
                 if not line:
                     break
                 count += 1
+                if count == begin:
+                    for j in range(0, len(line)):
+                        if line[j] != " ":
+                            break
+                        else:
+                            dele_space += 1
                 if count >= begin and count <= end:
-                    fp.write(str(count) + ". " + line)
+                    fp.write(str(count) + ". " + line[dele_space:len(line)])
             fp2.close()
         fp.close()
 
 res = Result()
-res.get_result_msg("./result/output_2_1")
+res.get_result_msg("./result/output")
 res.parse_result_msg()
 res.save_result()

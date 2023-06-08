@@ -6,8 +6,8 @@ import os
 import streamlit as st
 import pandas as pd
 
-choice_code     =   ["C", "C++", "Java", "Python"]
-file_type       =   [".c", ".cpp", ".java", ".py"]
+choice_code     =   ["Java","C", "C++",  "Python"]
+file_type       =   [".java",".c", ".cpp",  ".py"]
 
 color_arr       =   ["blue", "green", "black", "red", "yellow"]
 
@@ -95,13 +95,20 @@ class Result:
             end = self.line_msg[i][1]
             count = 0
             fp1 = open(self.cmp_file1, "r")
+            dele_space = 0
             while True:
                 line = fp1.readline()
                 if not line:
                     break
                 count += 1
+                if count == begin:
+                    for j in range(0, len(line)):
+                        if line[j] != " ":
+                            break
+                        else:
+                            dele_space += 1
                 if count >= begin and count <= end:
-                    fp.write(str(count) + ". " + line)
+                    fp.write(str(count) + ". " + line[dele_space:len(line)])
             fp.write("dst\n")
             fp1.close()
             # cmp file 2 的内容
@@ -109,16 +116,40 @@ class Result:
             end = self.line_msg[i][3]
             count = 0
             fp2 = open(self.cmp_file2, "r")
+            dele_space = 0
             while True:
                 line = fp2.readline()
                 if not line:
                     break
                 count += 1
+                if count == begin:
+                    for j in range(0, len(line)):
+                        if line[j] != " ":
+                            break
+                        else:
+                            dele_space += 1
                 if count >= begin and count <= end:
-                    fp.write(str(count) + ". " + line)
+                    fp.write(str(count) + ". " + line[dele_space:len(line)])
             fp2.close()
         fp.close()
     
+def show_gif():
+    fp = open("./tmp/sem", "w")
+    fp.write("3")
+    fp.close()
+    if (st.session_state.tmp != None):
+        st.session_state.tmp.empty()
+    st.session_state.tmp = st.empty()
+    file_ = open("/Users/haoranyan/git_rep/tamer/image/xinyemiao.gif", "rb")
+    contents = file_.read()
+    data_url = base64.b64encode(contents).decode("utf-8")
+    file_.close()
+    with st.session_state.tmp.container():
+        st.markdown(
+            f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
+        unsafe_allow_html=True,
+        )
+
 #
 #    为了便于前后端数据的交互,设置res文件的格式如下:
     
@@ -142,7 +173,7 @@ def build_graph(a, b, c) -> None:
     dot = Graph()
     dot.attr('node', shape='box')
     dot.attr(rankdir='LR')
-    dot.node("S", "代码段克隆情况")
+    dot.node("S", "Clone Pairs")
     for i in range(0, len(a)):
         a[i] = a[i].replace("\n", "\\l")
         b[i] = b[i].replace("\n", "\\l")
@@ -199,8 +230,11 @@ def res_visual() -> None:
                     para2[idx] += dst_str
                 count += 1
             idx += 1
-        
+    ret1 = para1.copy()
+    ret2 = para2.copy()
+    ret3 = para3.copy()
     build_graph(para1, para2, para3)
+    return ret1, ret2, ret3
 
 
 def init() -> None:
@@ -208,13 +242,40 @@ def init() -> None:
     st.session_state.src_file   =   None
     st.session_state.dst_file   =   None
     st.session_state.res_file   =   None
+    st.session_state.tmp        =   None
 
 
 def show_result() -> None:
-    res_visual()
-    st.header("检测结果")
-    with st.empty():
-        st.image("./result/res_graph.png")
+    if (st.session_state.tmp != None):
+        st.session_state.tmp.empty()
+    st.session_state.tmp = st.empty()
+    ret1, ret2, ret3 = res_visual()
+    with st.session_state.tmp.container():
+        st.header("检测结果")
+        with st.expander("克隆对总览"):
+            with st.empty():
+                st.image("./result/res_graph.png")
+        st.write("克隆对")
+        c1, c2, c3 = st.columns([0.45, 0.45, 0.1])
+        
+        chose_index = 1
+        chose_list = []
+        for c in range(0, len(ret3)):
+            chose_list.append(str(c + 1))
+        chose_index = c3.selectbox(label="克隆对选择", options=chose_list)
+        chose_index = int(chose_index)
+        
+        a = list(ret1[chose_index - 1]).count("\n")
+        b = list(ret2[chose_index - 1]).count("\n")
+        if (a > b):
+            ret2[chose_index - 1] += ".\n" * (a - b)
+        else:
+            ret1[chose_index - 1] += ".\n" * (b - a)
+        
+        c1.code(ret1[chose_index - 1], "java")
+        c2.code(ret2[chose_index - 1], "java")
+        
+        st.write("相似度为: " + str(ret3[chose_index - 1]))
     
 
 def exec_jar() -> None:
@@ -227,25 +288,26 @@ def exec_jar() -> None:
 
 def callback1() -> None:
     if st.session_state.src_file != None:
-        fp = open("./data/input/1" + st.session_state.file_type, "w")
+        fp = open("./data/input/2" + st.session_state.file_type, "w")
         fp.write(st.session_state.src_file.getvalue().decode("utf-8"))
         fp.close()
         st.session_state.src_file = None
 
     if st.session_state.dst_file != None:
-        fp = open("./data/input/2" + st.session_state.file_type, "w")
+        fp = open("./data/input/1" + st.session_state.file_type, "w")
         fp.write(st.session_state.dst_file.getvalue().decode("utf-8"))
         fp.close()
         st.session_state.dst_file = None
 
     # 执行java脚本
     exec_jar()
-
     # 调用检测代码检测出结果，结果以文件方式保存，再重新读入
     # 下面用来测试，假设结果文件为result.c
     fp = open("./tmp/sem", "w")
     fp.write("2")
     fp.close()
+    if st.session_state.tmp != None:
+        st.session_state.tmp.empty()
 
 def callback2() -> None:
     fp = open("./tmp/sem", "w")
@@ -258,20 +320,24 @@ def get_base64(bin_file):
     return base64.b64encode(data).decode()
 
 def show_info() -> None:
-    c1, c2= st.columns([0.8, 0.2])
-    c1.header("❄️ Tamer 代码克隆检测 ❄️")
-    c2.image("./image/1.png")
-    #with st.expander("关于我们"):
-     #   st.write(Path("README.md").read_text())
-    st.text("这一部分可以用typora写一些关于我们产品的介绍，使用说明等")
-    st.text("更多了解")
-    chose = st.selectbox(label="test", options=["关于我们", "Tamer的优点", "Tamer的应用场景"])
-    if chose ==  "关于我们":
-        st.write(Path("README.md").read_text())
-    elif chose == "Tamer的优点":
-        st.write("hh")
-    else:
-        st.write("emmm")
+    if (st.session_state.tmp != None):
+        st.session_state.tmp.empty()
+    st.session_state.tmp = st.empty()
+    with st.session_state.tmp.container():
+        c1, c2= st.columns([0.8, 0.2])
+        c1.header("❄️ Tamer 代码克隆检测 ❄️")
+        c2.image("./image/1.png")
+        #with st.expander("关于我们"):
+        #   st.write(Path("README.md").read_text())
+        st.text("这一部分可以用typora写一些关于我们产品的介绍，使用说明等")
+        st.text("更多了解")
+        chose = st.selectbox(label="test", options=["关于我们", "Tamer的优点", "Tamer的应用场景"])
+        if chose ==  "关于我们":
+            st.write(Path("README.md").read_text())
+        elif chose == "Tamer的优点":
+            st.write("hh")
+        else:
+            st.write("emmm")
 
 def main() -> None:
     fp = open("./tmp/sem", "r")
@@ -293,13 +359,12 @@ def main() -> None:
     
     st.session_state.file_type = file_type[choice_code.index(code_selection)]
 
-    st.session_state.src_file = st.sidebar.file_uploader("上传源文件", accept_multiple_files=False)
-    st.session_state.dst_file = st.sidebar.file_uploader("上传待检测文件", accept_multiple_files=False)
+    st.session_state.src_file = st.sidebar.file_uploader("上传源文件", accept_multiple_files=False, type=st.session_state.file_type[1:])
+    st.session_state.dst_file = st.sidebar.file_uploader("上传待检测文件", accept_multiple_files=False, type=st.session_state.file_type[1:])
     c1, c2 = st.sidebar.columns(2)
     c1.button("检测", on_click=callback1)
     c2.button("首页", on_click=callback2)
-
- 
+    
 
 
 if __name__ == "__main__":

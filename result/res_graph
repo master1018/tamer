@@ -2,36 +2,36 @@ graph {
 	node [shape=box]
 	rankdir=LR
 	S [label="代码段克隆情况"]
-	A0 [label="10.         for(int i = 0;i < word.length();i ++)\l11.         {\l12.             int u = word.charAt(i) - 'a';\l13.             if(p.son[u] == null) p.son[u] = new Node();\l14.             p = p.son[u]; \l15.         }\l" color=blue]
-	B0 [label="12.         for (int i = 0; i < word.length(); i++) {\l13.             char ch = word.charAt(i);\l14.             int index = ch - 'a';\l15.             if (node.children[index] == null) {\l16.                 node.children[index] = new Trie();\l17.             }\l18.             node = node.children[index];\l19.         }\l" color=blue]
+	A0 [label="12. for (int i = 0; i < word.length(); i++) {\l13.     char ch = word.charAt(i);\l14.     int index = ch - 'a';\l15.     if (node.children[index] == null) {\l16.         node.children[index] = new Trie();\l17.     }\l18.     node = node.children[index];\l19. }\l" color=blue]
+	B0 [label="10. for(int i = 0;i < word.length();i ++)\l11. {\l12.     int u = word.charAt(i) - 'a';\l13.     if(p.son[u] == null) p.son[u] = new Node();\l14.     p = p.son[u]; \l15. }\l" color=blue]
 	S -- A0
 	A0 -- B0 [label="62%" color=blue style=dashed]
-	A1 [label="10.         for(int i = 0;i < word.length();i ++)\l11.         {\l12.             int u = word.charAt(i) - 'a';\l13.             if(p.son[u] == null) p.son[u] = new Node();\l14.             p = p.son[u]; \l15.         }\l" color=green]
-	B1 [label="34.         for (int i = 0; i < prefix.length(); i++) {\l35.             char ch = prefix.charAt(i);\l36.             int index = ch - 'a';\l37.             if (node.children[index] == null) {\l38.                 return null;\l39.             }\l40.             node = node.children[index];\l41.         }\l" color=green]
+	A1 [label="12. for (int i = 0; i < word.length(); i++) {\l13.     char ch = word.charAt(i);\l14.     int index = ch - 'a';\l15.     if (node.children[index] == null) {\l16.         node.children[index] = new Trie();\l17.     }\l18.     node = node.children[index];\l19. }\l" color=green]
+	B1 [label="21. for(int i = 0;i < word.length();i ++)\l22. {\l23.     int u = word.charAt(i) - 'a';\l24.     if(p.son[u] == null) return false;\l25.     p = p.son[u]; \l26. }\l" color=green]
 	S -- A1
 	A1 -- B1 [label="50%" color=green style=dashed]
-	A2 [label="21.         for(int i = 0;i < word.length();i ++)\l22.         {\l23.             int u = word.charAt(i) - 'a';\l24.             if(p.son[u] == null) return false;\l25.             p = p.son[u]; \l26.         }\l" color=black]
-	B2 [label="12.         for (int i = 0; i < word.length(); i++) {\l13.             char ch = word.charAt(i);\l14.             int index = ch - 'a';\l15.             if (node.children[index] == null) {\l16.                 node.children[index] = new Trie();\l17.             }\l18.             node = node.children[index];\l19.         }\l" color=black]
+	A2 [label="12. for (int i = 0; i < word.length(); i++) {\l13.     char ch = word.charAt(i);\l14.     int index = ch - 'a';\l15.     if (node.children[index] == null) {\l16.         node.children[index] = new Trie();\l17.     }\l18.     node = node.children[index];\l19. }\l" color=black]
+	B2 [label="32. for(int i = 0;i < prefix.length();i ++)\l33. {\l34.     int u = prefix.charAt(i) - 'a';\l35.     if(p.son[u] == null) return false;\l36.     p = p.son[u]; \l37. }\l" color=black]
 	S -- A2
 	A2 -- B2 [label="50%" color=black style=dashed]
-	A3 [label="21.         for(int i = 0;i < word.length();i ++)\l22.         {\l23.             int u = word.charAt(i) - 'a';\l24.             if(p.son[u] == null) return false;\l25.             p = p.son[u]; \l26.         }\l" color=red]
-	B3 [label="34.         for (int i = 0; i < prefix.length(); i++) {\l35.             char ch = prefix.charAt(i);\l36.             int index = ch - 'a';\l37.             if (node.children[index] == null) {\l38.                 return null;\l39.             }\l40.             node = node.children[index];\l41.         }\l" color=red]
+	A3 [label="12. for (int i = 0; i < word.length(); i++) {\l13.     char ch = word.charAt(i);\l14.     int index = ch - 'a';\l15.     if (node.children[index] == null) {\l16.         node.children[index] = new Trie();\l17.     }\l18.     node = node.children[index];\l19. }\l" color=red]
+	B3 [label="48. for(int i = 0;i < 26;i ++)\l49.     son[i] = null;\l" color=red]
 	S -- A3
-	A3 -- B3 [label="51%" color=red style=dashed]
-	A4 [label="32.         for(int i = 0;i < prefix.length();i ++)\l33.         {\l34.             int u = prefix.charAt(i) - 'a';\l35.             if(p.son[u] == null) return false;\l36.             p = p.son[u]; \l37.         }\l" color=yellow]
-	B4 [label="12.         for (int i = 0; i < word.length(); i++) {\l13.             char ch = word.charAt(i);\l14.             int index = ch - 'a';\l15.             if (node.children[index] == null) {\l16.                 node.children[index] = new Trie();\l17.             }\l18.             node = node.children[index];\l19.         }\l" color=yellow]
+	A3 -- B3 [label="19%" color=red style=dashed]
+	A4 [label="34. for (int i = 0; i < prefix.length(); i++) {\l35.     char ch = prefix.charAt(i);\l36.     int index = ch - 'a';\l37.     if (node.children[index] == null) {\l38.         return null;\l39.     }\l40.     node = node.children[index];\l41. }\l" color=yellow]
+	B4 [label="10. for(int i = 0;i < word.length();i ++)\l11. {\l12.     int u = word.charAt(i) - 'a';\l13.     if(p.son[u] == null) p.son[u] = new Node();\l14.     p = p.son[u]; \l15. }\l" color=yellow]
 	S -- A4
 	A4 -- B4 [label="50%" color=yellow style=dashed]
-	A5 [label="32.         for(int i = 0;i < prefix.length();i ++)\l33.         {\l34.             int u = prefix.charAt(i) - 'a';\l35.             if(p.son[u] == null) return false;\l36.             p = p.son[u]; \l37.         }\l" color=blue]
-	B5 [label="34.         for (int i = 0; i < prefix.length(); i++) {\l35.             char ch = prefix.charAt(i);\l36.             int index = ch - 'a';\l37.             if (node.children[index] == null) {\l38.                 return null;\l39.             }\l40.             node = node.children[index];\l41.         }\l" color=blue]
+	A5 [label="34. for (int i = 0; i < prefix.length(); i++) {\l35.     char ch = prefix.charAt(i);\l36.     int index = ch - 'a';\l37.     if (node.children[index] == null) {\l38.         return null;\l39.     }\l40.     node = node.children[index];\l41. }\l" color=blue]
+	B5 [label="21. for(int i = 0;i < word.length();i ++)\l22. {\l23.     int u = word.charAt(i) - 'a';\l24.     if(p.son[u] == null) return false;\l25.     p = p.son[u]; \l26. }\l" color=blue]
 	S -- A5
 	A5 -- B5 [label="51%" color=blue style=dashed]
-	A6 [label="48.         for(int i = 0;i < 26;i ++)\l49.             son[i] = null;\l" color=green]
-	B6 [label="12.         for (int i = 0; i < word.length(); i++) {\l13.             char ch = word.charAt(i);\l14.             int index = ch - 'a';\l15.             if (node.children[index] == null) {\l16.                 node.children[index] = new Trie();\l17.             }\l18.             node = node.children[index];\l19.         }\l" color=green]
+	A6 [label="34. for (int i = 0; i < prefix.length(); i++) {\l35.     char ch = prefix.charAt(i);\l36.     int index = ch - 'a';\l37.     if (node.children[index] == null) {\l38.         return null;\l39.     }\l40.     node = node.children[index];\l41. }\l" color=green]
+	B6 [label="32. for(int i = 0;i < prefix.length();i ++)\l33. {\l34.     int u = prefix.charAt(i) - 'a';\l35.     if(p.son[u] == null) return false;\l36.     p = p.son[u]; \l37. }\l" color=green]
 	S -- A6
-	A6 -- B6 [label="19%" color=green style=dashed]
-	A7 [label="48.         for(int i = 0;i < 26;i ++)\l49.             son[i] = null;\l" color=black]
-	B7 [label="34.         for (int i = 0; i < prefix.length(); i++) {\l35.             char ch = prefix.charAt(i);\l36.             int index = ch - 'a';\l37.             if (node.children[index] == null) {\l38.                 return null;\l39.             }\l40.             node = node.children[index];\l41.         }\l" color=black]
+	A6 -- B6 [label="51%" color=green style=dashed]
+	A7 [label="34. for (int i = 0; i < prefix.length(); i++) {\l35.     char ch = prefix.charAt(i);\l36.     int index = ch - 'a';\l37.     if (node.children[index] == null) {\l38.         return null;\l39.     }\l40.     node = node.children[index];\l41. }\l" color=black]
+	B7 [label="48. for(int i = 0;i < 26;i ++)\l49.     son[i] = null;\l" color=black]
 	S -- A7
 	A7 -- B7 [label="19%" color=black style=dashed]
 }

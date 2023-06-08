@@ -1,44 +1,51 @@
 class Trie {
-    private Trie[] children;
-    private boolean isEnd;
 
+    Node root;
     public Trie() {
-        children = new Trie[26];
-        isEnd = false;
-    }
-    
-    public void insert(String word) {
-        Trie node = this;
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
-            int index = ch - 'a';
-            if (node.children[index] == null) {
-                node.children[index] = new Trie();
-            }
-            node = node.children[index];
-        }
-        node.isEnd = true;
-    }
-    
-    public boolean search(String word) {
-        Trie node = searchPrefix(word);
-        return node != null && node.isEnd;
-    }
-    
-    public boolean startsWith(String prefix) {
-        return searchPrefix(prefix) != null;
+        root = new Node();
     }
 
-    private Trie searchPrefix(String prefix) {
-        Trie node = this;
-        for (int i = 0; i < prefix.length(); i++) {
-            char ch = prefix.charAt(i);
-            int index = ch - 'a';
-            if (node.children[index] == null) {
-                return null;
-            }
-            node = node.children[index];
+    public void insert(String word) {
+        Node p = root;
+        for(int i = 0;i < word.length();i ++)
+        {
+            int u = word.charAt(i) - 'a';
+            if(p.son[u] == null) p.son[u] = new Node();
+            p = p.son[u]; 
         }
-        return node;
+        p.is_end = true;
     }
+
+    public boolean search(String word) {
+        Node p = root;
+        for(int i = 0;i < word.length();i ++)
+        {
+            int u = word.charAt(i) - 'a';
+            if(p.son[u] == null) return false;
+            p = p.son[u]; 
+        }
+        return p.is_end;
+    }
+
+    public boolean startsWith(String prefix) {
+        Node p = root;
+        for(int i = 0;i < prefix.length();i ++)
+        {
+            int u = prefix.charAt(i) - 'a';
+            if(p.son[u] == null) return false;
+            p = p.son[u]; 
+        }
+        return true;
+    }
+}
+class Node 
+{
+    boolean is_end;
+    Node[] son = new Node[26];
+    Node()
+    {
+        is_end = false;
+        for(int i = 0;i < 26;i ++)
+            son[i] = null;
+    } 
 }

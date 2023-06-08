@@ -1,5 +1,6 @@
 echo "Init..."
-rm ./result/index
+rm ./result/res
+Rm ./result/output
 rm ./result/res_graph*
 rm ./tmp/sem
 rm ./data/input/*
