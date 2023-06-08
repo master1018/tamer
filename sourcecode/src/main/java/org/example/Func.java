@@ -66,7 +66,8 @@ public class Func
     }
     public double Caculate_similarity_of_Func(Func another) throws IOException {
         String file_res = "";
-        file_res = "/Users/haoranyan/git_rep/tamer/result/output_" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
+        //file_res = "/Users/haoranyan/git_rep/tamer/result/output_" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
+        file_res = "/Users/haoranyan/git_rep/tamer/result/output";
         PrintStream out = System.out;
         PrintStream ps = new PrintStream(file_res);
         System.setOut(ps);

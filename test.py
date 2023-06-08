@@ -12,7 +12,7 @@ def build_graph(a, b, c) -> None:
         dot.node('B' + str(i), b[i])
         dot.edge('A' + str(i), "B" + str(i), c[i])
 
-    dot.render("./result/res_graph", format="png", view=False)
+    dot.render("./result/res_graph", format="png", view=True)
 
 
 def res_visual() -> None:
