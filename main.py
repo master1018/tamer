@@ -4,12 +4,18 @@ from graphviz import Graph
 from pathlib import Path
 import os
 import streamlit as st
+from matplotlib import pyplot as plt
+import numpy as np
 import pandas as pd
+from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
 
 color_arr       =   ["blue", "green", "black", "red", "yellow"]
+
+labels1         =   ["no clone", "low clone", "medium clone ", "high clone"]
+labels2         =   ["low", "medium", "high"]
 
 exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
 
@@ -84,6 +90,10 @@ class Result:
         self.similar_arr = new_list2
         assert(len(self.similar_arr) == len(self.line_msg))
 
+        st.session_state.res_list = []
+        for i in range(0, len(self.line_msg)):
+            st.session_state.res_list.append([i + 1, "({0}, {1})".format(self.line_msg[i][0], self.line_msg[i][1]), "({0}, {1})".format(self.line_msg[i][2], self.line_msg[i][3]), "{0}%".format(self.similar_arr[i]), ""])
+
     # 重复打开关闭文件效率会很差，目前时间影响不大，考虑后期进行优化
     def save_result(self):
         fp = open("./result/res", "w")
@@ -132,7 +142,60 @@ class Result:
                     fp.write(str(count) + ". " + line[dele_space:len(line)])
             fp2.close()
         fp.close()
+
+def aggrid(df):
+    gb = GridOptionsBuilder.from_dataframe(df)
+    selection_mode = 'single' # 定义单选模式，多选为'multiple'
+    enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+    #gb.configure_default_column(editable=True) #定义允许编辑
     
+    return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+    gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+    
+    gb.configure_side_bar()
+    gb.configure_grid_options(domLayout='normal')
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
+    #gb.configure_default_column(editable=True, groupable=True)
+    gridOptions = gb.build()
+    
+    update_mode_value = GridUpdateMode.MODEL_CHANGED
+    
+    grid_response = AgGrid(
+                        df, 
+                        gridOptions=gridOptions,
+                        fit_columns_on_grid_load = True,
+                        data_return_mode=return_mode_value,
+                        update_mode=update_mode_value,
+                        enable_enterprise_modules=enable_enterprise_modules,
+                        theme='streamlit'
+                        )  
+    #df = grid_response['data']
+    selected = grid_response['selected_rows']
+    if len(selected) == 0:
+        return -1
+    else:
+        return selected[0]['克隆对索引']  
+
+
+def list_to_df(src_list):
+   # print(src_list)
+    for i in range(0, len(src_list)):
+        tmp = src_list[i][3][0: len(src_list[i][3]) - 1]
+        tmp = int(tmp)
+        if tmp <= 40:
+            src_list[i][4] = "low"
+        elif tmp > 40 and tmp <= 70:
+            src_list[i][4] = "medium" 
+        else:
+            src_list[i][4] = "high"
+
+  # print(src_list)
+    src_array = np.array(src_list)
+    df = pd.DataFrame(src_array)
+   # print(df)
+    df.columns = ['克隆对索引', '源代码段', '目标代码段', '相似度', '克隆程度']
+    return df
+
 def show_gif():
     fp = open("./tmp/sem", "w")
     fp.write("3")
@@ -184,6 +247,8 @@ def build_graph(a, b, c) -> None:
 
     dot.render("./result/res_graph", format="png", view=False)
 
+def readline_count(file_name):
+    return len(open(file_name,encoding="utf-8").readlines())
 
 def res_visual() -> None:
     fp = open("./result/res", "r")
@@ -243,6 +308,10 @@ def init() -> None:
     st.session_state.dst_file   =   None
     st.session_state.res_file   =   None
     st.session_state.tmp        =   None
+    if 'res_list' not in st.session_state:
+        st.session_state.res_list = []
+    if 'show_index' not in st.session_state:
+        st.session_state.show_index = -1
 
 
 def show_result() -> None:
@@ -250,33 +319,52 @@ def show_result() -> None:
         st.session_state.tmp.empty()
     st.session_state.tmp = st.empty()
     ret1, ret2, ret3 = res_visual()
+
+    static_res = [0, 0, 0]
+    for i in range(0, len(ret3)):
+        cmp = int(ret3[i][0:len(ret3[i]) - 1])
+        if (cmp <= 40):
+            static_res[0] += list(ret2[i]).count("\n")
+        elif cmp > 40 and cmp < 70:
+            static_res[1] += list(ret2[i]).count("\n")
+        else:
+            static_res[2] += list(ret2[i]).count("\n")
+
     with st.session_state.tmp.container():
         st.header("检测结果")
         with st.expander("克隆对总览"):
             with st.empty():
                 st.image("./result/res_graph.png")
         st.write("克隆对")
-        c1, c2, c3 = st.columns([0.45, 0.45, 0.1])
         
-        chose_index = 1
-        chose_list = []
-        for c in range(0, len(ret3)):
-            chose_list.append(str(c + 1))
-        chose_index = c3.selectbox(label="克隆对选择", options=chose_list)
-        chose_index = int(chose_index)
+        df = list_to_df(st.session_state.res_list)
+        select_row = aggrid(df)
+        c1, c2= st.columns(2)
         
-        a = list(ret1[chose_index - 1]).count("\n")
-        b = list(ret2[chose_index - 1]).count("\n")
-        if (a > b):
-            ret2[chose_index - 1] += ".\n" * (a - b)
-        else:
-            ret1[chose_index - 1] += ".\n" * (b - a)
+        st.session_state.show_index = int(select_row)
+        chose_index = st.session_state.show_index
+        if (chose_index > 0):
+            a = list(ret1[chose_index - 1]).count("\n")
+            b = list(ret2[chose_index - 1]).count("\n")
+            if (a > b):
+                ret2[chose_index - 1] += ".\n" * (a - b - 1) + "."
+            elif (a < b):
+                ret1[chose_index - 1] += ".\n" * (b - a - 1) + "."
+            
+            c1.code(ret1[chose_index - 1], "java")
+            c2.code(ret2[chose_index - 1], "java")
+            #c3.write("相似度为: " + str(ret3[chose_index - 1]))
+
+        # 绘制饼状图
+        fig = plt.figure()
+        dst_lines = readline_count("./data/input/1.java" + st.session_state.file_type)
+        pie_sizes = [dst_lines - sum(static_res), static_res[0], static_res[1], static_res[2]]
+        pie_colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
+        pie_explode = (0, 0, 0, 0.1)
+        plt.pie(pie_sizes, explode=pie_explode, labels=labels1, colors=pie_colors, autopct='%1.1f%%', shadow=True, startangle=90)
         
-        c1.code(ret1[chose_index - 1], "java")
-        c2.code(ret2[chose_index - 1], "java")
-        
-        st.write("相似度为: " + str(ret3[chose_index - 1]))
-    
+        c4, c5 = st.columns(2)
+        c4.pyplot(fig)
 
 def exec_jar() -> None:
     command = "java -jar " + exec_jar_pos

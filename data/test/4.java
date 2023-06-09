@@ -1,48 +1,66 @@
-import java.io.*;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryUsage;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager; 
+class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> ans = new ArrayList<>();
+        int n = words.length;
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < n; ) {
+            // list 装载当前行的所有 word
+            list.clear();
+            list.add(words[i]);
+            int cur = words[i++].length();
+            while (i < n && cur + 1 + words[i].length() <= maxWidth) {
+                cur += 1 + words[i].length();
+                list.add(words[i++]);
+            }
 
+            // 当前行为最后一行，特殊处理为左对齐
+            if (i == n) {
+                StringBuilder sb = new StringBuilder(list.get(0));
+                for (int k = 1; k < list.size(); k++) {
+                    sb.append(" ").append(list.get(k));
+                }
+                while (sb.length() < maxWidth) sb.append(" ");
+                ans.add(sb.toString());
+                break;
+            }
 
-public class A {
-    @Id
-    private String id;  //必须设置主键，实体才能正确
-    public String getId() {
-        return id;
-    }
- 
-    public void setId(String id) {
-        this.id = id;
-    }   
-}
+            // 如果当前行只有一个 word，特殊处理为左对齐
+            int cnt = list.size();
+            if (cnt == 1) {
+                String str = list.get(0);
+                while (str.length() != maxWidth) str += " ";
+                ans.add(str);
+                continue;
+            }
 
-public class main {
-    public A a = new A();
-    public EntityManager em;
-    public String sql_t;
-
-    public int test() {
-        int a = 1;
-        int b = 2;
-        a = b + 1;
-        return a;
-    }
-
-    public List<A> sqlInjection(String id) {
-        if (id != null)
-  		{    
-            String sql = "create * from usr where id = "+id;
-		    List<User> list = em.createNativeQuery(sql, User.class).getResultList();
-            return list;
+            /**
+            * 其余为一般情况
+            * wordWidth : 当前行单词总长度;
+            * spaceWidth : 当前行空格总长度;
+            * spaceItem : 往下取整后的单位空格长度
+            */
+            int wordWidth = cur - (cnt - 1);
+            int spaceWidth = maxWidth - wordWidth;
+            int spaceItemWidth = spaceWidth / (cnt - 1);
+            String spaceItem = "";
+            for (int k = 0; k < spaceItemWidth; k++) spaceItem += " ";
+            StringBuilder sb = new StringBuilder();
+            for (int k = 0, sum = 0; k < cnt; k++) {
+                String item = list.get(k);
+                sb.append(item);
+                if (k == cnt - 1) break;
+                sb.append(spaceItem);
+                sum += spaceItemWidth;
+                // 剩余的间隙数量（可填入空格的次数）
+                int remain = cnt - k - 1 - 1;
+                // 剩余间隙数量 * 最小单位空格长度 + 当前空格长度 < 单词总长度，则在当前间隙多补充一个空格
+                if (remain * spaceItemWidth + sum < spaceWidth) {
+                    sb.append(" ");
+                    sum++;
+                }
+            }
+            ans.add(sb.toString());
         }
-        else
-            return null;
-	}
-
+        return ans;
+    }
 }
-
-

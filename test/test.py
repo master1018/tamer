@@ -1,66 +1,74 @@
-from graphviz import Graph
+import numpy as np
+import pandas as pd
+from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 
-def build_graph(a, b, c) -> None:
-    dot = Graph()
-    dot.attr('node', shape='box')
-    dot.attr(rankdir='LR')
-    for i in range(len(a) - 1, -1, -1):
-        a[i] = a[i].replace("\n", "\\l")
-        b[i] = b[i].replace("\n", "\\l")
+def highlight_df(val):
+    color = ""
+    if val == "low":
+        color += 'green'
+    elif val == "medium":
+        color += "yellow"
+    else:
+        color += "red"
+    return 'color: %s' % color 
 
-        dot.node('A' + str(i), a[i])
-        dot.node('B' + str(i), b[i])
-        dot.edge('A' + str(i), "B" + str(i), c[i])
+def aggrid(df):
+    gb = GridOptionsBuilder.from_dataframe(df)
+    selection_mode = 'single' # 定义单选模式，多选为'multiple'
+    enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+    #gb.configure_default_column(editable=True) #定义允许编辑
+    
+    return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+    gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+    
+    gb.configure_side_bar()
+    gb.configure_grid_options(domLayout='normal')
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
+    #gb.configure_default_column(editable=True, groupable=True)
+    gridOptions = gb.build()
+    
+    update_mode_value = GridUpdateMode.MODEL_CHANGED
+    
+    grid_response = AgGrid(
+                        df, 
+                        gridOptions=gridOptions,
+                        fit_columns_on_grid_load = True,
+                        data_return_mode=return_mode_value,
+                        update_mode=update_mode_value,
+                        enable_enterprise_modules=enable_enterprise_modules,
+                        theme='streamlit'
+                        )  
+    #df = grid_response['data']
+    selected = grid_response['selected_rows']
+    
+    return selected  
 
-    dot.render("./result/res_graph", format="png", view=True)
 
+test =  [
+            ["1", "(12, 13)", "(11, 2)", "low"],
+            ["2", "(12, 13)", "(11, 2)", "low"],
+             ["1", "(12, 13)", "(11, 2)", "high"],
+            ["3", "(12, 13)", "(11, 2)", "medium"],
+             ["4", "(12, 13)", "(11, 2)", "50%"],
+            ["5", "(12, 13)", "(11, 2)", "50%"],
+             ["6", "(12, 13)", "(11, 2)", "50%"],
+            ["7", "(12, 13)", "(11, 2)", "50%"],
+            ["1", "(12, 13)", "(11, 2)", "50%"],
+            ["2", "(12, 13)", "(11, 2)", "50%"],
+             ["1", "(12, 13)", "(11, 2)", "50%"],
+            ["3", "(12, 13)", "(11, 2)", "50%"],
+             ["4", "(12, 13)", "(11, 2)", "50%"],
+            ["5", "(12, 13)", "(11, 2)", "50%"],
+             ["6", "(12, 13)", "(11, 2)", "50%"],
+            ["7", "(12, 13)", "(11, 2)", "50%"]
+        ]
 
-def res_visual() -> None:
-    fp = open("./result/res", "r")
-    res_str_arr = []
-    while True:
-        line = fp.readline()
-        if not line:
-            break
-        else:
-            res_str_arr.append(line)
-    fp.close()
+a = np.array(test)
+print(a)
 
-    count = 0
-    para1 = []
-    para2 = []
-    para3 = []
-    idx = 0
+df = pd.DataFrame(a)
+df.columns = ["index", "src", "dst", "similar"]
+df.style.applymap(highlight_df)
+#print(df)
+a = aggrid(df)
 
-    while count < len(res_str_arr):
-        tmp_str = res_str_arr[count]
-        if (len(tmp_str) <= 5 and tmp_str[len(tmp_str) - 2] == "%"):
-            para3.append(tmp_str[0:len(tmp_str) - 1])
-            count += 1
-        elif (tmp_str == "src\n"):
-            count += 1
-            para1.append("")
-            while True:
-                src_str = res_str_arr[count]
-                if (src_str == "dst\n"):
-                    break
-                else:
-                    para1[idx] += src_str
-                count += 1
-        elif (tmp_str == "dst\n"):
-            count += 1
-            para2.append("")
-            while True:
-                if (count == len(res_str_arr)):
-                    break
-                dst_str = res_str_arr[count]
-                if (len(dst_str) <= 5 and dst_str[len(dst_str) - 2] == "%"):
-                    break
-                else:
-                    para2[idx] += dst_str
-                count += 1
-            idx += 1
-        
-    build_graph(para1, para2, para3)
-
-res_visual()

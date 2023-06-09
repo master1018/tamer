@@ -56,7 +56,7 @@ public class Func
             List<Optional> newOptional = new ArrayList<>();
             this.Subtree_pos.add(newOptional);
             List<Optional> newLineMsg = new ArrayList<>();
-            this.Subtree_line_msg.add(newLineMsg)
+            this.Subtree_line_msg.add(newLineMsg);
 ;        }
     }
 
@@ -92,10 +92,16 @@ public class Func
                 {
                     String b = another.Subtree_list.get(i).get(k);
                     totallength += b.length();
-                    temp_result += longestCommonSubsequence(a, b);
+                    int tmp_lcs = longestCommonSubsequence(a, b);
+                    temp_result += tmp_lcs;
                     if (i != 9) {
+                        double similar_cal = 0;
+                        similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
+                        int print_similar = (int)((similar_cal + 0.005) * 100);
+                       // if (print_similar < 50)
+                        //    continue;
                         System.out.println(("begin"));
-                        System.out.println(longestCommonSubsequence(a, b));
+                        System.out.println(print_similar);
                         System.out.println(this.Subtree_line_msg.get(i).get(j));
                        // System.out.println(this.Subtree_pos.get(i).get(j));
                       //  System.out.println("\n");
@@ -178,7 +184,7 @@ public class Func
                 char a = (char)(string2char.get(temp) + 48);
                 root += a;
                 if (temp.compareTo("TryStmt") != 0 && temp.compareTo("WhileStmt") != 0
-                        //&& temp.compareTo("IfStmt") != 0
+                        && temp.compareTo("IfStmt") != 0
                 && temp.compareTo("SwitchStmt") != 0 && temp.compareTo("DoStmt") != 0 && temp.compareTo("ForEachStmt") != 0 && temp.compareTo("ForStmt") != 0 && temp.compareTo("SynchronizedStmt") != 0) {
                     var children = head.getChildNodes();
 

@@ -24,6 +24,17 @@ class Trie {
             if(p.son[u] == null) return false;
             p = p.son[u]; 
         }
+
+        int p, q;
+        if (p == 1 && q == 2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
         return p.is_end;
     }
 

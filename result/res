@@ -1,4 +1,23 @@
-62%
+100%
+src
+27. if (a == 1 && b == 2)
+28. {
+29.     return true;
+30. }
+31. else
+32. {
+33.     return false;
+34. }
+dst
+29. if (p == 1 && q == 2)
+30. {
+31.     return true;
+32. }
+33. else
+34. {
+35.     return false;
+36. }
+86%
 src
 12. for (int i = 0; i < word.length(); i++) {
 13.     char ch = word.charAt(i);
@@ -15,7 +34,7 @@ dst
 13.     if(p.son[u] == null) p.son[u] = new Node();
 14.     p = p.son[u]; 
 15. }
-50%
+68%
 src
 12. for (int i = 0; i < word.length(); i++) {
 13.     char ch = word.charAt(i);
@@ -32,7 +51,7 @@ dst
 24.     if(p.son[u] == null) return false;
 25.     p = p.son[u]; 
 26. }
-50%
+68%
 src
 12. for (int i = 0; i < word.length(); i++) {
 13.     char ch = word.charAt(i);
@@ -43,13 +62,13 @@ src
 18.     node = node.children[index];
 19. }
 dst
-32. for(int i = 0;i < prefix.length();i ++)
-33. {
-34.     int u = prefix.charAt(i) - 'a';
-35.     if(p.son[u] == null) return false;
-36.     p = p.son[u]; 
-37. }
-19%
+43. for(int i = 0;i < prefix.length();i ++)
+44. {
+45.     int u = prefix.charAt(i) - 'a';
+46.     if(p.son[u] == null) return false;
+47.     p = p.son[u]; 
+48. }
+26%
 src
 12. for (int i = 0; i < word.length(); i++) {
 13.     char ch = word.charAt(i);
@@ -60,18 +79,18 @@ src
 18.     node = node.children[index];
 19. }
 dst
-48. for(int i = 0;i < 26;i ++)
-49.     son[i] = null;
-50%
+59. for(int i = 0;i < 26;i ++)
+60.     son[i] = null;
+68%
 src
-34. for (int i = 0; i < prefix.length(); i++) {
-35.     char ch = prefix.charAt(i);
-36.     int index = ch - 'a';
-37.     if (node.children[index] == null) {
-38.         return null;
-39.     }
-40.     node = node.children[index];
-41. }
+41. for (int i = 0; i < prefix.length(); i++) {
+42.     char ch = prefix.charAt(i);
+43.     int index = ch - 'a';
+44.     if (node.children[index] == null) {
+45.         return null;
+46.     }
+47.     node = node.children[index];
+48. }
 dst
 10. for(int i = 0;i < word.length();i ++)
 11. {
@@ -79,16 +98,16 @@ dst
 13.     if(p.son[u] == null) p.son[u] = new Node();
 14.     p = p.son[u]; 
 15. }
-51%
+81%
 src
-34. for (int i = 0; i < prefix.length(); i++) {
-35.     char ch = prefix.charAt(i);
-36.     int index = ch - 'a';
-37.     if (node.children[index] == null) {
-38.         return null;
-39.     }
-40.     node = node.children[index];
-41. }
+41. for (int i = 0; i < prefix.length(); i++) {
+42.     char ch = prefix.charAt(i);
+43.     int index = ch - 'a';
+44.     if (node.children[index] == null) {
+45.         return null;
+46.     }
+47.     node = node.children[index];
+48. }
 dst
 21. for(int i = 0;i < word.length();i ++)
 22. {
@@ -96,33 +115,33 @@ dst
 24.     if(p.son[u] == null) return false;
 25.     p = p.son[u]; 
 26. }
-51%
+81%
 src
-34. for (int i = 0; i < prefix.length(); i++) {
-35.     char ch = prefix.charAt(i);
-36.     int index = ch - 'a';
-37.     if (node.children[index] == null) {
-38.         return null;
-39.     }
-40.     node = node.children[index];
-41. }
+41. for (int i = 0; i < prefix.length(); i++) {
+42.     char ch = prefix.charAt(i);
+43.     int index = ch - 'a';
+44.     if (node.children[index] == null) {
+45.         return null;
+46.     }
+47.     node = node.children[index];
+48. }
 dst
-32. for(int i = 0;i < prefix.length();i ++)
-33. {
-34.     int u = prefix.charAt(i) - 'a';
-35.     if(p.son[u] == null) return false;
-36.     p = p.son[u]; 
-37. }
-19%
+43. for(int i = 0;i < prefix.length();i ++)
+44. {
+45.     int u = prefix.charAt(i) - 'a';
+46.     if(p.son[u] == null) return false;
+47.     p = p.son[u]; 
+48. }
+30%
 src
-34. for (int i = 0; i < prefix.length(); i++) {
-35.     char ch = prefix.charAt(i);
-36.     int index = ch - 'a';
-37.     if (node.children[index] == null) {
-38.         return null;
-39.     }
-40.     node = node.children[index];
-41. }
+41. for (int i = 0; i < prefix.length(); i++) {
+42.     char ch = prefix.charAt(i);
+43.     int index = ch - 'a';
+44.     if (node.children[index] == null) {
+45.         return null;
+46.     }
+47.     node = node.children[index];
+48. }
 dst
-48. for(int i = 0;i < 26;i ++)
-49.     son[i] = null;
+59. for(int i = 0;i < 26;i ++)
+60.     son[i] = null;

@@ -22,11 +22,18 @@ class Trie {
     
     public boolean search(String word) {
         Trie node = searchPrefix(word);
+        /* 1 */
+        int a, b;
+        if (a == 1 && b == 2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
         return node != null && node.isEnd;
-    }
-    
-    public boolean startsWith(String prefix) {
-        return searchPrefix(prefix) != null;
     }
 
     private Trie searchPrefix(String prefix) {
