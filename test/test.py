@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
+import streamlit as st
 
 def highlight_df(val):
     color = ""
@@ -26,7 +27,19 @@ def aggrid(df):
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
     #gb.configure_default_column(editable=True, groupable=True)
     gridOptions = gb.build()
-    
+    columnDefs_si = {
+        'headerName': 'similar', 
+        'field': 'similar', 
+        'type': [],
+        # "cellRenderer": "DMC_Button",
+         "cellRendererParams": {
+            "color": "red"
+        }
+
+    }
+    print(gridOptions['columnDefs'][3])
+    gridOptions['columnDefs'][3] = columnDefs_si
+    print(gridOptions['columnDefs'][3])
     update_mode_value = GridUpdateMode.MODEL_CHANGED
     
     grid_response = AgGrid(
@@ -64,7 +77,7 @@ test =  [
         ]
 
 a = np.array(test)
-print(a)
+#print(a)
 
 df = pd.DataFrame(a)
 df.columns = ["index", "src", "dst", "similar"]
@@ -72,3 +85,4 @@ df.style.applymap(highlight_df)
 #print(df)
 a = aggrid(df)
 
+st.dataframe(df)

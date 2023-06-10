@@ -8,6 +8,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
+from streamlit_echarts import st_echarts
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -18,6 +19,43 @@ labels1         =   ["no clone", "low clone", "medium clone ", "high clone"]
 labels2         =   ["low", "medium", "high"]
 
 exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
+
+option_pie = {
+        "legend": {},
+        "tooltip": {
+            "trigger": 'axis',
+            "showContent": "false"
+        },
+        "dataset": {
+            "source": [
+                ['yhr', '2023'],
+                ['无克隆', 1],
+                ['轻度克隆', 2],
+                ['中度克隆', 3],
+                ['高度克隆', 4]
+            ]
+        },
+        "series": [
+            {
+                "type": 'pie',
+                "id": 'pie',
+                "radius": ['40%', '75%'],
+                #"center": ['50%', '30%'],
+                "emphasis": {"focus": 'data',
+                            "fontSize": '20',
+                            "fontWeight": 'bold'},
+                "label": {
+                    "formatter": '{b}: {@2023} ({d}%)'
+                },
+            }
+        ],
+            "tooltip": {
+                    "show": "true",
+                },
+            "label": {
+                "show":"true"
+    },
+    }
 
 class Result:
     cmp_file1 = ""
@@ -315,9 +353,6 @@ def init() -> None:
 
 
 def show_result() -> None:
-    if (st.session_state.tmp != None):
-        st.session_state.tmp.empty()
-    st.session_state.tmp = st.empty()
     ret1, ret2, ret3 = res_visual()
 
     static_res = [0, 0, 0]
@@ -330,42 +365,44 @@ def show_result() -> None:
         else:
             static_res[2] += list(ret2[i]).count("\n")
 
-    with st.session_state.tmp.container():
-        st.header("检测结果")
-        with st.expander("克隆对总览"):
-            with st.empty():
-                st.image("./result/res_graph.png")
-        st.write("克隆对")
+    st.header("检测结果")
+    with st.expander("克隆对总览"):
+        with st.empty():
+            st.image("./result/res_graph.png")
+    st.write("克隆对")
         
-        df = list_to_df(st.session_state.res_list)
-        select_row = aggrid(df)
-        c1, c2= st.columns(2)
+    df = list_to_df(st.session_state.res_list)
+    select_row = aggrid(df)
+    c1, c2= st.columns(2)
         
-        st.session_state.show_index = int(select_row)
-        chose_index = st.session_state.show_index
-        if (chose_index > 0):
-            a = list(ret1[chose_index - 1]).count("\n")
-            b = list(ret2[chose_index - 1]).count("\n")
-            if (a > b):
-                ret2[chose_index - 1] += ".\n" * (a - b - 1) + "."
-            elif (a < b):
-                ret1[chose_index - 1] += ".\n" * (b - a - 1) + "."
+    st.session_state.show_index = int(select_row)
+    chose_index = st.session_state.show_index
+    if (chose_index > 0):
+        a = list(ret1[chose_index - 1]).count("\n")
+        b = list(ret2[chose_index - 1]).count("\n")
+        if (a > b):
+            ret2[chose_index - 1] += ".\n" * (a - b - 1) + "."
+        elif (a < b):
+            ret1[chose_index - 1] += ".\n" * (b - a - 1) + "."
             
-            c1.code(ret1[chose_index - 1], "java")
-            c2.code(ret2[chose_index - 1], "java")
-            #c3.write("相似度为: " + str(ret3[chose_index - 1]))
+        c1.code(ret1[chose_index - 1], "java")
+        c2.code(ret2[chose_index - 1], "java")
+        #c3.write("相似度为: " + str(ret3[chose_index - 1]))
 
         # 绘制饼状图
-        fig = plt.figure()
-        dst_lines = readline_count("./data/input/1.java" + st.session_state.file_type)
-        pie_sizes = [dst_lines - sum(static_res), static_res[0], static_res[1], static_res[2]]
-        pie_colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
-        pie_explode = (0, 0, 0, 0.1)
-        plt.pie(pie_sizes, explode=pie_explode, labels=labels1, colors=pie_colors, autopct='%1.1f%%', shadow=True, startangle=90)
-        
-        c4, c5 = st.columns(2)
-        c4.pyplot(fig)
-
+    fig = plt.figure()
+    dst_lines = readline_count("./data/input/1.java" + st.session_state.file_type)
+    pie_sizes = [dst_lines - sum(static_res), static_res[0], static_res[1], static_res[2]]
+    #pie_colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
+    #pie_explode = (0, 0, 0, 0.1)
+    option_pie["dataset"]["source"][1][1] = pie_sizes[0]
+    option_pie["dataset"]["source"][2][1] = pie_sizes[1]
+    option_pie["dataset"]["source"][3][1] = pie_sizes[2]
+    option_pie["dataset"]["source"][4][1] = pie_sizes[3]
+    c4, c5 = st.columns(2)
+   # with c4:
+      #  st_echarts(options=option)
+    st_echarts(options=option_pie)
 def exec_jar() -> None:
     command = "java -jar " + exec_jar_pos
     os.system(command)
@@ -408,24 +445,20 @@ def get_base64(bin_file):
     return base64.b64encode(data).decode()
 
 def show_info() -> None:
-    if (st.session_state.tmp != None):
-        st.session_state.tmp.empty()
-    st.session_state.tmp = st.empty()
-    with st.session_state.tmp.container():
-        c1, c2= st.columns([0.8, 0.2])
-        c1.header("❄️ Tamer 代码克隆检测 ❄️")
-        c2.image("./image/1.png")
-        #with st.expander("关于我们"):
-        #   st.write(Path("README.md").read_text())
-        st.text("这一部分可以用typora写一些关于我们产品的介绍，使用说明等")
-        st.text("更多了解")
-        chose = st.selectbox(label="test", options=["关于我们", "Tamer的优点", "Tamer的应用场景"])
-        if chose ==  "关于我们":
-            st.write(Path("README.md").read_text())
-        elif chose == "Tamer的优点":
-            st.write("hh")
-        else:
-            st.write("emmm")
+    c1, c2= st.columns([0.8, 0.2])
+    c1.header("❄️ Tamer 代码克隆检测 ❄️")
+    c2.image("./image/1.png")
+    #with st.expander("关于我们"):
+    #   st.write(Path("README.md").read_text())
+    st.text("这一部分可以用typora写一些关于我们产品的介绍，使用说明等")
+    st.text("更多了解")
+    chose = st.selectbox(label="test", options=["关于我们", "Tamer的优点", "Tamer的应用场景"])
+    if chose ==  "关于我们":
+        st.write(Path("README.md").read_text())
+    elif chose == "Tamer的优点":
+        st.write("hh")
+    else:
+        st.write("emmm")
 
 def main() -> None:
     fp = open("./tmp/sem", "r")
