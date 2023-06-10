@@ -282,6 +282,7 @@ public class main
                                             var nGramVerifyScore = Func.nLineVerify(funcC, funcB, invertedBox, functimeslist);
                                             if (nGramVerifyScore >= 0.5) {
                                                 res.add(funcB.funcId);
+                                                funcC.Caculate_similarity_of_Func(funcB);
 
                                             } else if (nGramVerifyScore >= filter_score) {
                                                 var finalscore = funcC.Caculate_similarity_of_Func(funcB);
@@ -289,6 +290,9 @@ public class main
                                                     res.add(funcB.funcId);
 
                                                 }
+                                            }
+                                            else {
+                                                funcC.Caculate_similarity_of_Func(funcB);
                                             }
                                         } catch (Exception e) {
                                             e.printStackTrace();

@@ -1,147 +1,61 @@
-100%
+59%
 src
-27. if (a == 1 && b == 2)
+23. if (a * b == expand_val)
+24. {
+25.     return VALID;
+26. }
+27. else
 28. {
-29.     return true;
+29.     return err_handle();
 30. }
-31. else
-32. {
-33.     return false;
-34. }
 dst
-29. if (p == 1 && q == 2)
-30. {
-31.     return true;
-32. }
-33. else
-34. {
-35.     return false;
-36. }
-86%
+22. if (check1 * check2 == exp1 | exp2)
+23. {
+24.     return 1;
+25. }
+26. else
+27. {
+28.     return 0;
+29. }
+31%
 src
-12. for (int i = 0; i < word.length(); i++) {
-13.     char ch = word.charAt(i);
-14.     int index = ch - 'a';
-15.     if (node.children[index] == null) {
-16.         node.children[index] = new Trie();
-17.     }
-18.     node = node.children[index];
-19. }
+56. switch(chose.length)
+57. {
+58.  case 0:
+59.     return chose.length;
+60.  case 1:
+61.     return sum_xor(chose);
+62.  default:
+63.     return 0;
+64. 
 dst
-10. for(int i = 0;i < word.length();i ++)
-11. {
-12.     int u = word.charAt(i) - 'a';
-13.     if(p.son[u] == null) p.son[u] = new Node();
-14.     p = p.son[u]; 
-15. }
-68%
-src
-12. for (int i = 0; i < word.length(); i++) {
-13.     char ch = word.charAt(i);
-14.     int index = ch - 'a';
-15.     if (node.children[index] == null) {
-16.         node.children[index] = new Trie();
-17.     }
-18.     node = node.children[index];
-19. }
-dst
-21. for(int i = 0;i < word.length();i ++)
-22. {
-23.     int u = word.charAt(i) - 'a';
-24.     if(p.son[u] == null) return false;
-25.     p = p.son[u]; 
-26. }
-68%
-src
-12. for (int i = 0; i < word.length(); i++) {
-13.     char ch = word.charAt(i);
-14.     int index = ch - 'a';
-15.     if (node.children[index] == null) {
-16.         node.children[index] = new Trie();
-17.     }
-18.     node = node.children[index];
-19. }
-dst
-43. for(int i = 0;i < prefix.length();i ++)
-44. {
-45.     int u = prefix.charAt(i) - 'a';
-46.     if(p.son[u] == null) return false;
-47.     p = p.son[u]; 
-48. }
-26%
-src
-12. for (int i = 0; i < word.length(); i++) {
-13.     char ch = word.charAt(i);
-14.     int index = ch - 'a';
-15.     if (node.children[index] == null) {
-16.         node.children[index] = new Trie();
-17.     }
-18.     node = node.children[index];
-19. }
-dst
-59. for(int i = 0;i < 26;i ++)
-60.     son[i] = null;
-68%
-src
-41. for (int i = 0; i < prefix.length(); i++) {
-42.     char ch = prefix.charAt(i);
-43.     int index = ch - 'a';
-44.     if (node.children[index] == null) {
-45.         return null;
-46.     }
-47.     node = node.children[index];
-48. }
-dst
-10. for(int i = 0;i < word.length();i ++)
-11. {
-12.     int u = word.charAt(i) - 'a';
-13.     if(p.son[u] == null) p.son[u] = new Node();
-14.     p = p.son[u]; 
-15. }
+34. switch(len)
+35. {
+36.  case 0:
+37.     return len;
+38.  case 1:
+39.     int ret = 0;
+40.     for (int i = 0; i < len; i++) {
+41.         ret += arr[i];
+42.     }
+43.     return ret;
+44.  default:
+45.     return 0;
+46. 
 81%
 src
-41. for (int i = 0; i < prefix.length(); i++) {
-42.     char ch = prefix.charAt(i);
-43.     int index = ch - 'a';
-44.     if (node.children[index] == null) {
-45.         return null;
-46.     }
-47.     node = node.children[index];
-48. }
+35. for (int i = 0; i < prefix.length(); i++) {
+36.     char ch = prefix.charAt(i);
+37.     int index = ch - 'a';
+38.     if (node.children[index] == null) {
+39.         return null;
+40.     }
+41.     node = node.children[index];
+42. }
 dst
-21. for(int i = 0;i < word.length();i ++)
-22. {
-23.     int u = word.charAt(i) - 'a';
-24.     if(p.son[u] == null) return false;
-25.     p = p.son[u]; 
-26. }
-81%
-src
-41. for (int i = 0; i < prefix.length(); i++) {
-42.     char ch = prefix.charAt(i);
-43.     int index = ch - 'a';
-44.     if (node.children[index] == null) {
-45.         return null;
-46.     }
-47.     node = node.children[index];
-48. }
-dst
-43. for(int i = 0;i < prefix.length();i ++)
-44. {
-45.     int u = prefix.charAt(i) - 'a';
-46.     if(p.son[u] == null) return false;
-47.     p = p.son[u]; 
-48. }
-30%
-src
-41. for (int i = 0; i < prefix.length(); i++) {
-42.     char ch = prefix.charAt(i);
-43.     int index = ch - 'a';
-44.     if (node.children[index] == null) {
-45.         return null;
-46.     }
-47.     node = node.children[index];
-48. }
-dst
-59. for(int i = 0;i < 26;i ++)
-60.     son[i] = null;
+11. for(int i = 0;i < word.length();i ++)
+12. {
+13.     int u = word.charAt(i) - 'a';
+14.     if(p.son[u] == null) return false;
+15.     p = p.son[u]; 
+16. }

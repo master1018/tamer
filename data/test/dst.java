@@ -5,16 +5,6 @@ class Trie {
         root = new Node();
     }
 
-    public void insert(String word) {
-        Node p = root;
-        for(int i = 0;i < word.length();i ++)
-        {
-            int u = word.charAt(i) - 'a';
-            if(p.son[u] == null) p.son[u] = new Node();
-            p = p.son[u]; 
-        }
-        p.is_end = true;
-    }
 
     public boolean search(String word) {
         Node p = root;
@@ -24,39 +14,35 @@ class Trie {
             if(p.son[u] == null) return false;
             p = p.son[u]; 
         }
-
-        int p, q;
-        if (p == 1 && q == 2)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
         return p.is_end;
     }
 
-    public boolean startsWith(String prefix) {
-        Node p = root;
-        for(int i = 0;i < prefix.length();i ++)
-        {
-            int u = prefix.charAt(i) - 'a';
-            if(p.son[u] == null) return false;
-            p = p.son[u]; 
-        }
-        return true;
-    }
-}
-class Node 
-{
-    boolean is_end;
-    Node[] son = new Node[26];
-    Node()
+    public boolean check(int exp1, int exp2, int check1, int check2)
     {
-        is_end = false;
-        for(int i = 0;i < 26;i ++)
-            son[i] = null;
-    } 
+        if (check1 * check2 == exp1 | exp2)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    private int switchCase(int[] arr) {
+        int len = arr.length;
+        switch(len)
+        {
+         case 0:
+            return len;
+         case 1:
+            int ret = 0;
+            for (int i = 0; i < len; i++) {
+                ret += arr[i];
+            }
+            return ret;
+         default:
+            return 0;
+       }
+    }
 }

@@ -214,6 +214,7 @@ public class Func
             }
         }catch (Exception e)
         {
+            System.out.println((e));
             System.out.println(this.fileName);
         }
         list_cu1.clear();
