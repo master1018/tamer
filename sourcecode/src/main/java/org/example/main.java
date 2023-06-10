@@ -24,10 +24,10 @@ public class main
     public static int partition_number = 1;
     public static float filter_score = 0.15f;
     public static float final_verify_score = 0.65f;
-    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/input";
+    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/IJaDataset10k/IJaDataset10k";
     public static HashMap<String, Integer> string2char = new HashMap<>();
     public static HashMap<String, Integer> name_list = new HashMap<>();
-
+    public static int work_type = 0;
     public static boolean readfile(String filepath) throws FileNotFoundException, IOException {
         try {
             File file = new File(filepath);
@@ -110,6 +110,10 @@ public class main
     }
 
     public static void main(String[] args) throws IOException {
+        InputStream list_input = new FileInputStream("/Users/haoranyan/git_rep/tamer/tmp/type");
+        Scanner input_command = new Scanner(list_input);
+        work_type = input_command.nextInt();
+
         try {
             readfile(filedir);
         } catch (FileNotFoundException ex) {
@@ -280,19 +284,29 @@ public class main
                                         try {
                                             var funcB = funcTaskList.getItem(newconut);
                                             var nGramVerifyScore = Func.nLineVerify(funcC, funcB, invertedBox, functimeslist);
-                                            if (nGramVerifyScore >= 0.5) {
-                                                res.add(funcB.funcId);
-                                                funcC.Caculate_similarity_of_Func(funcB);
-
-                                            } else if (nGramVerifyScore >= filter_score) {
-                                                var finalscore = funcC.Caculate_similarity_of_Func(funcB);
-                                                if (finalscore >= final_verify_score) {
-                                                    res.add(funcB.funcId);
-
-                                                }
+                                            // work type 1: 1 cmp 1
+                                            if (work_type == 1) {
+                                                funcC.Caculate_similarity_of_Func(funcB, work_type);
                                             }
-                                            else {
-                                                funcC.Caculate_similarity_of_Func(funcB);
+                                            // work_type 2: n cmp 1
+                                            else if (work_type == 2) {
+                                                if (nGramVerifyScore >= 0.5) {
+                                                    res.add(funcB.funcId);
+                                                    String file_res = "/Users/haoranyan/git_rep/tamer/result/data/" + Integer.toString(funcC.funcId) + "_" + Integer.toString(funcB.funcId);
+                                                    PrintStream out = System.out;
+                                                    PrintStream ps = new PrintStream(file_res);
+                                                    System.setOut(ps);
+                                                    System.out.println(funcC.fileName);
+                                                    System.out.println(funcB.fileName);
+                                                    System.out.print("fin:");
+                                                    System.out.println(nGramVerifyScore);
+                                                    System.setOut(out);
+                                                } else if (nGramVerifyScore >= filter_score) {
+                                                    var finalscore = funcC.Caculate_similarity_of_Func(funcB, work_type);
+                                                    if (finalscore >= final_verify_score) {
+                                                        res.add(funcB.funcId);
+                                                    }
+                                                }
                                             }
                                         } catch (Exception e) {
                                             e.printStackTrace();

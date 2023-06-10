@@ -64,10 +64,15 @@ public class Func
     {
         // to be constructed
     }
-    public double Caculate_similarity_of_Func(Func another) throws IOException {
+    public double Caculate_similarity_of_Func(Func another, int type) throws IOException {
         String file_res = "";
         //file_res = "/Users/haoranyan/git_rep/tamer/result/output_" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
-        file_res = "/Users/haoranyan/git_rep/tamer/result/output";
+        if (type == 1) {
+            file_res = "/Users/haoranyan/git_rep/tamer/result/output";
+        }
+        else if (type == 2) {
+            file_res = "/Users/haoranyan/git_rep/tamer/result/data/" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
+        }
         PrintStream out = System.out;
         PrintStream ps = new PrintStream(file_res);
         System.setOut(ps);
@@ -94,7 +99,8 @@ public class Func
                     totallength += b.length();
                     int tmp_lcs = longestCommonSubsequence(a, b);
                     temp_result += tmp_lcs;
-                    if (i != 9) {
+
+                    if (type == 1 && i != 9) {
                         double similar_cal = 0;
                         similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
                         int print_similar = (int)((similar_cal + 0.005) * 100);
@@ -109,12 +115,23 @@ public class Func
                        // System.out.println(another.Subtree_pos.get(i).get(k));
                        System.out.println("end");
                     }
+
+                    else if (type == 2) {
+                        double similar_cal = 0;
+                        similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
+                        int print_similar = (int)((similar_cal + 0.005) * 100);
+                        System.out.println(print_similar);
+                    }
                 }
                 final_result += (double) temp_result / (double) (totallength - temp_result);
             }
         }
         if (final_result >= final_verify_score)
             output_report();
+        if (type == 2) {
+            System.out.print("fin:");
+            System.out.println(final_result);
+        }
         System.setOut((out));
         return final_result;
     }
