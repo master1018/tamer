@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 from streamlit_echarts import st_echarts
+from echarts_option import option_pie, option_gauge, option_bar, option_pie2
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -20,42 +21,6 @@ labels2         =   ["low", "medium", "high"]
 
 exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
 
-option_pie = {
-        "legend": {},
-        "tooltip": {
-            "trigger": 'axis',
-            "showContent": "false"
-        },
-        "dataset": {
-            "source": [
-                ['yhr', '2023'],
-                ['非克隆代码段', 1],
-                ['轻度克隆代码段', 2],
-                ['中度克隆代码段', 3],
-                ['高度克隆代码段', 4]
-            ]
-        },
-        "series": [
-            {
-                "type": 'pie',
-                "id": 'pie',
-                "radius": ['40%', '75%'],
-                #"center": ['50%', '30%'],
-                "emphasis": {"focus": 'data',
-                            "fontSize": '20',
-                            "fontWeight": 'bold'},
-                "label": {
-                    "formatter": '{b}: {@2023} ({d}%)'
-                },
-            }
-        ],
-            "tooltip": {
-                    "show": "true",
-                },
-            "label": {
-                "show":"true"
-    },
-    }
 
 class Result:
     cmp_file1 = ""
@@ -180,6 +145,50 @@ class Result:
                     fp.write(str(count) + ". " + line[dele_space:len(line)])
             fp2.close()
         fp.close()
+
+    def read_data_set(self):
+        fp = open("./result/output2", "r")
+        tmp_str = fp.read()
+        tmp_list = tmp_str.split(" ")
+        tmp_list.pop(len(tmp_list) - 1)
+        self.similar_arr = list(map(int, tmp_list))
+        
+        stat = [0, 0, 0, 0, 0]
+
+        for i in range(0, len(self.similar_arr)):
+            if (self.similar_arr[i] >= 1000):
+                self.similar_arr[i] = 1000
+
+            if self.similar_arr[i] >= 20:
+                stat[0] += 1
+
+            if self.similar_arr[i] <= 400 and self.similar_arr[i] > 200:
+                stat[1] += 1
+            elif self.similar_arr[i] > 400 and self.similar_arr[i] <= 700:
+                stat[2] += 1
+            elif self.similar_arr[i] > 700:
+                stat[3] += 1
+            else:
+                stat[4] += 1
+            self.similar_arr[i] = self.similar_arr[i] / 1000
+        
+        print(stat[0])
+        print(len(self.similar_arr))
+        option_gauge["series"][0]["data"][0]["value"] = int((stat[0] / len(self.similar_arr)) * 1000) / 10
+
+        option_pie2["dataset"]["source"][1][1] = stat[1]
+        option_pie2["dataset"]["source"][2][1] = stat[2]
+        option_pie2["dataset"]["source"][3][1] = stat[3]
+
+        option_bar["series"][0]["data"][0]["value"] = stat[3]
+        option_bar["series"][0]["data"][1]["value"] = stat[2]
+        option_bar["series"][0]["data"][2]["value"] = stat[1]
+
+        st.session_state.options.append(option_gauge)
+        st.session_state.options.append(option_pie2)
+        st.session_state.options.append(option_bar)
+        
+
 
 def aggrid(df):
     gb = GridOptionsBuilder.from_dataframe(df)
@@ -350,6 +359,10 @@ def init() -> None:
         st.session_state.res_list = []
     if 'show_index' not in st.session_state:
         st.session_state.show_index = -1
+    if 'mode' not in st.session_state:
+        st.session_state.mode = 1
+    if 'options' not in st.session_state:
+        st.session_state.options = []
 
 
 def show_result() -> None:
@@ -403,7 +416,11 @@ def show_result() -> None:
    # with c4:
       #  st_echarts(options=option)
     st_echarts(options=option_pie)
+
 def exec_jar() -> None:
+    os.system("rm -f ./tmp/type")
+    mode_write = str(st.session_state.mode)
+    os.system("echo " + mode_write + " > ./tmp/type")
     command = "java -jar " + exec_jar_pos
     os.system(command)
     res = Result()
@@ -412,27 +429,36 @@ def exec_jar() -> None:
     res.save_result()
 
 def callback1() -> None:
-    if st.session_state.src_file != None:
-        fp = open("./data/input/2" + st.session_state.file_type, "w")
-        fp.write(st.session_state.src_file.getvalue().decode("utf-8"))
-        fp.close()
-        st.session_state.src_file = None
+    # 单件检测
+    if st.session_state.mode == 1:
+        if st.session_state.src_file != None:
+            fp = open("./data/input/2" + st.session_state.file_type, "w")
+            fp.write(st.session_state.src_file.getvalue().decode("utf-8"))
+            fp.close()
+            st.session_state.src_file = None
 
-    if st.session_state.dst_file != None:
-        fp = open("./data/input/1" + st.session_state.file_type, "w")
-        fp.write(st.session_state.dst_file.getvalue().decode("utf-8"))
-        fp.close()
-        st.session_state.dst_file = None
+        if st.session_state.dst_file != None:
+            fp = open("./data/input/1" + st.session_state.file_type, "w")
+            fp.write(st.session_state.dst_file.getvalue().decode("utf-8"))
+            fp.close()
+            st.session_state.dst_file = None
 
-    # 执行java脚本
-    exec_jar()
-    # 调用检测代码检测出结果，结果以文件方式保存，再重新读入
-    # 下面用来测试，假设结果文件为result.c
-    fp = open("./tmp/sem", "w")
-    fp.write("2")
-    fp.close()
-    if st.session_state.tmp != None:
-        st.session_state.tmp.empty()
+        # 执行java脚本
+        exec_jar()
+        # 调用检测代码检测出结果，结果以文件方式保存，再重新读入
+        # 下面用来测试，假设结果文件为result.c
+        fp = open("./tmp/sem", "w")
+        fp.write("2")
+        fp.close()
+        if st.session_state.tmp != None:
+            st.session_state.tmp.empty()
+    elif st.session_state.mode == 2:
+        st.session_state.options = []
+        res = Result()
+        res.read_data_set()
+        fp = open("./tmp/sem", "w")
+        fp.write("3")
+        fp.close()
 
 def callback2() -> None:
     fp = open("./tmp/sem", "w")
@@ -443,6 +469,16 @@ def get_base64(bin_file):
     with open(bin_file, 'rb') as f:
         data = f.read()
     return base64.b64encode(data).decode()
+
+def show_result2() -> None:
+    c1, c2 = st.columns(2)
+    with c1:
+        st_echarts(st.session_state.options[0])
+    with c2:
+        st_echarts(st.session_state.options[1])
+    c3, c4 = st.columns(2)
+    with c3:
+        st_echarts(st.session_state.options[2])
 
 def show_info() -> None:
     c1, c2= st.columns([0.8, 0.2])
@@ -471,7 +507,8 @@ def main() -> None:
         show_info()
     elif sem_show == 2:
         show_result()
-
+    elif sem_show == 3:
+        show_result2()
     #st.sidebar.subheader("Tamer：代码克隆检测")
     st.sidebar.image("./image/logo.png")
     code_selection = st.sidebar.selectbox(
@@ -480,8 +517,17 @@ def main() -> None:
     
     st.session_state.file_type = file_type[choice_code.index(code_selection)]
 
-    st.session_state.src_file = st.sidebar.file_uploader("上传源文件", accept_multiple_files=False, type=st.session_state.file_type[1:])
-    st.session_state.dst_file = st.sidebar.file_uploader("上传待检测文件", accept_multiple_files=False, type=st.session_state.file_type[1:])
+    mode_chose = st.sidebar.radio("Mode", ('单件检测', '批量检测', '漏洞检测'))
+
+    if mode_chose == '单件检测':
+        st.session_state.mode = 1
+        st.session_state.src_file = st.sidebar.file_uploader("上传源文件", accept_multiple_files=False, type=st.session_state.file_type[1:])
+        st.session_state.dst_file = st.sidebar.file_uploader("上传待检测文件", accept_multiple_files=False, type=st.session_state.file_type[1:])
+    elif mode_chose == '批量检测':
+        st.session_state.mode = 2
+        st.session_state.src_file = st.sidebar.text_input("源代码地址")
+        st.session_state.dst_file = st.sidebar.text_input("待测代码地址")
+
     c1, c2 = st.sidebar.columns(2)
     c1.button("检测", on_click=callback1)
     c2.button("首页", on_click=callback2)

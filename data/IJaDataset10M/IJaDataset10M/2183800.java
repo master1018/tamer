@@ -1,4 +1,0 @@
-package ModifiedPackage;
-
-class PublicToPackageClass {
-}

@@ -1,3 +1,0 @@
-    byte getChannels() {
-        return channels;
-    }

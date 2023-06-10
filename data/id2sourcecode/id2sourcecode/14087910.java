@@ -1,3 +1,0 @@
-    Object getChannelData() {
-        return imageData;
-    }

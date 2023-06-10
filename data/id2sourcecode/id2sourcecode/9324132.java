@@ -1,3 +1,0 @@
-    ChannelDevice getChannelDevice() {
-        return channelDevice;
-    }

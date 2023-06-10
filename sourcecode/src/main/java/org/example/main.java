@@ -24,7 +24,7 @@ public class main
     public static int partition_number = 1;
     public static float filter_score = 0.15f;
     public static float final_verify_score = 0.65f;
-    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/IJaDataset10k/IJaDataset10k";
+    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/input";
     public static HashMap<String, Integer> string2char = new HashMap<>();
     public static HashMap<String, Integer> name_list = new HashMap<>();
     public static int work_type = 0;
@@ -113,6 +113,9 @@ public class main
         InputStream list_input = new FileInputStream("/Users/haoranyan/git_rep/tamer/tmp/type");
         Scanner input_command = new Scanner(list_input);
         work_type = input_command.nextInt();
+        File file_2 = new File("/Users/haoranyan/git_rep/tamer/result/output2");
+        FileWriter g_fw = new FileWriter(file_2, true);
+        BufferedWriter g_out = new BufferedWriter(g_fw);
 
         try {
             readfile(filedir);
@@ -292,20 +295,19 @@ public class main
                                             else if (work_type == 2) {
                                                 if (nGramVerifyScore >= 0.5) {
                                                     res.add(funcB.funcId);
-                                                    String file_res = "/Users/haoranyan/git_rep/tamer/result/data/" + Integer.toString(funcC.funcId) + "_" + Integer.toString(funcB.funcId);
-                                                    PrintStream out = System.out;
-                                                    PrintStream ps = new PrintStream(file_res);
-                                                    System.setOut(ps);
-                                                    System.out.println(funcC.fileName);
-                                                    System.out.println(funcB.fileName);
-                                                    System.out.print("fin:");
-                                                    System.out.println(nGramVerifyScore);
-                                                    System.setOut(out);
+                                                    g_out.write(Integer.toString((int)((nGramVerifyScore + 0.0005) * 1000)) + " ");
+                                                    g_out.flush();
                                                 } else if (nGramVerifyScore >= filter_score) {
                                                     var finalscore = funcC.Caculate_similarity_of_Func(funcB, work_type);
+                                                    g_out.write(Integer.toString((int)((finalscore + 0.0005) * 1000)) + " ");
+                                                    g_out.flush();
                                                     if (finalscore >= final_verify_score) {
                                                         res.add(funcB.funcId);
                                                     }
+                                                }
+                                                else {
+                                                    g_out.write(Integer.toString((int)((nGramVerifyScore + 0.0005) * 1000)) + " ");
+                                                    g_out.flush();
                                                 }
                                             }
                                         } catch (Exception e) {
@@ -334,7 +336,11 @@ public class main
                 }
             }
         }
+        if (work_type == 2) {
+            g_fw.close();
+        }
     }
+
 
 
 }

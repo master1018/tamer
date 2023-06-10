@@ -1,3 +1,0 @@
-    JChannel getChannel() {
-        return channel;
-    }

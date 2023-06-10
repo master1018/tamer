@@ -1,3 +1,0 @@
-    @Override
-    protected void initializeGraphicalViewer() {
-    }

@@ -1,3 +1,0 @@
-    String getChannelName() {
-        return channel;
-    }
