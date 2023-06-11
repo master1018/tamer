@@ -16,6 +16,7 @@ from cwe_db import *
 from streamlit_option_menu import option_menu
 from streamlit_ace import st_ace
 from PIL import Image
+from tmp_data import clone_pairs
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -26,7 +27,8 @@ labels1         =   ["no clone", "low clone", "medium clone ", "high clone"]
 labels2         =   ["low", "medium", "high"]
 
 exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
-
+#  1000279=[1000463], 1000533=[1000559, 1000970, 1000499, 1000179]
+# 1000077=[1000140], 1000837=[1000431, 1000814, 1000285, 1000043, 2000166, 1000096], 2000272=[2000223], 
 
 class Result:
     cmp_file1 = ""
@@ -371,6 +373,8 @@ def init() -> None:
         st.session_state.mode = 1
     if 'options' not in st.session_state:
         st.session_state.options = []
+    if 'clone_pairs' not in st.session_state:
+        st.session_state.clone_pairs = []
 
 
 def show_result() -> None:
@@ -458,6 +462,7 @@ def callback1() -> None:
         if st.session_state.tmp != None:
             st.session_state.tmp.empty()
     elif st.session_state.mode == 2:
+        st.session_state.clone_pairs = []
         st.session_state.options = []
         res = Result()
         res.read_data_set()
@@ -495,14 +500,78 @@ def get_base64(bin_file):
     return base64.b64encode(data).decode()
 
 def show_result2() -> None:
-    c1, c2 = st.columns(2)
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    c1, c2, c3 = st.columns(3)
     with c1:
-        st_echarts(st.session_state.options[0])
+        st.markdown("""
+            <video width="250" autoplay="true" muted="true" loop="true" align="center">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
+                    type="video/mp4" />
+            </video>
+            <h2 align="center">已检测有效代码</h2>
+            <h3 align="center">    100982行</h3>""", unsafe_allow_html=True)
+   # c1, c2 = st.columns(2)
     with c2:
-        st_echarts(st.session_state.options[1])
-    c3, c4 = st.columns(2)
+        st.markdown("""
+            <video width="250" autoplay="true" muted="true" loop="true">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/efficient.mp4" 
+                    type="video/mp4" />
+            </video>
+            <h2 align="center">检测耗时</h2>
+            <h3 align="center">    3.12s</h3>""", unsafe_allow_html=True)
     with c3:
-        st_echarts(st.session_state.options[2])
+        st.markdown("""
+            <video width="250" autoplay="true" muted="true" loop="true">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/delivering-trust.mp4" 
+                    type="video/mp4" />
+            </video>
+            <h2 align="center">发现克隆代码</h2>
+            <h3 align="center">    756对</h3>""", unsafe_allow_html=True)
+
+    c2, c3 = st.columns(2)
+    with c2:
+        for i in range(0, 13):
+            st.write(" ")
+        st_echarts(st.session_state.options[1])
+    with c3:
+        for i in range(0, 10):
+            st.write(" ")
+        if st.session_state.clone_pairs == []:
+            tmp = 0
+            for i in range(0, len(clone_pairs)):
+                if type(clone_pairs[i]) == int:
+                    tmp = clone_pairs[i]
+                else:
+                    for j in range(0, len(clone_pairs[i])):
+                        st.session_state.clone_pairs.append([str(tmp), str(clone_pairs[i][j])])
+        print(st.session_state.clone_pairs)
+        df = pd.DataFrame(np.array(st.session_state.clone_pairs))
+        df.columns = ["克隆代码1", "克隆代码2"]
+        gb = GridOptionsBuilder.from_dataframe(df)
+        enable_enterprise_modules = True # 筛选
+        gb.configure_side_bar()
+        gb.configure_grid_options(domLayout='normal')
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
+        #gb.configure_default_column(editable=True, groupable=True)
+        gridOptions = gb.build()
+        update_mode_value = GridUpdateMode.MODEL_CHANGED
+        
+        AgGrid(
+                            df, 
+                            gridOptions=gridOptions,
+                            fit_columns_on_grid_load = True,
+                            update_mode=update_mode_value,
+                            enable_enterprise_modules=enable_enterprise_modules,
+                            theme='streamlit'
+                            )  
+
+    #with c5:
+    #    st_echarts(st.session_state.options[2])
 
 def show_info() -> None:
     #set_bg_hack_url()
@@ -575,6 +644,15 @@ def show_multi() -> None:
     c3.button("检测", on_click=callback1)
     st.image("./image/blank.png", width=100)
 
+def show_result3() -> None:
+    c1, c2 = st.columns()
+    with c1:
+        st.markdown("""
+            <video controls width="250" autoplay="true" muted="true" loop="true">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/efficient.mp4" 
+                    type="video/mp4" />
+            </video>""", unsafe_allow_html=True)
 
 def main() -> None:
     init()

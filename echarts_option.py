@@ -83,7 +83,7 @@ option_gauge = {
             },
             "data": [{
                 "value": 0,
-                "name": '克隆对所占百分比'
+                "name": '检测速率'
             }]
         }]
     }
