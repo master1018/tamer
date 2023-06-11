@@ -79,4 +79,3 @@ def show_cwe_list(cwe_list):
                         theme='balham'
                         )  
     
-show_cwe_list(cwe_list)
