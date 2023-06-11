@@ -242,14 +242,14 @@ public class main
                             } catch (Exception e) {
                                 fn = parseTaskList.getTask();
                             }
-                        }
 
-                    });
-                    thread.start();
-                    parseThreadList.add(thread);
                 }
-                for (var thread : parseThreadList) {
-                    try {
+
+            });
+            thread.start();
+            parseThreadList.add(thread);
+        }
+        for (var thread : parseThreadList) {                  try {
                         thread.join();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -283,12 +283,16 @@ public class main
                                     }
                                 }
                                 for (int newconut = 0; newconut < i1; newconut++) {
-                                    if (functimeslist[newconut] >= 1 && newconut > order) {
+                                    if ((work_type == 1 || work_type == 3) || (functimeslist[newconut] >= 1 && newconut > order)) {
                                         try {
                                             var funcB = funcTaskList.getItem(newconut);
+                                            if (funcB.funcId == funcC.funcId)
+                                                continue;
+                                            if (work_type == 3 && funcC.funcId != 1)
+                                                continue;
                                             var nGramVerifyScore = Func.nLineVerify(funcC, funcB, invertedBox, functimeslist);
                                             // work type 1: 1 cmp 1
-                                            if (work_type == 1) {
+                                            if (work_type == 1 || work_type == 3) {
                                                 funcC.Caculate_similarity_of_Func(funcB, work_type);
                                             }
                                             // work_type 2: n cmp 1

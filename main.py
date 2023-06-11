@@ -10,6 +10,7 @@ import pandas as pd
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 from streamlit_echarts import st_echarts
 from echarts_option import option_pie, option_gauge, option_bar, option_pie2
+from cwe_db import cwe_list
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -188,7 +189,6 @@ class Result:
         st.session_state.options.append(option_pie2)
         st.session_state.options.append(option_bar)
         
-
 
 def aggrid(df):
     gb = GridOptionsBuilder.from_dataframe(df)
@@ -527,7 +527,8 @@ def main() -> None:
         st.session_state.mode = 2
         st.session_state.src_file = st.sidebar.text_input("源代码地址")
         st.session_state.dst_file = st.sidebar.text_input("待测代码地址")
-
+    elif mode_chose == '漏洞检测':
+        st.session_state.mode = 3
     c1, c2 = st.sidebar.columns(2)
     c1.button("检测", on_click=callback1)
     c2.button("首页", on_click=callback2)

@@ -74,8 +74,13 @@ public class Func
             ps = new PrintStream(file_res);
             System.setOut(ps);
         }
+        else if (type == 3) {
+            file_res = "/Users/haoranyan/git_rep/tamer/result/exp_data/output" + Integer.toString(another.funcId);
+            ps = new PrintStream(file_res);
+            System.setOut(ps);
+        }
 
-        if (type == 1) {
+        if (type == 1 || type == 3) {
             System.out.println(this.fileName);
             System.out.println(another.fileName);
         }
@@ -101,12 +106,12 @@ public class Func
                     int tmp_lcs = longestCommonSubsequence(a, b);
                     temp_result += tmp_lcs;
 
-                    if (type == 1 && i != 9) {
+                    if ((type == 1 || type == 3) && i != 9) {
                         double similar_cal = 0;
                         similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
                         int print_similar = (int)((similar_cal + 0.005) * 100);
-                       // if (print_similar < 50)
-                        //    continue;
+                        if (type == 3 && print_similar < 50)
+                            continue;
                         System.out.println(("begin"));
                         System.out.println(print_similar);
                         System.out.println(this.Subtree_line_msg.get(i).get(j));
@@ -223,6 +228,7 @@ public class Func
         }catch (Exception e)
         {
             System.out.println((e));
+            System.out.println();
             System.out.println(this.fileName);
         }
         list_cu1.clear();
