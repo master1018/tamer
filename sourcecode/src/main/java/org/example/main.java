@@ -24,7 +24,7 @@ public class main
     public static int partition_number = 1;
     public static float filter_score = 0.15f;
     public static float final_verify_score = 0.65f;
-    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/input";
+    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/IJaDataset100k/IJaDataset100k";
     public static HashMap<String, Integer> string2char = new HashMap<>();
     public static HashMap<String, Integer> name_list = new HashMap<>();
     public static int work_type = 0;

@@ -10,20 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7131092e-ea3e-442f-b743-0196e0a3e178" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../data/input/1.java" beforeDir="false" afterPath="$PROJECT_DIR$/../data/input/1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/input/2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../data/input/2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/output" beforeDir="false" afterPath="$PROJECT_DIR$/../result/output" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/output2" beforeDir="false" afterPath="$PROJECT_DIR$/../result/output2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/res" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/res_graph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/res_graph.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../result/output2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Func.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Func.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/example/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/../test/test2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test/test3.py" beforeDir="false" afterPath="$PROJECT_DIR$/../test/test3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tmp/sem" beforeDir="false" afterPath="$PROJECT_DIR$/../tmp/sem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmp/type" beforeDir="false" afterPath="$PROJECT_DIR$/../tmp/type" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

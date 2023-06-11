@@ -12,9 +12,10 @@ import pandas as pd
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 from streamlit_echarts import st_echarts
 from echarts_option import option_pie, option_gauge, option_bar, option_pie2
-from cwe_db import cwe_list
+from cwe_db import *
 from streamlit_option_menu import option_menu
 from streamlit_ace import st_ace
+from PIL import Image
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -152,7 +153,7 @@ class Result:
         fp.close()
 
     def read_data_set(self):
-        fp = open("./result/output2", "r")
+        fp = open("./result/output_type_2", "r")
         tmp_str = fp.read()
         tmp_list = tmp_str.split(" ")
         tmp_list.pop(len(tmp_list) - 1)
@@ -177,8 +178,6 @@ class Result:
                 stat[4] += 1
             self.similar_arr[i] = self.similar_arr[i] / 1000
         
-        print(stat[0])
-        print(len(self.similar_arr))
         option_gauge["series"][0]["data"][0]["value"] = int((stat[0] / len(self.similar_arr)) * 1000) / 10
 
         option_pie2["dataset"]["source"][1][1] = stat[1]
@@ -354,9 +353,14 @@ def res_visual() -> None:
 
 
 def init() -> None:
-    st.session_state.file_type  =   ""
-    st.session_state.src_file   =   None
-    st.session_state.dst_file   =   None
+    if "file_type" not in st.session_state:
+        st.session_state.file_type = ""
+    if "show_res" not in st.session_state:
+        st.session_state.show_res = 0
+    if "src_file" not in st.session_state:
+        st.session_state.src_file   =   None
+    if "dst_file" not in st.session_state:
+        st.session_state.dst_file   =   None
     st.session_state.res_file   =   None
     st.session_state.tmp        =   None
     if 'res_list' not in st.session_state:
@@ -408,7 +412,7 @@ def show_result() -> None:
 
         # 绘制饼状图
     fig = plt.figure()
-    dst_lines = readline_count("./data/input/1.java" + st.session_state.file_type)
+    dst_lines = readline_count("./data/input/1" + st.session_state.file_type)
     pie_sizes = [dst_lines - sum(static_res), static_res[0], static_res[1], static_res[2]]
     #pie_colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
     #pie_explode = (0, 0, 0, 0.1)
@@ -437,13 +441,13 @@ def callback1() -> None:
     if st.session_state.mode == 1:
         if st.session_state.src_file != None:
             fp = open("./data/input/2" + st.session_state.file_type, "w")
-            fp.write(st.session_state.src_file.getvalue().decode("utf-8"))
+            fp.write(st.session_state.src_file)
             fp.close()
             st.session_state.src_file = None
 
         if st.session_state.dst_file != None:
             fp = open("./data/input/1" + st.session_state.file_type, "w")
-            fp.write(st.session_state.dst_file.getvalue().decode("utf-8"))
+            fp.write(st.session_state.dst_file)
             fp.close()
             st.session_state.dst_file = None
 
@@ -451,18 +455,14 @@ def callback1() -> None:
         exec_jar()
         # 调用检测代码检测出结果，结果以文件方式保存，再重新读入
         # 下面用来测试，假设结果文件为result.c
-        fp = open("./tmp/sem", "w")
-        fp.write("2")
-        fp.close()
         if st.session_state.tmp != None:
             st.session_state.tmp.empty()
     elif st.session_state.mode == 2:
         st.session_state.options = []
         res = Result()
         res.read_data_set()
-        fp = open("./tmp/sem", "w")
-        fp.write("3")
-        fp.close()
+
+    st.session_state.show_res = 1
 
 def set_bg_hack_url():
     '''
@@ -476,7 +476,7 @@ def set_bg_hack_url():
          f"""
          <style>
          .stApp {{
-             background: url("https://great.wzznft.com/i/2023/06/11/r8q7tq.gif");
+             background: url("https://img3.wallspic.com/crops/0/7/1/6/6/166170/166170-macos_12_monterey_official_stock_wallpaper_6k_resolution_light-3840x2160.jpg");
              background-size: cover
          }}
          </style>
@@ -525,13 +525,14 @@ def show_intro() -> None:
     c4.image("./image/app.png")
     
 def show_single() -> None:
+    set_bg_hack_url()
     #m = st.markdown("""
     #<style>
     #div.stButton > button:first-child {
     #    background-color: #e0e0ef;color:black;font-size:20px;height:2em;width:5em;border-radius:10px 10px 10px 10px;
     #}
     #</style>""", unsafe_allow_html=True)
-    st.image("./image/title1.png", use_column_width=True)
+    st.image("./image/title_light.png", use_column_width=True)
     st.markdown(
     """
     <style>
@@ -542,43 +543,37 @@ def show_single() -> None:
     """,
     unsafe_allow_html=True,
     )
-    c1, c2, c3 = st.columns([0.5, 0.1, 0.4])
-    c1.selectbox("",options=choice_code)
-    c2.button("检测")
-    c3.checkbox("我已阅读并同意用户使用条款和隐私政策")
-    #st.set_page_config(layout="wide")
-    c1, c2 = st.columns(2)
+
+    c1, c2, c3 = st.columns([0.45, 0.45, 0.1])
     # Spawn a new Ace editor
     with c1:
-        st_ace(language="java", theme="github", height=500, keybinding="vscode", key=1, font_size=10)
+        st.session_state.src_file = st_ace(language="java", theme="github", height=400, keybinding="vscode", key=1, font_size=10)
     with c2:
-        st_ace(language="java", theme="github", height=500, keybinding="vscode", key=2, font_size=10)
+        st.session_state.dst_file = st_ace(language="java", theme="github", height=400, keybinding="vscode", key=2, font_size=10)
+    with c3:
+        for i in range(0, 10):
+            st.write(" ")
+        select_code = st.selectbox("",options=choice_code)
+        st.session_state.file_type = file_type[choice_code.index(select_code)]
+        st.button("检测", on_click=callback1)
+
 
 def show_multi() -> None:
+    set_bg_hack_url()
     m = st.markdown("""
     <style>
     div.stButton > button:first-child {
         background-color: #e0e0ef;color:black;font-size:20px;height:4em;width:4em;border-radius:100px 100px 100px 100px;
     }
     </style>""", unsafe_allow_html=True)
-    st.image("./image/title1.png", use_column_width=True)
+    st.image("./image/title_light.png", use_column_width=True)
     st.image("./image/blank.png", width=100)
-    c1, c2, c3 = st.columns([0.47, 0.06, 0.47])
+    c1, c2, c3, c4, c5 = st.columns([0.4, 0.05, 0.05, 0.1, 0.4])
     c1.text_input("请输入源文件路径")
-    c3.text_input("请输入待检测文件路径")
-    c2.image("./image/blank.png", width=1)
-    c2.button("检测")
+    c5.text_input("请输入待检测文件路径")
+    c3.image("./image/blank.png", width=1)
+    c3.button("检测", on_click=callback1)
     st.image("./image/blank.png", width=100)
-    #c1, c2, c3, c4 = st.columns([0.1, 0.4, 0.1, 0.4])
-    #c1.image("./image/blank.png", width=20)
-    #c1.image("./image/ic1.png", use_column_width=True);
-    #c2.header("代码克隆检测")
-    #c2.subheader("Tamer使用基于AST分解的克隆检测方案，检测准确率高，速度快")
-    
-
-    #c1.selectbox("选择语言",options=choice_code)
-    #c2.image("./image/blank.png", width=20)
-    #c2.button("检测")
 
 
 def main() -> None:
@@ -607,13 +602,26 @@ def main() -> None:
     elif sem_show == 2:
         show_intro()
     elif sem_show == 3:
-        st.session_state.mode = 1
-        show_single()
+        if (st.session_state.show_res == 1):
+            show_result()
+        else:
+            st.session_state.mode = 1
+            show_single()
     elif sem_show == 4:
-        st.session_state.mode = 2
-        st.session_state.src_file = st.sidebar.text_input("源代码地址")
-        st.session_state.dst_file = st.sidebar.text_input("待测代码地址")
-        show_multi()
+        if (st.session_state.show_res == 1):
+            show_result2()
+        else:
+            st.session_state.mode = 2
+            show_multi()
+    elif sem_show == 5:
+        st.image("./image/exp_flow.png")
+        show_cwe_list(cwe_list)
+        st.markdown("""
+            <video controls width="250" autoplay="true" muted="true" loop="true">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
+                    type="video/mp4" />
+            </video>""", unsafe_allow_html=True)
     
     #c1, c2 = st.sidebar.columns(2)
     #c1.button("检测", on_click=callback1)
