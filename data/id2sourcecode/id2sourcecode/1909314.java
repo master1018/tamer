@@ -1,3 +1,0 @@
-    Integer getChannels() {
-        return channels;
-    }

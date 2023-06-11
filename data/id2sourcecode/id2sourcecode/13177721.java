@@ -1,3 +1,0 @@
-    IChannelOperations getChannelOps() {
-        return channelOps;
-    }

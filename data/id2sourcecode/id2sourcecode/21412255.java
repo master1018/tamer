@@ -1,3 +1,0 @@
-    int getChannelsPut() {
-        return channelsPut;
-    }

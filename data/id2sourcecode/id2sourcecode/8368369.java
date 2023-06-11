@@ -1,3 +1,0 @@
-    int getChannelCount() {
-        return channelCount;
-    }

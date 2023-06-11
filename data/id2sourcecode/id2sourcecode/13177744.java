@@ -1,3 +1,0 @@
-    void doRetransmitAll() {
-        getChannel().retransmitAll();
-    }

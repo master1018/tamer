@@ -66,18 +66,19 @@ public class Func
     }
     public double Caculate_similarity_of_Func(Func another, int type) throws IOException {
         String file_res = "";
+        PrintStream out = System.out;;
+        PrintStream ps;
         //file_res = "/Users/haoranyan/git_rep/tamer/result/output_" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
         if (type == 1) {
             file_res = "/Users/haoranyan/git_rep/tamer/result/output";
+            ps = new PrintStream(file_res);
+            System.setOut(ps);
         }
-        else if (type == 2) {
-            file_res = "/Users/haoranyan/git_rep/tamer/result/data/" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
+
+        if (type == 1) {
+            System.out.println(this.fileName);
+            System.out.println(another.fileName);
         }
-        PrintStream out = System.out;
-        PrintStream ps = new PrintStream(file_res);
-        System.setOut(ps);
-        System.out.println(this.fileName);
-        System.out.println(another.fileName);
         double final_result = 0.000;
         int totallcs = 0;
         int maxlen = Math.max(this.funcLen, another.funcLen);
@@ -116,22 +117,12 @@ public class Func
                        System.out.println("end");
                     }
 
-                    else if (type == 2) {
-                        double similar_cal = 0;
-                        similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
-                        int print_similar = (int)((similar_cal + 0.005) * 100);
-                        System.out.println(print_similar);
-                    }
                 }
                 final_result += (double) temp_result / (double) (totallength - temp_result);
             }
         }
         if (final_result >= final_verify_score)
             output_report();
-        if (type == 2) {
-            System.out.print("fin:");
-            System.out.println(final_result);
-        }
         System.setOut((out));
         return final_result;
     }

@@ -1,14 +1,19 @@
 import base64
 import time
+import sys
 from graphviz import Graph
 from pathlib import Path
 import os
+sys.path.insert(1, "C:/users/86176/appdata/roaming/python/python310/site-packages")
 import streamlit as st
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 from streamlit_echarts import st_echarts
+from echarts_option import option_pie, option_gauge, option_bar, option_pie2
+from streamlit_option_menu import option_menu
+from streamlit_ace import st_ace
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -20,42 +25,6 @@ labels2         =   ["low", "medium", "high"]
 
 exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
 
-option_pie = {
-        "legend": {},
-        "tooltip": {
-            "trigger": 'axis',
-            "showContent": "false"
-        },
-        "dataset": {
-            "source": [
-                ['yhr', '2023'],
-                ['非克隆代码段', 1],
-                ['轻度克隆代码段', 2],
-                ['中度克隆代码段', 3],
-                ['高度克隆代码段', 4]
-            ]
-        },
-        "series": [
-            {
-                "type": 'pie',
-                "id": 'pie',
-                "radius": ['40%', '75%'],
-                #"center": ['50%', '30%'],
-                "emphasis": {"focus": 'data',
-                            "fontSize": '20',
-                            "fontWeight": 'bold'},
-                "label": {
-                    "formatter": '{b}: {@2023} ({d}%)'
-                },
-            }
-        ],
-            "tooltip": {
-                    "show": "true",
-                },
-            "label": {
-                "show":"true"
-    },
-    }
 
 class Result:
     cmp_file1 = ""
@@ -180,6 +149,50 @@ class Result:
                     fp.write(str(count) + ". " + line[dele_space:len(line)])
             fp2.close()
         fp.close()
+
+    def read_data_set(self):
+        fp = open("./result/output2", "r")
+        tmp_str = fp.read()
+        tmp_list = tmp_str.split(" ")
+        tmp_list.pop(len(tmp_list) - 1)
+        self.similar_arr = list(map(int, tmp_list))
+        
+        stat = [0, 0, 0, 0, 0]
+
+        for i in range(0, len(self.similar_arr)):
+            if (self.similar_arr[i] >= 1000):
+                self.similar_arr[i] = 1000
+
+            if self.similar_arr[i] >= 20:
+                stat[0] += 1
+
+            if self.similar_arr[i] <= 400 and self.similar_arr[i] > 200:
+                stat[1] += 1
+            elif self.similar_arr[i] > 400 and self.similar_arr[i] <= 700:
+                stat[2] += 1
+            elif self.similar_arr[i] > 700:
+                stat[3] += 1
+            else:
+                stat[4] += 1
+            self.similar_arr[i] = self.similar_arr[i] / 1000
+        
+        print(stat[0])
+        print(len(self.similar_arr))
+        option_gauge["series"][0]["data"][0]["value"] = int((stat[0] / len(self.similar_arr)) * 1000) / 10
+
+        option_pie2["dataset"]["source"][1][1] = stat[1]
+        option_pie2["dataset"]["source"][2][1] = stat[2]
+        option_pie2["dataset"]["source"][3][1] = stat[3]
+
+        option_bar["series"][0]["data"][0]["value"] = stat[3]
+        option_bar["series"][0]["data"][1]["value"] = stat[2]
+        option_bar["series"][0]["data"][2]["value"] = stat[1]
+
+        st.session_state.options.append(option_gauge)
+        st.session_state.options.append(option_pie2)
+        st.session_state.options.append(option_bar)
+        
+
 
 def aggrid(df):
     gb = GridOptionsBuilder.from_dataframe(df)
@@ -350,6 +363,10 @@ def init() -> None:
         st.session_state.res_list = []
     if 'show_index' not in st.session_state:
         st.session_state.show_index = -1
+    if 'mode' not in st.session_state:
+        st.session_state.mode = 1
+    if 'options' not in st.session_state:
+        st.session_state.options = []
 
 
 def show_result() -> None:
@@ -403,7 +420,11 @@ def show_result() -> None:
    # with c4:
       #  st_echarts(options=option)
     st_echarts(options=option_pie)
+
 def exec_jar() -> None:
+    os.system("rm -f ./tmp/type")
+    mode_write = str(st.session_state.mode)
+    os.system("echo " + mode_write + " > ./tmp/type")
     command = "java -jar " + exec_jar_pos
     os.system(command)
     res = Result()
@@ -412,27 +433,56 @@ def exec_jar() -> None:
     res.save_result()
 
 def callback1() -> None:
-    if st.session_state.src_file != None:
-        fp = open("./data/input/2" + st.session_state.file_type, "w")
-        fp.write(st.session_state.src_file.getvalue().decode("utf-8"))
-        fp.close()
-        st.session_state.src_file = None
+    # 单件检测
+    if st.session_state.mode == 1:
+        if st.session_state.src_file != None:
+            fp = open("./data/input/2" + st.session_state.file_type, "w")
+            fp.write(st.session_state.src_file.getvalue().decode("utf-8"))
+            fp.close()
+            st.session_state.src_file = None
 
-    if st.session_state.dst_file != None:
-        fp = open("./data/input/1" + st.session_state.file_type, "w")
-        fp.write(st.session_state.dst_file.getvalue().decode("utf-8"))
-        fp.close()
-        st.session_state.dst_file = None
+        if st.session_state.dst_file != None:
+            fp = open("./data/input/1" + st.session_state.file_type, "w")
+            fp.write(st.session_state.dst_file.getvalue().decode("utf-8"))
+            fp.close()
+            st.session_state.dst_file = None
 
-    # 执行java脚本
-    exec_jar()
-    # 调用检测代码检测出结果，结果以文件方式保存，再重新读入
-    # 下面用来测试，假设结果文件为result.c
-    fp = open("./tmp/sem", "w")
-    fp.write("2")
-    fp.close()
-    if st.session_state.tmp != None:
-        st.session_state.tmp.empty()
+        # 执行java脚本
+        exec_jar()
+        # 调用检测代码检测出结果，结果以文件方式保存，再重新读入
+        # 下面用来测试，假设结果文件为result.c
+        fp = open("./tmp/sem", "w")
+        fp.write("2")
+        fp.close()
+        if st.session_state.tmp != None:
+            st.session_state.tmp.empty()
+    elif st.session_state.mode == 2:
+        st.session_state.options = []
+        res = Result()
+        res.read_data_set()
+        fp = open("./tmp/sem", "w")
+        fp.write("3")
+        fp.close()
+
+def set_bg_hack_url():
+    '''
+    A function to unpack an image from url and set as bg.
+    Returns
+    -------
+    The background.
+    '''
+        
+    st.markdown(
+         f"""
+         <style>
+         .stApp {{
+             background: url("https://great.wzznft.com/i/2023/06/11/r8q7tq.gif");
+             background-size: cover
+         }}
+         </style>
+         """,
+         unsafe_allow_html=True
+     )
 
 def callback2() -> None:
     fp = open("./tmp/sem", "w")
@@ -444,48 +494,126 @@ def get_base64(bin_file):
         data = f.read()
     return base64.b64encode(data).decode()
 
+def show_result2() -> None:
+    c1, c2 = st.columns(2)
+    with c1:
+        st_echarts(st.session_state.options[0])
+    with c2:
+        st_echarts(st.session_state.options[1])
+    c3, c4 = st.columns(2)
+    with c3:
+        st_echarts(st.session_state.options[2])
+
 def show_info() -> None:
-    c1, c2= st.columns([0.8, 0.2])
-    c1.header("❄️ Tamer 代码克隆检测 ❄️")
-    c2.image("./image/1.png")
-    #with st.expander("关于我们"):
-    #   st.write(Path("README.md").read_text())
-    st.text("这一部分可以用typora写一些关于我们产品的介绍，使用说明等")
-    st.text("更多了解")
-    chose = st.selectbox(label="test", options=["关于我们", "Tamer的优点", "Tamer的应用场景"])
-    if chose ==  "关于我们":
-        st.write(Path("README.md").read_text())
-    elif chose == "Tamer的优点":
-        st.write("hh")
-    else:
-        st.write("emmm")
+    #set_bg_hack_url()
+    
+    #st.image("./image/title1.png", use_column_width=True)
+    #st.image("./image/blank.png", width=600)
+    st.image("./image/bg_white.gif", use_column_width=True)
+
+
+def show_intro() -> None:
+    c1, c2, c3, c4= st.columns([0.2, 0.35, 0.35, 0.1])
+    c2.image("./image/advantages1.png")
+    #c4.image("./image/blank.png", width = 50)
+    c3.image("./image/test_cut.gif")
+    #st.image("./image/blank.png", width=150)
+    c1, c2, c3, c4, c5= st.columns([0.15, 0.35, 0.05, 0.35, 0.1])
+    #c2.image("./image/blank.png", width = 50)
+    c2.image("./image/search11.gif")
+    c4.image("./image/blank.png", width=20)
+    c4.image("./image/app.png")
+    
+def show_single() -> None:
+    #m = st.markdown("""
+    #<style>
+    #div.stButton > button:first-child {
+    #    background-color: #e0e0ef;color:black;font-size:20px;height:2em;width:5em;border-radius:10px 10px 10px 10px;
+    #}
+    #</style>""", unsafe_allow_html=True)
+    st.image("./image/title1.png", use_column_width=True)
+    st.markdown(
+    """
+    <style>
+    [data-baseweb="select"] {
+        margin-top: -35px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+    )
+    c1, c2, c3 = st.columns([0.5, 0.1, 0.4])
+    c1.selectbox("",options=choice_code)
+    c2.button("检测")
+    c3.checkbox("我已阅读并同意用户使用条款和隐私政策")
+    #st.set_page_config(layout="wide")
+    c1, c2 = st.columns(2)
+    # Spawn a new Ace editor
+    with c1:
+        st_ace(language="java", theme="github", height=500, keybinding="vscode", key=1, font_size=10)
+    with c2:
+        st_ace(language="java", theme="github", height=500, keybinding="vscode", key=2, font_size=10)
+
+def show_multi() -> None:
+    m = st.markdown("""
+    <style>
+    div.stButton > button:first-child {
+        background-color: #e0e0ef;color:black;font-size:20px;height:4em;width:4em;border-radius:100px 100px 100px 100px;
+    }
+    </style>""", unsafe_allow_html=True)
+    st.image("./image/title1.png", use_column_width=True)
+    st.image("./image/blank.png", width=100)
+    c1, c2, c3 = st.columns([0.47, 0.06, 0.47])
+    c1.text_input("请输入源文件路径")
+    c3.text_input("请输入待检测文件路径")
+    c2.image("./image/blank.png", width=1)
+    c2.button("检测")
+    st.image("./image/blank.png", width=100)
+    #c1, c2, c3, c4 = st.columns([0.1, 0.4, 0.1, 0.4])
+    #c1.image("./image/blank.png", width=20)
+    #c1.image("./image/ic1.png", use_column_width=True);
+    #c2.header("代码克隆检测")
+    #c2.subheader("Tamer使用基于AST分解的克隆检测方案，检测准确率高，速度快")
+    
+
+    #c1.selectbox("选择语言",options=choice_code)
+    #c2.image("./image/blank.png", width=20)
+    #c2.button("检测")
+
 
 def main() -> None:
+    init()
+    st.sidebar.image("./image/logo.png")
+    with st.sidebar:
+        selected = option_menu("菜单", ["主页", '产品介绍', '单件检测', '批量检测', '漏洞检测'],
+                            icons=['house', 'bar-chart', 'file-earmark-check', 'file-earmark-code', 'exclamation-circle'], menu_icon="cast", default_index=0)
+    fp = open("./tmp/sem", "w")
+    if(selected == "主页"):
+        fp.write("1")
+    elif(selected == "产品介绍"):
+        fp.write("2")
+    elif(selected == "单件检测"):
+        fp.write("3")
+    elif(selected == "批量检测"):
+        fp.write("4")
+    elif(selected == "漏洞检测"):
+        fp.write("5")
+    fp.close()
     fp = open("./tmp/sem", "r")
     sem_show = int(fp.read())
     fp.close()
-
-    init()
-
     if sem_show == 1:
         show_info()
     elif sem_show == 2:
-        show_result()
-
+        show_intro()
+    elif sem_show == 3:
+        st.session_state.mode = 1
+        show_single()
+    elif sem_show == 4:
+        st.session_state.mode = 2
+        show_multi()
     #st.sidebar.subheader("Tamer：代码克隆检测")
-    st.sidebar.image("./image/logo.png")
-    code_selection = st.sidebar.selectbox(
-        "选择代码语言", options=choice_code
-    )
-    
-    st.session_state.file_type = file_type[choice_code.index(code_selection)]
 
-    st.session_state.src_file = st.sidebar.file_uploader("上传源文件", accept_multiple_files=False, type=st.session_state.file_type[1:])
-    st.session_state.dst_file = st.sidebar.file_uploader("上传待检测文件", accept_multiple_files=False, type=st.session_state.file_type[1:])
-    c1, c2 = st.sidebar.columns(2)
-    c1.button("检测", on_click=callback1)
-    c2.button("首页", on_click=callback2)
-    
 
 
 if __name__ == "__main__":

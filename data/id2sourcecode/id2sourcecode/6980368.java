@@ -1,3 +1,0 @@
-    ChannelServiceImpl getChannelService() {
-        return channelService;
-    }

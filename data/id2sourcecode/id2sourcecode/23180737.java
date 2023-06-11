@@ -1,3 +1,0 @@
-        SelectableChannel getChannel() {
-            return fChannel;
-        }

@@ -1,3 +1,0 @@
-    SocketChannel getChannel() {
-        return chan;
-    }
