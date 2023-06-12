@@ -735,7 +735,7 @@ def show_intro() -> None:
 
     
 def show_single() -> None:
-    set_bg_hack_url()
+    #set_bg_hack_url()
     #m = st.markdown("""
     #<style>
     #div.stButton > button:first-child {
@@ -776,7 +776,7 @@ def show_multi() -> None:
         background-color: #f44336; /* Green */
         border: none;
         color: white;
-        padding: 15px 32px;
+        padding: 20px 40px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -853,32 +853,8 @@ def show_result3() -> None:
                 - [更多关于CWE-78](https://cwe.mitre.org/data/definitions/78.html)
             """)
 
-
 def show_exp() -> None:
-    set_bg_hack_url()
-    st.image("./image/title_light.png", use_column_width=True)
-    #st.image("./image/exp_flow.png")
-    st.text("")
-    st.text("")
-    c1, c2, c3 = st.columns([0.7,0.2,0.1])
-    c1.text_input("请输入源文件路径")
-    c2.selectbox("请选择代码语言",options=choice_code)
-    c3.text("")
-    c3.text("")
-    c3.button("检测")
-    st.text("")
-    st.text("")
-    st.subheader("当前已扫描漏洞数据库")
-    show_cwe_list(cwe_list)
-    #st.markdown("""
-    #    <video controls width="250" autoplay="true" muted="true" loop="true">
-    #    <source 
-    #            src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
-    #            type="video/mp4" />
-    #    </video>""", unsafe_allow_html=True)
-
-def show_exp() -> None:
-    set_bg_hack_url()
+    #set_bg_hack_url()
     st.image("./image/title_light.png", use_column_width=True)
     #st.image("./image/exp_flow.png")
     st.text("")
