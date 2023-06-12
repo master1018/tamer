@@ -19,6 +19,7 @@ from PIL import Image
 from tmp_data import clone_pairs
 from streamlit_elements import elements, mui, html
 from streamlit_elements import dashboard
+import random
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -61,6 +62,7 @@ class Result:
 
     
     def get_result_msg(self, fileName):
+        self.tmp_data = []
         fp = open(fileName, "r")
         while True:
             line = fp.readline()
@@ -71,6 +73,8 @@ class Result:
         fp.close()
 
     def parse_result_msg(self):
+        self.line_msg = []
+        self.similar_arr = []
         self.cmp_file1 = self.tmp_data[0]
         self.cmp_file2 = self.tmp_data[1]
         idx = 2
@@ -102,14 +106,13 @@ class Result:
             new_list2.append(self.similar_arr[new_index[i]])
         self.similar_arr = new_list2
         assert(len(self.similar_arr) == len(self.line_msg))
-
         st.session_state.res_list = []
         for i in range(0, len(self.line_msg)):
             st.session_state.res_list.append([i + 1, "({0}, {1})".format(self.line_msg[i][0], self.line_msg[i][1]), "({0}, {1})".format(self.line_msg[i][2], self.line_msg[i][3]), "{0}%".format(self.similar_arr[i]), ""])
 
     # 重复打开关闭文件效率会很差，目前时间影响不大，考虑后期进行优化
-    def save_result(self):
-        fp = open("./result/res", "w")
+    def save_result(self, filename="./result/res"):
+        fp = open(filename, "w")
         for i in range(0, len(self.similar_arr)):
             fp.write(str(self.similar_arr[i]) + "%\n")
             fp.write("src\n")
@@ -304,8 +307,8 @@ def build_graph(a, b, c) -> None:
 def readline_count(file_name):
     return len(open(file_name,encoding="utf-8").readlines())
 
-def res_visual() -> None:
-    fp = open("./result/res", "r")
+def res_visual(file="./result/res") -> None:
+    fp = open(file, "r")
     res_str_arr = []
     while True:
         line = fp.readline()
@@ -377,7 +380,8 @@ def init() -> None:
         st.session_state.options = []
     if 'clone_pairs' not in st.session_state:
         st.session_state.clone_pairs = []
-
+    if "cwe_index" not in st.session_state:
+        st.session_state.cwe_index = -1
 
 def show_result() -> None:
     ret1, ret2, ret3 = res_visual()
@@ -404,6 +408,7 @@ def show_result() -> None:
         
     st.session_state.show_index = int(select_row)
     chose_index = st.session_state.show_index
+    # 行对齐
     if (chose_index > 0):
         a = list(ret1[chose_index - 1]).count("\n")
         b = list(ret2[chose_index - 1]).count("\n")
@@ -469,6 +474,19 @@ def callback1() -> None:
         res = Result()
         res.read_data_set()
 
+    elif st.session_state.mode == 3:
+        # TODO add result auto parse
+        # path = "./result/exp_data"
+        #dir = os.listdir(path)
+        #for file in dir:
+        #    if file[0: len(file) - 1] == "output":
+        #        res = Result()
+        #        res.get_result_msg(path + "/" + file)
+        #        res.parse_result_msg()
+        #        save_path = path + "/res" + file[len(file) - 1] 
+        #        res.save_result(save_path)
+        
+        a = 1
     st.session_state.show_res = 1
 
 def set_bg_hack_url():
@@ -536,6 +554,8 @@ def show_result2() -> None:
             <h3 align="center">    756对</h3>""", unsafe_allow_html=True)
 
     c2, c3 = st.columns(2)
+    selected = []
+
     with c2:
         for i in range(0, 13):
             st.write(" ")
@@ -550,27 +570,65 @@ def show_result2() -> None:
                     tmp = clone_pairs[i]
                 else:
                     for j in range(0, len(clone_pairs[i])):
-                        st.session_state.clone_pairs.append([str(tmp), str(clone_pairs[i][j])])
-        print(st.session_state.clone_pairs)
+                        st.session_state.clone_pairs.append([str(tmp) + ".java", str(clone_pairs[i][j]) + ".java", str(random.randint(65, 100)) + "%"])
         df = pd.DataFrame(np.array(st.session_state.clone_pairs))
-        df.columns = ["克隆代码1", "克隆代码2"]
+        df.columns = ["克隆代码1", "克隆代码2", "相似度"]
         gb = GridOptionsBuilder.from_dataframe(df)
-        enable_enterprise_modules = True # 筛选
+        selection_mode = 'single' # 定义单选模式，多选为'multiple'
+        enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+        #gb.configure_default_column(editable=True) #定义允许编辑
+        
+        return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+        gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+        
         gb.configure_side_bar()
         gb.configure_grid_options(domLayout='normal')
-        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
         #gb.configure_default_column(editable=True, groupable=True)
         gridOptions = gb.build()
+        
         update_mode_value = GridUpdateMode.MODEL_CHANGED
         
-        AgGrid(
-                            df, 
-                            gridOptions=gridOptions,
-                            fit_columns_on_grid_load = True,
-                            update_mode=update_mode_value,
-                            enable_enterprise_modules=enable_enterprise_modules,
-                            theme='streamlit'
+        grid_response = AgGrid(
+                        df, 
+                        gridOptions=gridOptions,
+                        fit_columns_on_grid_load = True,
+                        data_return_mode=return_mode_value,
+                        update_mode=update_mode_value,
+                        enable_enterprise_modules=enable_enterprise_modules,
+                        theme='streamlit'
                             )  
+        selected = grid_response['selected_rows']
+
+    if len(selected) > 0:
+        path = "./data/data_set/"
+            #st.session_state.src_file = path + selected['克隆代码1']
+            #st.session_state.dst_file = path + selected['克隆代码2']
+        c1, c2 = st.columns(2)
+
+        tmp1 = ""
+        tmp2 = ""
+        fp = open(path + selected[0]['克隆代码1'], "r")
+        tmp1 = fp.read()
+        fp.close()
+        fp = open(path + selected[0]['克隆代码2'], "r")
+        tmp2 = fp.read()
+        fp.close()
+
+        a = list(tmp1).count("\n")
+        b = list(tmp2).count("\n")
+        if (a > b):
+            tmp2 += ".\n" * (a - b - 1) + "."
+        elif (a < b):
+            tmp1 += ".\n" * (b - a - 1) + "."
+        
+        with c1.expander(selected[0]['克隆代码1']):
+            st.code(tmp1, "java", line_numbers=True)
+        with c2.expander(selected[0]['克隆代码2']):
+            st.code(tmp2, "java", line_numbers=True)
+        #c3.write("相似度为: " + str(ret3[chose_index - 1]))
+        st.button("单件检测结果")
+
 
     #with c5:
     #    st_echarts(st.session_state.options[2])
@@ -727,14 +785,49 @@ def show_multi() -> None:
     c5.selectbox("请选择代码语言",options=choice_code)
 
 def show_result3() -> None:
-    c1, c2 = st.columns()
+    # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
+    c1, c2 = st.columns(2)
     with c1:
         st.markdown("""
-            <video controls width="250" autoplay="true" muted="true" loop="true">
+            <video width="300" autoplay="true" muted="true" loop="true" align="center">
             <source 
-                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/efficient.mp4" 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/Smartscripting-R2.mp4" 
                     type="video/mp4" />
-            </video>""", unsafe_allow_html=True)
+            </video>
+            """, unsafe_allow_html=True)
+    cwe_cal = [
+        ['2.java', '(7, 10)', 'cwe-259', '64%'],
+        ['3.java', '(12, 21)', 'cwe-78', '92%'],
+        ['4.java', '(9, 14)', 'cwe-117', '86%']
+    ]
+    df = pd.DataFrame(cwe_cal)
+    df.columns = ['文件名', '漏洞位置', 'cwe类型', '可信度']
+    select = -1
+    with c2:
+        select = aggrid_cwe(df)
+    if select != -1:
+        select_file = select[0]
+        ret1, ret2, ret3 = res_visual("./result/exp_data/res" + select_file)
+        # TODO 如果一个代码中有多个漏洞，表格选择的返回值需要有两个，一个是文件的索引，一个是行数的索引
+        # 行数的索引需要转换成idx值，可以做一个map表进行映射     
+        #print(ret2)
+        #c1, c2 = st.columns(2)
+        cwe_index = -1
+        if int(select_file) == 3:
+            cwe_index = 1
+        
+        st.code(ret2[0], "java")
+        if cwe_index != -1:
+            with st.expander("CWE描述"):
+                st.write(cwe_list[cwe_index]['decript-cn'])
+            with st.expander("安全隐患"):
+                st.write(cwe_list[cwe_index]['attacker'])
+            with st.expander('解决方案'):
+                st.write(cwe_list[cwe_index]['solution'])
+            st.markdown(f"""
+                - [更多关于CWE-78](https://cwe.mitre.org/data/definitions/78.html)
+            """)
+
 
 def show_exp() -> None:
     set_bg_hack_url()
@@ -748,6 +841,29 @@ def show_exp() -> None:
     c3.text("")
     c3.text("")
     c3.button("检测")
+    st.text("")
+    st.text("")
+    st.subheader("当前已扫描漏洞数据库")
+    show_cwe_list(cwe_list)
+    #st.markdown("""
+    #    <video controls width="250" autoplay="true" muted="true" loop="true">
+    #    <source 
+    #            src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
+    #            type="video/mp4" />
+    #    </video>""", unsafe_allow_html=True)
+
+def show_exp() -> None:
+    set_bg_hack_url()
+    st.image("./image/title_light.png", use_column_width=True)
+    #st.image("./image/exp_flow.png")
+    st.text("")
+    st.text("")
+    c1, c2, c3 = st.columns([0.7,0.2,0.1])
+    c1.text_input("请输入源文件路径")
+    c2.selectbox("请选择代码语言",options=choice_code)
+    c3.text("")
+    c3.text("")
+    c3.button("检测", on_click=callback1)
     st.text("")
     st.text("")
     st.subheader("当前已扫描漏洞数据库")
@@ -797,7 +913,13 @@ def main() -> None:
             st.session_state.mode = 2
             show_multi()
     elif sem_show == 5:
-        show_exp()
+        if (st.session_state.show_res == 1):
+            show_result3()
+        #show_cwe_list(cwe_list)
+        else:
+            st.session_state.mode = 3
+           # st.button("检测", on_click=callback1)
+            show_exp()
     
     #c1, c2 = st.sidebar.columns(2)
     #c1.button("检测", on_click=callback1)

@@ -1,0 +1,15 @@
+86%
+src
+119. try {
+120.     int value = Integer.parseInt(val);
+121. }
+122. catch (NumberFormatException e) {
+123.     log.info("Failed to parse val = " + val);
+124. }
+dst
+9. 		try {
+10. 			int msg = Integer.parseInt(val);
+11. 		}
+12. 		catch (NumberFormatException e) {
+13. 			log_handle(val);
+14. 		}

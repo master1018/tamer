@@ -1,0 +1,10 @@
+64%
+src
+4. if (!password.equals("Mew!")) {
+5.     return(0);
+6. }
+dst
+7. if( ( password.equals( "admin" ) ) == true )
+8. {
+9.     return 0;
+10. }
