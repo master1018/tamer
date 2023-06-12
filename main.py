@@ -481,7 +481,7 @@ def set_bg_hack_url():
          f"""
          <style>
          .stApp {{
-             background: url("https://img3.wallspic.com/crops/0/7/1/6/6/166170/166170-macos_12_monterey_official_stock_wallpaper_6k_resolution_light-3840x2160.jpg");
+             background: url("https://img1.wallspic.com/crops/6/8/5/0/1/110586/110586-tian_kong-bai_se-2560x1440.jpg");
              background-size: cover
          }}
          </style>
@@ -582,16 +582,7 @@ def show_info() -> None:
 
 
 def show_intro() -> None:
-    c1, c2, c3, c4= st.columns([0.2, 0.35, 0.35, 0.1])
-    c2.image("./image/advantages1.png")
-    #c4.image("./image/blank.png", width = 50)
-    c3.image("./image/test_cut.gif")
-    #st.image("./image/blank.png", width=150)
-    c1, c2, c3, c4, c5= st.columns([0.15, 0.35, 0.05, 0.35, 0.1])
-    #c2.image("./image/blank.png", width = 50)
-    c2.image("./image/search11.gif")
-    c4.image("./image/blank.png", width=20)
-    c4.image("./image/app.png")
+    st.image("./image/advantages.gif", use_column_width=True)
     
 def show_single() -> None:
     set_bg_hack_url()
@@ -640,9 +631,7 @@ def show_multi() -> None:
     c1, c2, c3, c4, c5 = st.columns([0.4, 0.05, 0.05, 0.1, 0.4])
     c1.text_input("请输入源文件路径")
     c5.text_input("请输入待检测文件路径")
-    c3.image("./image/blank.png", width=1)
     c3.button("检测", on_click=callback1)
-    st.image("./image/blank.png", width=100)
 
 def show_result3() -> None:
     c1, c2 = st.columns()
