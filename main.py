@@ -673,10 +673,13 @@ def show_info() -> None:
                 with mui.Typography(padding=3):
                     html.br()
                     html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnseiw.png"),html.font(" 代码克隆的表现形式", color= "purple"),align="center")
-                    html.div("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。",css={"text-indent":"2em"})
+                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为以下四类：",css={"text-indent":"2em"})
+                    html.div("1.文件克隆：一对相似的程序代码文件。",css={"text-indent":"2em"})
+                    html.div("2.类克隆：在面向对象的代码中，一对相似的类定义代码。",css={"text-indent":"2em"})
+                    html.div("3.函数克隆：一对相似的函数代码。",css={"text-indent":"2em"})
+                    html.div("4.块克隆：一对相似的代码块。",css={"text-indent":"2em"})
                     #html.p1("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。")
-                    for i in range(7):
-                        html.br()
+                    html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
                         mui.Typography("Read More")
@@ -770,7 +773,14 @@ def show_multi() -> None:
     m = st.markdown("""
     <style>
     div.stButton > button:first-child {
-        background-color: #e0e0ef;color:black;font-size:20px;height:4em;width:4em;border-radius:100px 100px 100px 100px;
+        background-color: #f44336; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
     }
     </style>""", unsafe_allow_html=True)
     st.image("./image/title_light.png", use_column_width=True)
