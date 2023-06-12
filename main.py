@@ -811,15 +811,9 @@ def show_multi() -> None:
 
 def show_result3() -> None:
     # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
-    c1, c2 = st.columns(2)
+    c1, c2 = st.columns([0.3,0.7])
     with c1:
-        st.markdown("""
-            <video width="300" autoplay="true" muted="true" loop="true" align="center">
-            <source 
-                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/Smartscripting-R2.mp4" 
-                    type="video/mp4" />
-            </video>
-            """, unsafe_allow_html=True)
+        st.image("./image/bug_small.gif")
     cwe_cal = [
         ['2.java', '(7, 10)', 'cwe-259', '64%'],
         ['3.java', '(12, 21)', 'cwe-78', '92%'],

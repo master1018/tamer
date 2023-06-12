@@ -1,0 +1,9 @@
+graph {
+	node [shape=box]
+	rankdir=LR
+	S [label="Clone Pairs"]
+	A0 [label="4. public String cwe_78_os_command_injection(String coordinates) {\l5.      String utmCoords = null;\l6.      try {\l7.          String latlonCoords = coordinates;\l8.          Runtime rt = Runtime.getRuntime(\"cmd.exe /C latlon2utm.exe -\" + latlonCoords);\l9.          Process exec = rt.exec();\l10.     }\l11.     catch(Exception e) {\l12.         return 0;\l13.     }\l14.     return utmCoords;\l15. }\l" color=blue]
+	B0 [label="12. public String bad_injection(String shellcode) {\l13.        try {\l14.            Runtime rt = Runtime.getRuntime(\"cmd.exe /C prog_fresh.exe -\" + shellcode);\l15.            Process exec = rt.exec();\l16.        }\l17.        catch(Exception e) {\l18.            return 0;\l19.        }\l20.        return null;\l21.    }" color=blue]
+	S -- A0
+	A0 -- B0 [label="92%" color=blue style=dashed]
+}
