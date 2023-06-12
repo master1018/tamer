@@ -677,7 +677,7 @@ def show_single() -> None:
 
 
 def show_multi() -> None:
-    set_bg_hack_url()
+   # set_bg_hack_url()
     m = st.markdown("""
     <style>
     div.stButton > button:first-child {
@@ -685,15 +685,30 @@ def show_multi() -> None:
     }
     </style>""", unsafe_allow_html=True)
     st.image("./image/title_light.png", use_column_width=True)
-    st.text("")
-    st.text("")
-    st.text("")
-    st.text("")
-    c1, c2, c3, c4, c5 = st.columns([0.37,0.03, 0.1,0.4,0.1])
-    c1.text_input("请输入源文件路径")
-    c4.text_input("请输入待检测文件路径")
+   # c1, c2, c3, c4, c5 = st.columns([0.37,0.03, 0.1,0.4,0.1])
+   # c1.text_input("请输入源文件路径")
+   # c4.text_input("请输入待检测文件路径")
+   # c3.button("检测", on_click=callback1)
+   # c5.selectbox("请选择代码语言",options=choice_code)
+    c1, c2 = st.columns(2)
+
+    with c1:
+        st.markdown("""
+            <video width="400" autoplay="true" muted="true" loop="true" align="center">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/Realtime-Vul-R1-Animation-400X400.mp4" 
+                    type="video/mp4" />
+            </video>
+            """, unsafe_allow_html=True)
+    c2.text("")
+    c2.text("")
+    c2.text("")
+    c2.text("")
+    c2.text_input("请输入源文件路径")
+    c3, c4 = c2.columns(2)
     c3.button("检测", on_click=callback1)
-    c5.selectbox("请选择代码语言",options=choice_code)
+    c4.selectbox("请选择代码语言",options=choice_code)
+    c2.text_input("请输入待检测文件路径")
 
 def show_result3() -> None:
     # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
