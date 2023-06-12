@@ -868,13 +868,15 @@ def show_exp() -> None:
     st.text("")
     st.text("")
     st.subheader("当前已扫描漏洞数据库")
-    show_cwe_list(cwe_list)
-    #st.markdown("""
-    #    <video controls width="250" autoplay="true" muted="true" loop="true">
-    #    <source 
-    #            src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
-    #            type="video/mp4" />
-    #    </video>""", unsafe_allow_html=True)
+    c1, c2 = st.columns(2)
+    with c2:
+        show_cwe_list(cwe_list)
+    c1.markdown("""
+        <video width="250" autoplay="true" muted="true" loop="true">
+        <source 
+                src="https://www.jfrogchina.com/wp-content/uploads/2020/02/Native-Steps-R1-Animation-400X400.mp4" 
+                type="video/mp4" />
+        </video>""", unsafe_allow_html=True)
 
 def main() -> None:
     init()
