@@ -1,0 +1,10 @@
+graphviz
+streamlit
+matplotlib
+numpy
+pandas
+streamlit-aggrid 
+streamlit_echarts
+streamlit_option_menu
+streamlit_ace
+streamlit_elements
