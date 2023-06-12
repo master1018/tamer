@@ -600,64 +600,69 @@ def show_info() -> None:
 
         with dashboard.Grid(layout):
             with mui.Paper( key = "first_item",elevation=6):
-                with mui.Typography(padding=3, align="center"):
+                with mui.Typography(padding=3):
                     # 添加空行
+                    
                     html.br()
-                    html.img(src="https://github.com/Meizhi-hua/tamer/blob/main/image/ic_files_name_drive.png")
-                    html.h1("代码克隆类型",align="center")
-                    html.p1("主要有四种类型的代码克隆，分别为文本克隆、词法克隆、语法克隆以及语义克隆。")
+                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/8slsfiw.png"), html.font(" 代码克隆类型", color= "purple"), align="center", color='warning')
+                    html.div("主要有四种类型的代码克隆，分别为文本克隆、词法克隆、语法克隆以及语义克隆。",css={"text-indent":"2em"})
                     for i in range(7):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
                         mui.Typography("Read More")
             with mui.Paper(key = "second_item",elevation=6):
-                with mui.Typography(padding=3,align="center"):
+                with mui.Typography(padding=3):
                     html.br()
-                    html.h1("代码克隆的表现形式",align="center")
-                    html.p1("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。")
+                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnseiw.png"),html.font(" 代码克隆的表现形式", color= "purple"),align="center")
+                    html.div("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。",css={"text-indent":"2em"})
+                    #html.p1("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。")
                     for i in range(7):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
                         mui.Typography("Read More")
             with mui.Paper(key = "third_item",elevation=6):
-                with mui.Typography(padding=3,align="center"):
+                with mui.Typography(padding=3):
                     html.br()
-                    html.h1("抽象语法树",align="center")
-                    html.p1("源代码语法结构的一种抽象表示，树上的每个结点代表源代码中的一个token特征。")
-                    for i in range(7):
+                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnsm8v.png"),html.font(" 抽象语法树", color= "purple"),align="center")
+                    html.div("抽象语法树可以看作是源代码的一种抽象表示，它去除了源代码中的细节和冗余信息，只保留了语法结构的关键部分。每个节点代表源代码中的一个语法结构元素，如表达式、变量、函数等，而节点之间的关系则表示了它们的层次和相互关联。",css={"text-indent":"2em"})
+                    #html.p1("源代码语法结构的一种抽象表示，树上的每个结点代表源代码中的一个token特征。")
+                    for i in range(4):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
                         mui.Typography("Read More")
         with dashboard.Grid(layout):
             with mui.Paper(key="first_item", elevation=6):
-                with mui.Typography(padding=3,align="center"):
+                with mui.Typography(padding=3):
                     html.br()
-                    html.h1("N-grams特征提取",align="center")
-                    html.p1("通过该方法可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。")
+                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnsx1u.png"),html.font(" N-grams特征提取", color = "purple"),align="center")
+                    html.div("通过该方法可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。",css={"text-indent":"2em"})
+                    #html.p1("通过该方法可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。")
                     for i in range(7):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
                         mui.Typography("Read More")
             with mui.Paper(key="second_item", elevation=6):
-                with mui.Typography(padding=3,align="center"):
+                with mui.Typography(padding=3):
                     html.br()
-                    html.h1("代码相似度计算",align="center")
-                    html.p1("可以计算两个代码文件之间的相似程度。",size='large')
+                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnt58o.png"),html.font(" 代码相似度计算", color = "purple"),align="center")
+                    html.div("可以计算两个代码文件之间的相似程度。",css={"text-indent":"2em"})
+                    #html.p1("可以计算两个代码文件之间的相似程度。",size='large')
                     for i in range(8):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
                         mui.Typography("Read More")
             with mui.Paper(key="third_item", elevation=6):
-                with mui.Typography(padding=3,align="center"):
+                with mui.Typography(padding=3):
                     html.br()
-                    html.h1("CWE漏洞模板库",align="center")
-                    html.p1("搜集了常见CWE漏洞模板代码，构建起了CWE漏洞模板库，可以用于漏洞检测。")
-                    for i in range(8):
+                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vntfx9.png"),html.font(" CWE漏洞模板库", color = "purple"),align="center")
+                    html.div("搜集了常见CWE漏洞模板代码，构建起了CWE漏洞模板库，可以用于漏洞检测。",css={"text-indent":"2em"})
+                    #html.p1("搜集了常见CWE漏洞模板代码，构建起了CWE漏洞模板库，可以用于漏洞检测。")
+                    for i in range(7):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
