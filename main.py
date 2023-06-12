@@ -673,10 +673,13 @@ def show_info() -> None:
                 with mui.Typography(padding=3):
                     html.br()
                     html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnseiw.png"),html.font(" 代码克隆的表现形式", color= "purple"),align="center")
-                    html.div("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。",css={"text-indent":"2em"})
+                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为以下四类：",css={"text-indent":"2em"})
+                    html.div("1.文件克隆：一对相似的程序代码文件。",css={"text-indent":"2em"})
+                    html.div("2.类克隆：在面向对象的代码中，一对相似的类定义代码。",css={"text-indent":"2em"})
+                    html.div("3.函数克隆：一对相似的函数代码。",css={"text-indent":"2em"})
+                    html.div("4.块克隆：一对相似的代码块。",css={"text-indent":"2em"})
                     #html.p1("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。")
-                    for i in range(7):
-                        html.br()
+                    html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
                         mui.Typography("Read More")
@@ -732,7 +735,7 @@ def show_intro() -> None:
 
     
 def show_single() -> None:
-    set_bg_hack_url()
+    #set_bg_hack_url()
     #m = st.markdown("""
     #<style>
     #div.stButton > button:first-child {
@@ -770,7 +773,14 @@ def show_multi() -> None:
     m = st.markdown("""
     <style>
     div.stButton > button:first-child {
-        background-color: #e0e0ef;color:black;font-size:20px;height:4em;width:4em;border-radius:100px 100px 100px 100px;
+        background-color: #f44336; /* Green */
+        border: none;
+        color: white;
+        padding: 20px 40px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
     }
     </style>""", unsafe_allow_html=True)
     st.image("./image/title_light.png", use_column_width=True)
@@ -843,32 +853,8 @@ def show_result3() -> None:
                 - [更多关于CWE-78](https://cwe.mitre.org/data/definitions/78.html)
             """)
 
-
 def show_exp() -> None:
-    set_bg_hack_url()
-    st.image("./image/title_light.png", use_column_width=True)
-    #st.image("./image/exp_flow.png")
-    st.text("")
-    st.text("")
-    c1, c2, c3 = st.columns([0.7,0.2,0.1])
-    c1.text_input("请输入源文件路径")
-    c2.selectbox("请选择代码语言",options=choice_code)
-    c3.text("")
-    c3.text("")
-    c3.button("检测")
-    st.text("")
-    st.text("")
-    st.subheader("当前已扫描漏洞数据库")
-    show_cwe_list(cwe_list)
-    #st.markdown("""
-    #    <video controls width="250" autoplay="true" muted="true" loop="true">
-    #    <source 
-    #            src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
-    #            type="video/mp4" />
-    #    </video>""", unsafe_allow_html=True)
-
-def show_exp() -> None:
-    set_bg_hack_url()
+    #set_bg_hack_url()
     st.image("./image/title_light.png", use_column_width=True)
     #st.image("./image/exp_flow.png")
     st.text("")
@@ -882,13 +868,15 @@ def show_exp() -> None:
     st.text("")
     st.text("")
     st.subheader("当前已扫描漏洞数据库")
-    show_cwe_list(cwe_list)
-    #st.markdown("""
-    #    <video controls width="250" autoplay="true" muted="true" loop="true">
-    #    <source 
-    #            src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
-    #            type="video/mp4" />
-    #    </video>""", unsafe_allow_html=True)
+    c1, c2 = st.columns(2)
+    with c2:
+        show_cwe_list(cwe_list)
+    c1.markdown("""
+        <video width="250" autoplay="true" muted="true" loop="true">
+        <source 
+                src="https://www.jfrogchina.com/wp-content/uploads/2020/02/Native-Steps-R1-Animation-400X400.mp4" 
+                type="video/mp4" />
+        </video>""", unsafe_allow_html=True)
 
 def main() -> None:
     init()
