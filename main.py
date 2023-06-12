@@ -603,7 +603,7 @@ def show_info() -> None:
                 with mui.Typography(padding=3, align="center"):
                     # 添加空行
                     html.br()
-                    html.img(src="https://tse3-mm.cn.bing.net/th/id/OIP-C.7KW5GT7NQ8yUGlBbCHEm0gHaNK?pid=ImgDet&rs=1")
+                    html.img(src="https://github.com/Meizhi-hua/tamer/blob/main/image/ic_files_name_drive.png")
                     html.h1("代码克隆类型",align="center")
                     html.p1("主要有四种类型的代码克隆，分别为文本克隆、词法克隆、语法克隆以及语义克隆。")
                     for i in range(7):
