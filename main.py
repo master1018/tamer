@@ -867,12 +867,12 @@ def show_exp() -> None:
     c3.button("检测", on_click=callback1)
     st.text("")
     st.text("")
-    st.subheader("当前已扫描漏洞数据库")
     c1, c2 = st.columns(2)
     with c2:
+        st.subheader("已配置漏洞数据集")
         show_cwe_list(cwe_list)
     c1.markdown("""
-        <video width="250" autoplay="true" muted="true" loop="true">
+        <video width="400" autoplay="true" muted="true" loop="true">
         <source 
                 src="https://www.jfrogchina.com/wp-content/uploads/2020/02/Native-Steps-R1-Animation-400X400.mp4" 
                 type="video/mp4" />
