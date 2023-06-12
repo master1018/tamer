@@ -481,7 +481,7 @@ def set_bg_hack_url():
          f"""
          <style>
          .stApp {{
-             background: url("https://img1.wallspic.com/crops/6/8/5/0/1/110586/110586-tian_kong-bai_se-2560x1440.jpg");
+             background: url("https://img2.wallspic.com/crops/1/9/5/3/1/113591/113591-guan_bi_le-fen_hong_se-bai_se-2560x1440.jpg");
              background-size: cover
          }}
          </style>
@@ -627,11 +627,15 @@ def show_multi() -> None:
     }
     </style>""", unsafe_allow_html=True)
     st.image("./image/title_light.png", use_column_width=True)
-    st.image("./image/blank.png", width=100)
-    c1, c2, c3, c4, c5 = st.columns([0.4, 0.05, 0.05, 0.1, 0.4])
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    c1, c2, c3, c4, c5 = st.columns([0.37,0.03, 0.1,0.4,0.1])
     c1.text_input("请输入源文件路径")
-    c5.text_input("请输入待检测文件路径")
+    c4.text_input("请输入待检测文件路径")
     c3.button("检测", on_click=callback1)
+    c5.selectbox("请选择代码语言",options=choice_code)
 
 def show_result3() -> None:
     c1, c2 = st.columns()
@@ -642,6 +646,29 @@ def show_result3() -> None:
                     src="https://www.jfrogchina.com/wp-content/uploads/2020/02/efficient.mp4" 
                     type="video/mp4" />
             </video>""", unsafe_allow_html=True)
+
+def show_exp() -> None:
+    set_bg_hack_url()
+    st.image("./image/title_light.png", use_column_width=True)
+    #st.image("./image/exp_flow.png")
+    st.text("")
+    st.text("")
+    c1, c2, c3 = st.columns([0.7,0.2,0.1])
+    c1.text_input("请输入源文件路径")
+    c2.selectbox("请选择代码语言",options=choice_code)
+    c3.text("")
+    c3.text("")
+    c3.button("检测")
+    st.text("")
+    st.text("")
+    st.subheader("当前已扫描漏洞数据库")
+    show_cwe_list(cwe_list)
+    #st.markdown("""
+    #    <video controls width="250" autoplay="true" muted="true" loop="true">
+    #    <source 
+    #            src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
+    #            type="video/mp4" />
+    #    </video>""", unsafe_allow_html=True)
 
 def main() -> None:
     init()
@@ -681,14 +708,7 @@ def main() -> None:
             st.session_state.mode = 2
             show_multi()
     elif sem_show == 5:
-        st.image("./image/exp_flow.png")
-        show_cwe_list(cwe_list)
-        st.markdown("""
-            <video controls width="250" autoplay="true" muted="true" loop="true">
-            <source 
-                    src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
-                    type="video/mp4" />
-            </video>""", unsafe_allow_html=True)
+        show_exp()
     
     #c1, c2 = st.sidebar.columns(2)
     #c1.button("检测", on_click=callback1)
