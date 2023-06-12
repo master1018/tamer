@@ -499,7 +499,7 @@ def set_bg_hack_url():
          f"""
          <style>
          .stApp {{
-             background: url("https://img3.wallspic.com/crops/0/7/1/6/6/166170/166170-macos_12_monterey_official_stock_wallpaper_6k_resolution_light-3840x2160.jpg");
+             background: url("https://img2.wallspic.com/crops/1/9/5/3/1/113591/113591-guan_bi_le-fen_hong_se-bai_se-2560x1440.jpg");
              background-size: cover
          }}
          </style>
@@ -551,7 +551,9 @@ def show_result2() -> None:
             <h2 align="center">发现克隆代码</h2>
             <h3 align="center">    756对</h3>""", unsafe_allow_html=True)
 
-    c2, c3 = st.columns([0.6, 0.4])
+    c2, c3 = st.columns(2)
+    selected = []
+
     with c2:
         for i in range(0, 13):
             st.write(" ")
@@ -570,22 +572,61 @@ def show_result2() -> None:
         df = pd.DataFrame(np.array(st.session_state.clone_pairs))
         df.columns = ["克隆代码1", "克隆代码2", "相似度"]
         gb = GridOptionsBuilder.from_dataframe(df)
-        enable_enterprise_modules = True # 筛选
+        selection_mode = 'single' # 定义单选模式，多选为'multiple'
+        enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+        #gb.configure_default_column(editable=True) #定义允许编辑
+        
+        return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+        gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+        
         gb.configure_side_bar()
         gb.configure_grid_options(domLayout='normal')
-        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
         #gb.configure_default_column(editable=True, groupable=True)
         gridOptions = gb.build()
+        
         update_mode_value = GridUpdateMode.MODEL_CHANGED
         
-        AgGrid(
-                            df, 
-                            gridOptions=gridOptions,
-                            fit_columns_on_grid_load = True,
-                            update_mode=update_mode_value,
-                            enable_enterprise_modules=enable_enterprise_modules,
-                            theme='streamlit'
+        grid_response = AgGrid(
+                        df, 
+                        gridOptions=gridOptions,
+                        fit_columns_on_grid_load = True,
+                        data_return_mode=return_mode_value,
+                        update_mode=update_mode_value,
+                        enable_enterprise_modules=enable_enterprise_modules,
+                        theme='streamlit'
                             )  
+        selected = grid_response['selected_rows']
+
+    if len(selected) > 0:
+        path = "./data/data_set/"
+            #st.session_state.src_file = path + selected['克隆代码1']
+            #st.session_state.dst_file = path + selected['克隆代码2']
+        c1, c2 = st.columns(2)
+
+        tmp1 = ""
+        tmp2 = ""
+        fp = open(path + selected[0]['克隆代码1'], "r")
+        tmp1 = fp.read()
+        fp.close()
+        fp = open(path + selected[0]['克隆代码2'], "r")
+        tmp2 = fp.read()
+        fp.close()
+
+        a = list(tmp1).count("\n")
+        b = list(tmp2).count("\n")
+        if (a > b):
+            tmp2 += ".\n" * (a - b - 1) + "."
+        elif (a < b):
+            tmp1 += ".\n" * (b - a - 1) + "."
+        
+        with c1.expander(selected[0]['克隆代码1']):
+            st.code(tmp1, "java", line_numbers=True)
+        with c2.expander(selected[0]['克隆代码2']):
+            st.code(tmp2, "java", line_numbers=True)
+        #c3.write("相似度为: " + str(ret3[chose_index - 1]))
+        st.button("单件检测结果")
+
 
     #with c5:
     #    st_echarts(st.session_state.options[2])
@@ -599,16 +640,7 @@ def show_info() -> None:
 
 
 def show_intro() -> None:
-    c1, c2, c3, c4= st.columns([0.2, 0.35, 0.35, 0.1])
-    c2.image("./image/advantages1.png")
-    #c4.image("./image/blank.png", width = 50)
-    c3.image("./image/test_cut.gif")
-    #st.image("./image/blank.png", width=150)
-    c1, c2, c3, c4, c5= st.columns([0.15, 0.35, 0.05, 0.35, 0.1])
-    #c2.image("./image/blank.png", width = 50)
-    c2.image("./image/search11.gif")
-    c4.image("./image/blank.png", width=20)
-    c4.image("./image/app.png")
+    st.image("./image/advantages.gif", use_column_width=True)
     
 def show_single() -> None:
     set_bg_hack_url()
@@ -653,13 +685,15 @@ def show_multi() -> None:
     }
     </style>""", unsafe_allow_html=True)
     st.image("./image/title_light.png", use_column_width=True)
-    st.image("./image/blank.png", width=100)
-    c1, c2, c3, c4, c5 = st.columns([0.4, 0.05, 0.05, 0.1, 0.4])
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    c1, c2, c3, c4, c5 = st.columns([0.37,0.03, 0.1,0.4,0.1])
     c1.text_input("请输入源文件路径")
-    c5.text_input("请输入待检测文件路径")
-    c3.image("./image/blank.png", width=1)
+    c4.text_input("请输入待检测文件路径")
     c3.button("检测", on_click=callback1)
-    st.image("./image/blank.png", width=100)
+    c5.selectbox("请选择代码语言",options=choice_code)
 
 def show_result3() -> None:
     # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
@@ -706,6 +740,52 @@ def show_result3() -> None:
             """)
 
 
+def show_exp() -> None:
+    set_bg_hack_url()
+    st.image("./image/title_light.png", use_column_width=True)
+    #st.image("./image/exp_flow.png")
+    st.text("")
+    st.text("")
+    c1, c2, c3 = st.columns([0.7,0.2,0.1])
+    c1.text_input("请输入源文件路径")
+    c2.selectbox("请选择代码语言",options=choice_code)
+    c3.text("")
+    c3.text("")
+    c3.button("检测")
+    st.text("")
+    st.text("")
+    st.subheader("当前已扫描漏洞数据库")
+    show_cwe_list(cwe_list)
+    #st.markdown("""
+    #    <video controls width="250" autoplay="true" muted="true" loop="true">
+    #    <source 
+    #            src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
+    #            type="video/mp4" />
+    #    </video>""", unsafe_allow_html=True)
+
+def show_exp() -> None:
+    set_bg_hack_url()
+    st.image("./image/title_light.png", use_column_width=True)
+    #st.image("./image/exp_flow.png")
+    st.text("")
+    st.text("")
+    c1, c2, c3 = st.columns([0.7,0.2,0.1])
+    c1.text_input("请输入源文件路径")
+    c2.selectbox("请选择代码语言",options=choice_code)
+    c3.text("")
+    c3.text("")
+    c3.button("检测", on_click=callback1)
+    st.text("")
+    st.text("")
+    st.subheader("当前已扫描漏洞数据库")
+    show_cwe_list(cwe_list)
+    #st.markdown("""
+    #    <video controls width="250" autoplay="true" muted="true" loop="true">
+    #    <source 
+    #            src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
+    #            type="video/mp4" />
+    #    </video>""", unsafe_allow_html=True)
+
 def main() -> None:
     init()
     st.sidebar.image("./image/logo.png")
@@ -749,7 +829,8 @@ def main() -> None:
         #show_cwe_list(cwe_list)
         else:
             st.session_state.mode = 3
-            st.button("检测", on_click=callback1)
+           # st.button("检测", on_click=callback1)
+            show_exp()
     
     #c1, c2 = st.sidebar.columns(2)
     #c1.button("检测", on_click=callback1)
