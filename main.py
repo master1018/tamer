@@ -17,6 +17,8 @@ from streamlit_option_menu import option_menu
 from streamlit_ace import st_ace
 from PIL import Image
 from tmp_data import clone_pairs
+from streamlit_elements import elements, mui, html
+from streamlit_elements import dashboard
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -579,10 +581,92 @@ def show_info() -> None:
     #st.image("./image/title1.png", use_column_width=True)
     #st.image("./image/blank.png", width=600)
     st.image("./image/bg_white.gif", use_column_width=True)
+    with elements("dashboard"):
+
+    # You can create a draggable and resizable dashboard using
+    # any element available in Streamlit Elements.
+
+        # First, build a default layout for every element you want to include in your dashboard
+
+        layout = [
+            # Parameters: element_identifier, x_pos, y_pos, width, height, [item properties...]
+            dashboard.Item("first_item", 0, 0, 3.5, 2.5,isResizable=False, isDraggable=False, moved=False),
+            dashboard.Item("second_item", 4, 0, 3.5, 2.5,isResizable=False, isDraggable=False, moved=False),
+            dashboard.Item("third_item", 8, 0, 3.5, 2.5, isResizable=False, isDraggable=False, moved=False),
+        ]
+
+        # Next, create a dashboard layout using the 'with' syntax. It takes the layout
+        # as first parameter, plus additional properties you can find in the GitHub links below.
+
+        with dashboard.Grid(layout):
+            with mui.Paper( key = "first_item",elevation=6):
+                with mui.Typography(padding=3, align="center"):
+                    # 添加空行
+                    html.br()
+                    html.img(src="https://tse3-mm.cn.bing.net/th/id/OIP-C.7KW5GT7NQ8yUGlBbCHEm0gHaNK?pid=ImgDet&rs=1")
+                    html.h1("代码克隆类型",align="center")
+                    html.p1("主要有四种类型的代码克隆，分别为文本克隆、词法克隆、语法克隆以及语义克隆。")
+                    for i in range(7):
+                        html.br()
+                    with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
+                        mui.icon.DoubleArrow()
+                        mui.Typography("Read More")
+            with mui.Paper(key = "second_item",elevation=6):
+                with mui.Typography(padding=3,align="center"):
+                    html.br()
+                    html.h1("代码克隆的表现形式",align="center")
+                    html.p1("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。")
+                    for i in range(7):
+                        html.br()
+                    with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
+                        mui.icon.DoubleArrow()
+                        mui.Typography("Read More")
+            with mui.Paper(key = "third_item",elevation=6):
+                with mui.Typography(padding=3,align="center"):
+                    html.br()
+                    html.h1("抽象语法树",align="center")
+                    html.p1("源代码语法结构的一种抽象表示，树上的每个结点代表源代码中的一个token特征。")
+                    for i in range(7):
+                        html.br()
+                    with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
+                        mui.icon.DoubleArrow()
+                        mui.Typography("Read More")
+        with dashboard.Grid(layout):
+            with mui.Paper(key="first_item", elevation=6):
+                with mui.Typography(padding=3,align="center"):
+                    html.br()
+                    html.h1("N-grams特征提取",align="center")
+                    html.p1("通过该方法可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。")
+                    for i in range(7):
+                        html.br()
+                    with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
+                        mui.icon.DoubleArrow()
+                        mui.Typography("Read More")
+            with mui.Paper(key="second_item", elevation=6):
+                with mui.Typography(padding=3,align="center"):
+                    html.br()
+                    html.h1("代码相似度计算",align="center")
+                    html.p1("可以计算两个代码文件之间的相似程度。",size='large')
+                    for i in range(8):
+                        html.br()
+                    with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
+                        mui.icon.DoubleArrow()
+                        mui.Typography("Read More")
+            with mui.Paper(key="third_item", elevation=6):
+                with mui.Typography(padding=3,align="center"):
+                    html.br()
+                    html.h1("CWE漏洞模板库",align="center")
+                    html.p1("搜集了常见CWE漏洞模板代码，构建起了CWE漏洞模板库，可以用于漏洞检测。")
+                    for i in range(8):
+                        html.br()
+                    with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
+                        mui.icon.DoubleArrow()
+                        mui.Typography("Read More")
 
 
 def show_intro() -> None:
     st.image("./image/advantages.gif", use_column_width=True)
+
     
 def show_single() -> None:
     set_bg_hack_url()
