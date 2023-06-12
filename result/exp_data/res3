@@ -1,0 +1,25 @@
+92%
+src
+4. public String cwe_78_os_command_injection(String coordinates) {
+5.      String utmCoords = null;
+6.      try {
+7.          String latlonCoords = coordinates;
+8.          Runtime rt = Runtime.getRuntime("cmd.exe /C latlon2utm.exe -" + latlonCoords);
+9.          Process exec = rt.exec();
+10.     }
+11.     catch(Exception e) {
+12.         return 0;
+13.     }
+14.     return utmCoords;
+15. }
+dst
+12. public String bad_injection(String shellcode) {
+13.        try {
+14.            Runtime rt = Runtime.getRuntime("cmd.exe /C prog_fresh.exe -" + shellcode);
+15.            Process exec = rt.exec();
+16.        }
+17.        catch(Exception e) {
+18.            return 0;
+19.        }
+20.        return null;
+21.    }
