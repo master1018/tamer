@@ -1,0 +1,61 @@
+59%
+src
+23. if (a * b == expand_val)
+24. {
+25.     return VALID;
+26. }
+27. else
+28. {
+29.     return err_handle();
+30. }
+dst
+22. if (check1 * check2 == exp1 | exp2)
+23. {
+24.     return 1;
+25. }
+26. else
+27. {
+28.     return 0;
+29. }
+31%
+src
+56. switch(chose.length)
+57. {
+58.  case 0:
+59.     return chose.length;
+60.  case 1:
+61.     return sum_xor(chose);
+62.  default:
+63.     return 0;
+64. 
+dst
+34. switch(len)
+35. {
+36.  case 0:
+37.     return len;
+38.  case 1:
+39.     int ret = 0;
+40.     for (int i = 0; i < len; i++) {
+41.         ret += arr[i];
+42.     }
+43.     return ret;
+44.  default:
+45.     return 0;
+46. 
+81%
+src
+35. for (int i = 0; i < prefix.length(); i++) {
+36.     char ch = prefix.charAt(i);
+37.     int index = ch - 'a';
+38.     if (node.children[index] == null) {
+39.         return null;
+40.     }
+41.     node = node.children[index];
+42. }
+dst
+11. for(int i = 0;i < word.length();i ++)
+12. {
+13.     int u = word.charAt(i) - 'a';
+14.     if(p.son[u] == null) return false;
+15.     p = p.son[u]; 
+16. }

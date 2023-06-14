@@ -382,6 +382,8 @@ def init() -> None:
         st.session_state.clone_pairs = []
     if "cwe_index" not in st.session_state:
         st.session_state.cwe_index = -1
+    if "muti_mode" not in st.session_state:
+        st.session_state.muti_mode = 0
 
 def show_result() -> None:
     ret1, ret2, ret3 = res_visual()
@@ -510,9 +512,10 @@ def set_bg_hack_url():
      )
 
 def callback2() -> None:
-    fp = open("./tmp/sem", "w")
-    fp.write("1")
-    fp.close()
+    if st.session_state.muti_mode == 0:
+        st.session_state.muti_mode = 1
+    else:
+        st.session_state.muti_mode = 0
 
 def get_base64(bin_file):
     with open(bin_file, 'rb') as f:
@@ -555,7 +558,6 @@ def show_result2() -> None:
 
     c2, c3 = st.columns(2)
     selected = []
-
     with c2:
         for i in range(0, 13):
             st.write(" ")
@@ -629,7 +631,8 @@ def show_result2() -> None:
         #c3.write("相似度为: " + str(ret3[chose_index - 1]))
         st.button("单件检测结果")
 
-
+    for i in range(0, 13):
+        st.write(" ")
     #with c5:
     #    st_echarts(st.session_state.options[2])
 
@@ -803,11 +806,16 @@ def show_multi() -> None:
     c2.text("")
     c2.text("")
     c2.text("")
-    c2.text_input("请输入源文件路径")
-    c3, c4 = c2.columns(2)
+    if st.session_state.muti_mode == 1:
+        c2.text_input("请输入文件路径")
+    if st.session_state.muti_mode == 0:
+        c2.text_input("请输入源文件路径")
+    c3, c5, c4 = c2.columns(3)
     c3.button("检测", on_click=callback1)
+    c5.button("切换", on_click=callback2)
     c4.selectbox("请选择代码语言",options=choice_code)
-    c2.text_input("请输入待检测文件路径")
+    if st.session_state.muti_mode == 0:
+        c2.text_input("请输入待检测文件路径")
 
 def show_result3() -> None:
     # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
