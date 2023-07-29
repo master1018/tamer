@@ -2,16 +2,8 @@ graph {
 	node [shape=box]
 	rankdir=LR
 	S [label="Clone Pairs"]
-	A0 [label="23. if (a * b == expand_val)\l24. {\l25.     return VALID;\l26. }\l27. else\l28. {\l29.     return err_handle();\l30. }\l" color=blue]
-	B0 [label="22. if (check1 * check2 == exp1 | exp2)\l23. {\l24.     return 1;\l25. }\l26. else\l27. {\l28.     return 0;\l29. }\l" color=blue]
+	A0 [label="4. public String cwe_78_os_command_injection(String coordinates) {\l5.      String utmCoords = null;\l6.      try {\l7.          String latlonCoords = coordinates;\l8.          Runtime rt = Runtime.getRuntime(\"cmd.exe /C latlon2utm.exe -\" + latlonCoords);\l9.          Process exec = rt.exec();\l10.     }\l11.     catch(Exception e) {\l12.         return 0;\l13.     }\l14.     return utmCoords;\l15. }\l" color=blue]
+	B0 [label="12. public String bad_injection(String shellcode) {\l13.        try {\l14.            Runtime rt = Runtime.getRuntime(\"cmd.exe /C prog_fresh.exe -\" + shellcode);\l15.            Process exec = rt.exec();\l16.        }\l17.        catch(Exception e) {\l18.            return 0;\l19.        }\l20.        return null;\l21.    }" color=blue]
 	S -- A0
-	A0 -- B0 [label="59%" color=blue style=dashed]
-	A1 [label="56. switch(chose.length)\l57. {\l58.  case 0:\l59.     return chose.length;\l60.  case 1:\l61.     return sum_xor(chose);\l62.  default:\l63.     return 0;\l64. \l" color=green]
-	B1 [label="34. switch(len)\l35. {\l36.  case 0:\l37.     return len;\l38.  case 1:\l39.     int ret = 0;\l40.     for (int i = 0; i < len; i++) {\l41.         ret += arr[i];\l42.     }\l43.     return ret;\l44.  default:\l45.     return 0;\l46. \l" color=green]
-	S -- A1
-	A1 -- B1 [label="31%" color=green style=dashed]
-	A2 [label="35. for (int i = 0; i < prefix.length(); i++) {\l36.     char ch = prefix.charAt(i);\l37.     int index = ch - 'a';\l38.     if (node.children[index] == null) {\l39.         return null;\l40.     }\l41.     node = node.children[index];\l42. }\l" color=black]
-	B2 [label="11. for(int i = 0;i < word.length();i ++)\l12. {\l13.     int u = word.charAt(i) - 'a';\l14.     if(p.son[u] == null) return false;\l15.     p = p.son[u]; \l16. }\l" color=black]
-	S -- A2
-	A2 -- B2 [label="81%" color=black style=dashed]
+	A0 -- B0 [label="92%" color=blue style=dashed]
 }

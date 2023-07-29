@@ -13,12 +13,4 @@ with elements("nested_children"):
 
         with mui.Paper(elevation=6):
                 with mui.Typography:
-                        html_ele.div(
-                                "This has a hotpink background",
-                                css={
-                                "backgroundColor": "hotpink",
-                                "text-indent": "2em;"
-                                },
-                        )
-                        html_ele.h1("CWE-78")
-                        html_ele.p("21321424")
+                        html_ele.img(src="https://www.snort.org/assets/Snort_fulllogo.png")
