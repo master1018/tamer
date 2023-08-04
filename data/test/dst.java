@@ -19,6 +19,7 @@ class Trie {
 
     public boolean check(int exp1, int exp2, int check1, int check2)
     {
+        // test
         if (check1 * check2 == exp1 | exp2)
         {
             return 1;

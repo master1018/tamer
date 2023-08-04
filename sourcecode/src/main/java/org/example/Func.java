@@ -65,9 +65,13 @@ public class Func
         // to be constructed
     }
     public double Caculate_similarity_of_Func(Func another, int type) throws IOException {
+        // this -> cwe, another -> input
+       if (type == 3 && !(this.funcId < 500000 && another.funcId >= 500000))
+            return 0.0;
         String file_res = "";
-        PrintStream out = System.out;;
+        PrintStream out = System.out;
         PrintStream ps;
+        int flag = 0;
         //file_res = "/Users/haoranyan/git_rep/tamer/result/output_" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
         if (type == 1) {
             file_res = "/Users/haoranyan/git_rep/tamer/result/output";
@@ -75,7 +79,7 @@ public class Func
             System.setOut(ps);
         }
         else if (type == 3) {
-            file_res = "/Users/haoranyan/git_rep/tamer/result/exp_data/output" + Integer.toString(another.funcId);
+            file_res = "/Users/haoranyan/git_rep/tamer/result/exp_data/output" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
             ps = new PrintStream(file_res);
             System.setOut(ps);
         }
@@ -106,12 +110,14 @@ public class Func
                     int tmp_lcs = longestCommonSubsequence(a, b);
                     temp_result += tmp_lcs;
 
+                    // output report in dir ./result/
                     if ((type == 1 || type == 3) && i != 9) {
                         double similar_cal = 0;
                         similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
                         int print_similar = (int)((similar_cal + 0.005) * 100);
-                        if (type == 3 && print_similar < 50)
+                        if (type == 3 && print_similar < 90)
                             continue;
+                        flag = 1;
                         System.out.println(("begin"));
                         System.out.println(print_similar);
                         System.out.println(this.Subtree_line_msg.get(i).get(j));
@@ -129,6 +135,11 @@ public class Func
         if (final_result >= final_verify_score)
             output_report();
         System.setOut((out));
+        if (flag == 0)
+        {
+            String cmd = "rm " + file_res;
+            Process process = Runtime.getRuntime().exec(cmd);
+        }
         return final_result;
     }
 

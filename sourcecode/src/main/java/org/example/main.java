@@ -24,7 +24,7 @@ public class main
     public static int partition_number = 1;
     public static float filter_score = 0.15f;
     public static float final_verify_score = 0.65f;
-    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/IJaDataset100k/IJaDataset100k";
+    public static String filedir = "/Users/haoranyan/git_rep/tamer/data/input";
     public static HashMap<String, Integer> string2char = new HashMap<>();
     public static HashMap<String, Integer> name_list = new HashMap<>();
     public static int work_type = 0;
@@ -230,6 +230,7 @@ public class main
                                 else
                                 {code = "class _a {" + code + "}";}
                                 cu1 = StaticJavaParser.parse(code);
+
                                 Func newfun = new Func(fn, finalNnn, string2char, name_list, cu1);
                                 cu1 = null;
                                 newfun.funcorder = funcTaskList.size();
@@ -255,6 +256,7 @@ public class main
                         e.printStackTrace();
                     }
                 }
+                System.out.println(funcTaskList.size());
                 Map<Integer, HashSet<Integer>> clonePairs = new HashMap<>();
                 AtomicLong totalClonePairsNum = new AtomicLong();
                 var partitionSize = funcTaskList.size() / partition_number + (funcTaskList.size() % partition_number != 0 ? 1 : 0);
@@ -288,14 +290,16 @@ public class main
                                             var funcB = funcTaskList.getItem(newconut);
                                             if (funcB.funcId == funcC.funcId)
                                                 continue;
-                                            if (work_type == 3 && funcC.funcId != 1)
-                                                continue;
+                                           // if (work_type == 3 && funcC.funcId != 1)
+                                             //   continue;
                                             var nGramVerifyScore = Func.nLineVerify(funcC, funcB, invertedBox, functimeslist);
                                             // work type 1: 1 cmp 1
+                                            // work type 3: cwe check
                                             if (work_type == 1 || work_type == 3) {
                                                 funcC.Caculate_similarity_of_Func(funcB, work_type);
                                             }
-                                            // work_type 2: n cmp 1
+                                            // work_type 2: n cmp n in one dataset
+                                            // work_type 4: n cmp n but in two dataset
                                             else if (work_type == 2) {
                                                 if (nGramVerifyScore >= 0.5) {
                                                     res.add(funcB.funcId);
