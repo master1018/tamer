@@ -439,11 +439,14 @@ def show_result() -> None:
     st_echarts(options=option_pie)
 
 def exec_jar() -> None:
+    # generate output
     os.system("rm -f ./tmp/type")
     mode_write = str(st.session_state.mode)
     os.system("echo " + mode_write + " > ./tmp/type")
     command = "java -jar " + exec_jar_pos
     os.system(command)
+    
+    # parse for output
     res = Result()
     res.get_result_msg("./result/output")
     res.parse_result_msg()
