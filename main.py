@@ -20,6 +20,7 @@ from tmp_data import clone_pairs
 from streamlit_elements import elements, mui, html
 from streamlit_elements import dashboard
 import random
+import json
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -526,6 +527,11 @@ def get_base64(bin_file):
     return base64.b64encode(data).decode()
 
 def show_result2() -> None:
+    with open("./data/name_to_id.json", "r") as f:
+        name_to_id = json.load(f)
+    with open("./data/id_to_name.json", "r") as f:
+        id_to_name = json.load(f)
+    print(id_to_name)
     st.write(" ")
     st.write(" ")
     st.write(" ")
@@ -575,7 +581,8 @@ def show_result2() -> None:
                     tmp = clone_pairs[i]
                 else:
                     for j in range(0, len(clone_pairs[i])):
-                        st.session_state.clone_pairs.append([str(tmp) + ".java", str(clone_pairs[i][j]) + ".java", str(random.randint(65, 100)) + "%"])
+                        # TODO: map对应的文件名
+                        st.session_state.clone_pairs.append([id_to_name[str(tmp)] + ".java", id_to_name[str(clone_pairs[i][j])] + ".java", str(random.randint(65, 100)) + "%"])
         df = pd.DataFrame(np.array(st.session_state.clone_pairs))
         df.columns = ["克隆代码1", "克隆代码2", "相似度"]
         gb = GridOptionsBuilder.from_dataframe(df)
@@ -593,7 +600,7 @@ def show_result2() -> None:
         gridOptions = gb.build()
         
         update_mode_value = GridUpdateMode.MODEL_CHANGED
-        
+
         grid_response = AgGrid(
                         df, 
                         gridOptions=gridOptions,
@@ -604,6 +611,7 @@ def show_result2() -> None:
                         theme='streamlit'
                             )  
         selected = grid_response['selected_rows']
+        print(selected)
 
     if len(selected) > 0:
         path = "./data/data_set/"
