@@ -21,6 +21,7 @@ from streamlit_elements import elements, mui, html
 from streamlit_elements import dashboard
 import random
 import json
+from tamer_tool import *
 
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
@@ -385,6 +386,10 @@ def init() -> None:
         st.session_state.cwe_index = -1
     if "muti_mode" not in st.session_state:
         st.session_state.muti_mode = 0
+    if "src_url" not in st.session_state:
+        st.session_state.src_url = ""
+    if "dst_url" not in st.session_state:
+        st.session_state.dst_url = ""
 
 def show_result() -> None:
     ret1, ret2, ret3 = res_visual()
@@ -479,6 +484,10 @@ def callback1() -> None:
         st.session_state.options = []
         res = Result()
         res.read_data_set()
+        if st.session_state.src_url != "" and st.session_state.dst_url != "":
+            file_list = []
+            dfs_dir_for_file()
+            #TODO
 
     elif st.session_state.mode == 3:
         # TODO add result auto parse
@@ -820,13 +829,13 @@ def show_multi() -> None:
     if st.session_state.muti_mode == 1:
         c2.text_input("请输入文件路径")
     if st.session_state.muti_mode == 0:
-        c2.text_input("请输入源文件路径")
+        st.session_state.src_url = c2.text_input("请输入源文件路径")
     c3, c5, c4 = c2.columns(3)
     c3.button("检测", on_click=callback1)
     c5.button("切换", on_click=callback2)
     c4.selectbox("请选择代码语言",options=choice_code)
     if st.session_state.muti_mode == 0:
-        c2.text_input("请输入待检测文件路径")
+        st.session_state.dst_url = c2.text_input("请输入待检测文件路径")
 
 def show_result3() -> None:
     # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
