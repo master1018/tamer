@@ -115,6 +115,8 @@ public class Func
                         double similar_cal = 0;
                         similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
                         int print_similar = (int)((similar_cal + 0.005) * 100);
+                        if (type == 1 && print_similar < 90)
+                            continue;
                         if (type == 3 && print_similar < 90)
                             continue;
                         flag = 1;
