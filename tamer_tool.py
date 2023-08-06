@@ -22,7 +22,7 @@ def dfs_dir_for_file(dir, file_type, file_list):
     return 
 
 
-def parse_code_from_repo(git_repo_src, git_repo_dst):
+def parse_code_from_repo(git_repo_src, git_repo_dst, file_type):
     os.mkdir("./data/remote_data/")
     os.system("git clone " + git_repo_src)
     os.system("git clone " + git_repo_dst)
@@ -33,9 +33,10 @@ def parse_code_from_repo(git_repo_src, git_repo_dst):
     os.system("mv -rf " + "./" + repo_src_name + " ./data/remote_data/")
     os.system("mv -rf " + "./" + repo_dst_name + " ./data/remote_data/")
 
+    file_list_src = []
+    file_list_dst = []
 
+    dfs_dir_for_file("./data/remote_data/" + repo_src_name, file_type, file_list_src)
+    dfs_dir_for_file("./data/remote_data/" + repo_dst_name, file_type, file_list_dst)
 
-# test
-file_list = []
-dfs_dir_for_file("/Users/haoranyan/git_rep/Android-2.2.3", ".java", file_list)
-print(file_list)
+    

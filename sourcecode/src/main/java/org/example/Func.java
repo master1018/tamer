@@ -117,7 +117,7 @@ public class Func
                         int print_similar = (int)((similar_cal + 0.005) * 100);
                         if (type == 1 && print_similar < 20)
                             continue;
-                        if (type == 3 && print_similar < 90)
+                        if (type == 3 && print_similar < 70)
                             continue;
                         flag = 1;
                         System.out.println(("begin"));
