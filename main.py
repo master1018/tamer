@@ -22,6 +22,11 @@ from streamlit_elements import dashboard
 import random
 import json
 
+with open("./data/name_to_id.json", "r") as f:
+    name_to_id = json.load(f)
+with open("./data/id_to_name.json", "r") as f:
+    id_to_name = json.load(f)
+
 choice_code     =   ["Java","C", "C++",  "Python"]
 file_type       =   [".java",".c", ".cpp",  ".py"]
 
@@ -527,10 +532,6 @@ def get_base64(bin_file):
     return base64.b64encode(data).decode()
 
 def show_result2() -> None:
-    with open("./data/name_to_id.json", "r") as f:
-        name_to_id = json.load(f)
-    with open("./data/id_to_name.json", "r") as f:
-        id_to_name = json.load(f)
     print(id_to_name)
     st.write(" ")
     st.write(" ")
@@ -614,17 +615,17 @@ def show_result2() -> None:
         print(selected)
 
     if len(selected) > 0:
-        path = "./data/data_set/"
+        path = "./data/input/"
             #st.session_state.src_file = path + selected['克隆代码1']
             #st.session_state.dst_file = path + selected['克隆代码2']
         c1, c2 = st.columns(2)
 
         tmp1 = ""
         tmp2 = ""
-        fp = open(path + selected[0]['克隆代码1'], "r")
+        fp = open(path + str(name_to_id[selected[0]['克隆代码1'][:-5]]) + ".java", "r")
         tmp1 = fp.read()
         fp.close()
-        fp = open(path + selected[0]['克隆代码2'], "r")
+        fp = open(path + str(name_to_id[selected[0]['克隆代码2'][:-5]]) + ".java", "r")
         tmp2 = fp.read()
         fp.close()
 
