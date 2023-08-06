@@ -396,7 +396,7 @@ def init() -> None:
     if "dst_url" not in st.session_state:
         st.session_state.dst_url = ""
 
-def show_result() -> None:
+def show_result(filename) -> None:
     ret1, ret2, ret3 = res_visual()
 
     static_res = [0, 0, 0]
@@ -421,6 +421,7 @@ def show_result() -> None:
         
     st.session_state.show_index = int(select_row)
     chose_index = st.session_state.show_index
+    print("chose_index:" + str(chose_index))
     # 行对齐
     if (chose_index > 0):
         a = list(ret1[chose_index - 1]).count("\n")
@@ -436,7 +437,8 @@ def show_result() -> None:
 
         # 绘制饼状图
     fig = plt.figure()
-    dst_lines = readline_count("./data/input/1" + st.session_state.file_type)
+    print("file_type:" + st.session_state.file_type)
+    dst_lines = readline_count("./data/input/" + filename + st.session_state.file_type)
     pie_sizes = [dst_lines - sum(static_res), static_res[0], static_res[1], static_res[2]]
     #pie_colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
     #pie_explode = (0, 0, 0, 0.1)
@@ -539,6 +541,39 @@ def get_base64(bin_file):
     with open(bin_file, 'rb') as f:
         data = f.read()
     return base64.b64encode(data).decode()
+
+def show_single_result(name1, name2) -> None:
+
+    if st.session_state.src_file != None:
+        print(name_to_id[name2[:-5]])
+        fp = open("./data/input/" + str(name_to_id[name1[:-5]]) + st.session_state.file_type, "w")
+        fp.write(st.session_state.src_file)
+        fp.close()
+        st.session_state.src_file = None
+
+    if st.session_state.dst_file != None:
+        print(name_to_id[name2[:-5]])
+        fp = open("./data/input/" + str(name_to_id[name2[:-5]]) +st.session_state.file_type, "w")
+        fp.write(st.session_state.dst_file)
+        fp.close()
+        st.session_state.dst_file = None
+    
+        # generate output
+    os.system("rm -f ./tmp/type")
+    mode_write = str(st.session_state.mode)
+    os.system("echo " + mode_write + " > ./tmp/type")
+    command = "java -jar " + exec_jar_pos
+    os.system(command)
+    
+    # parse for output
+    res = Result()
+    res.get_result_msg("./result/output" + str(name_to_id[name1[:-5]]) + "_" + str(name_to_id[name2[:-5]]))
+    res.parse_result_msg()
+    res.save_result()
+
+    if st.session_state.tmp != None:
+        st.session_state.tmp.empty()
+    show_result(str(name_to_id[name1[:-5]]))
 
 def show_result2() -> None:
     print(id_to_name)
@@ -650,7 +685,9 @@ def show_result2() -> None:
         with c2.expander(selected[0]['克隆代码2']):
             st.code(tmp2, "java", line_numbers=True)
         #c3.write("相似度为: " + str(ret3[chose_index - 1]))
-        st.button("单件检测结果")
+        clicked = st.button("单件检测结果")
+        if clicked:
+            show_single_result(selected[0]['克隆代码1'], selected[0]['克隆代码2'])
 
     for i in range(0, 13):
         st.write(" ")
@@ -834,7 +871,8 @@ def show_multi() -> None:
     c3, c5, c4 = c2.columns(3)
     c3.button("检测", on_click=callback1)
     c5.button("切换", on_click=callback2)
-    c4.selectbox("请选择代码语言",options=choice_code)
+    select_code = c4.selectbox("请选择代码语言",options=choice_code)
+    st.session_state.file_type = file_type[choice_code.index(select_code)]
     if st.session_state.muti_mode == 0:
         st.session_state.dst_url = c2.text_input("请输入待检测文件路径")
 
@@ -928,7 +966,7 @@ def main() -> None:
         show_intro()
     elif sem_show == 3:
         if (st.session_state.show_res == 1):
-            show_result()
+            show_result("1")
         else:
             st.session_state.mode = 1
             show_single()
