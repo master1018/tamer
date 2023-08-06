@@ -342,8 +342,37 @@ public class main
                             e.printStackTrace();
                         }
                     }
-                    System.out.println(clonePairs);
-                    System.out.println(sum_clone_pairs);
+                    String res_file = "/Users/haoranyan/git_rep/tamer/tmp_data.py";
+                    File file_py = new File(res_file);
+                    if (!file_py.exists())
+                        file_py.createNewFile();
+                    FileWriter fw = new FileWriter(file_py, false);
+                    PrintWriter pw = new PrintWriter(fw);
+                    //System.out.println(clonePairs);
+                    //System.out.println(sum_clone_pairs);
+                    pw.print("clone_pairs = [");
+                    pw.flush();
+                    //pw.print(clonePairs);
+                    for (Integer key : clonePairs.keySet()) {
+                        pw.print(key);
+                        pw.flush();
+                        pw.print(", ");
+                        pw.flush();
+                        pw.print(clonePairs.get(key));
+                        pw.flush();
+                        pw.print(", ");
+                        pw.flush();
+                    }
+                    pw.print("]");
+                    pw.flush();
+                    pw.println();
+                    pw.flush();
+                    pw.print("sum_clone_pairs = ");
+                    pw.flush();
+                    pw.println(sum_clone_pairs);
+                    pw.flush();
+                    pw.close();
+                    fw.close();
                 }
             }
         }

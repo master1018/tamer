@@ -9,7 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7131092e-ea3e-442f-b743-0196e0a3e178" name="Changes" comment="" />
+    <list default="true" id="7131092e-ea3e-442f-b743-0196e0a3e178" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../result/output2" beforeDir="false" afterPath="$PROJECT_DIR$/../result/output2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../result/output500001_500002" beforeDir="false" afterPath="$PROJECT_DIR$/../result/output500001_500002" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Func.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Func.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/main.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,6 +110,7 @@
         <watch expression="a.length()" />
         <watch expression="b.length()" />
         <watch expression="AstTreeStr" />
+        <watch expression="clonePairs" />
       </configuration>
     </watches-manager>
   </component>

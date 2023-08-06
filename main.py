@@ -127,7 +127,7 @@ class Result:
             begin = self.line_msg[i][0]
             end = self.line_msg[i][1]
             count = 0
-            fp1 = open(self.cmp_file1, "r")
+            fp1 = open(self.      , "r")
             dele_space = 0
             while True:
                 line = fp1.readline()
