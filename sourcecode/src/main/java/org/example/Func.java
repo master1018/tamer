@@ -78,13 +78,13 @@ public class Func
             ps = new PrintStream(file_res);
             System.setOut(ps);
         }
-        else if (type == 3) {
+        else if (type == 3 || type == 2) {
             file_res = "/Users/haoranyan/git_rep/tamer/result/exp_data/output" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
             ps = new PrintStream(file_res);
             System.setOut(ps);
         }
 
-        if (type == 1 || type == 3) {
+        if (type == 1 || type == 3 || type == 2) {
             System.out.println(this.fileName);
             System.out.println(another.fileName);
         }
@@ -111,7 +111,7 @@ public class Func
                     temp_result += tmp_lcs;
 
                     // output report in dir ./result/
-                    if ((type == 1 || type == 3) && i != 9) {
+                    if (((type == 1 || type == 3) && i != 9) || (type == 2)) {
                         double similar_cal = 0;
                         similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
                         int print_similar = (int)((similar_cal + 0.005) * 100);

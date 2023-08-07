@@ -304,6 +304,7 @@ public class main
                                                 if (nGramVerifyScore >= 0.5) {
                                                     res.add(funcB.funcId);
                                                     sum_clone_pairs += 1;
+                                                    funcC.Caculate_similarity_of_Func(funcB, work_type);
                                                     g_out.write(Integer.toString((int)((nGramVerifyScore + 0.0005) * 1000)) + " ");
                                                     g_out.flush();
                                                 } else if (nGramVerifyScore >= filter_score) {
