@@ -308,17 +308,17 @@ public class main
                                                     g_out.flush();
                                                 } else if (nGramVerifyScore >= filter_score) {
                                                     var finalscore = funcC.Caculate_similarity_of_Func(funcB, work_type);
-                                                    g_out.write(Integer.toString((int)((finalscore + 0.0005) * 1000)) + " ");
-                                                    g_out.flush();
                                                     if (finalscore >= final_verify_score) {
                                                         res.add(funcB.funcId);
                                                         sum_clone_pairs += 1;
+                                                        g_out.write(Integer.toString((int)((finalscore + 0.0005) * 1000)) + " ");
+                                                        g_out.flush();
                                                     }
                                                 }
-                                                else {
-                                                    g_out.write(Integer.toString((int)((nGramVerifyScore + 0.0005) * 1000)) + " ");
-                                                    g_out.flush();
-                                                }
+                                                //else {
+                                                //    g_out.write(Integer.toString((int)((nGramVerifyScore + 0.0005) * 1000)) + " ");
+                                                //    g_out.flush();
+                                                //}
                                             }
                                         } catch (Exception e) {
                                             e.printStackTrace();

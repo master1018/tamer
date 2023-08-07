@@ -685,7 +685,7 @@ def show_result2() -> None:
         with c2.expander(selected[0]['克隆代码2']):
             st.code(tmp2, "java", line_numbers=True)
         #c3.write("相似度为: " + str(ret3[chose_index - 1]))
-        clicked = st.button("单件检测结果")
+        clicked = st.button("单件检测结果",)
         if clicked:
             show_single_result(selected[0]['克隆代码1'], selected[0]['克隆代码2'])
 
