@@ -7,7 +7,7 @@ graph {
 	S -- A0
 	A0 -- B0 [label="100%" color=blue style=dashed]
 	A1 [label="" color=green]
-	B1 [label="" color=green]
+	B1 [label="6. \l" color=green]
 	S -- A1
 	A1 -- B1 [label="90%" color=green style=dashed]
 }
