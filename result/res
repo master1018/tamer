@@ -1,0 +1,17 @@
+100%
+src
+1. public class SimpleJavaProgram {
+2.     public static void main(String[] args) {
+3.         System.out.println("Hello, World!");
+4.     }
+5. }
+dst
+1. public class SimpleJavaProgram {
+2.     public static void main(String[] args) {
+3.         System.out.println("Hello, World!");
+4.     }
+5. }
+90%
+src
+dst
+6. 

@@ -148,7 +148,8 @@ class Result:
             begin = self.line_msg[i][2]
             end = self.line_msg[i][3]
             count = 0
-            fp2 = open(self.cmp_file2, "r")
+            # fp2 = open(self.cmp_file2, "r")
+            fp2 = open("./data/input/500002.java", "r")
             dele_space = 0
             while True:
                 line = fp2.readline()
@@ -395,6 +396,8 @@ def init() -> None:
         st.session_state.src_url = ""
     if "dst_url" not in st.session_state:
         st.session_state.dst_url = ""
+    if "show_single_res" not in st.session_state:
+        st.session_state.show_single_res = 0
 
 def show_result(filename) -> None:
     ret1, ret2, ret3 = res_visual()
@@ -575,8 +578,16 @@ def show_single_result(name1, name2) -> None:
         st.session_state.tmp.empty()
     show_result(str(name_to_id[name1[:-5]]))
 
+def callback3() -> None:
+    print("st.session_state.show_single_res:" + str(st.session_state.show_single_res))
+    if st.session_state.show_single_res == 0:
+        st.session_state.show_single_res = 1
+    else:
+        st.session_state.show_single_res = 0
+    print("st.session_state.show_single_res:" + str(st.session_state.show_single_res))
+
 def show_result2() -> None:
-    print(id_to_name)
+    # print(id_to_name)
     st.write(" ")
     st.write(" ")
     st.write(" ")
@@ -656,7 +667,7 @@ def show_result2() -> None:
                         theme='streamlit'
                             )  
         selected = grid_response['selected_rows']
-        print(selected)
+        # print(selected)
 
     if len(selected) > 0:
         path = "./data/input/"
@@ -685,8 +696,10 @@ def show_result2() -> None:
         with c2.expander(selected[0]['克隆代码2']):
             st.code(tmp2, "java", line_numbers=True)
         #c3.write("相似度为: " + str(ret3[chose_index - 1]))
-        clicked = st.button("单件检测结果",)
-        if clicked:
+        st.button("单件检测结果", on_click=callback3)  
+        print("st.session_state.show_single_res: ", str(st.session_state.show_single_res))
+        if(st.session_state.show_single_res):
+            print("show single result")
             show_single_result(selected[0]['克隆代码1'], selected[0]['克隆代码2'])
 
     for i in range(0, 13):
