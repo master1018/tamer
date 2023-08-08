@@ -24,21 +24,46 @@ def dfs_dir_for_file(dir, file_type, file_list):
 
 
 def parse_code_from_repo_double(git_repo_src, git_repo_dst, file_type):
-    os.mkdir("./data/remote_data/")
+    os.system("rm -rf ./data/remote_data/*")
+    os.system("rm -rf ./data/tmp_data/*")
+    os.system("mkdir ./data/remote_data/")
+    os.system("mkdir ./data/tmp_data/")
     os.system("git clone " + git_repo_src)
     os.system("git clone " + git_repo_dst)
     
     repo_src_name = parse_for_git_repo_name(git_repo_src)
     repo_dst_name = parse_for_git_repo_name(git_repo_dst)
 
-    os.system("mv -rf " + "./" + repo_src_name + " ./data/remote_data/")
-    os.system("mv -rf " + "./" + repo_dst_name + " ./data/remote_data/")
+    os.system("mv -f " + "./" + repo_src_name + " ./data/remote_data/")
+    os.system("mv -f " + "./" + repo_dst_name + " ./data/remote_data/")
 
     file_list_src = []
     file_list_dst = []
 
     dfs_dir_for_file("./data/remote_data/" + repo_src_name, file_type, file_list_src)
     dfs_dir_for_file("./data/remote_data/" + repo_dst_name, file_type, file_list_dst)
+
+    os.system("rm -rf ./data/tmp_data/*")
+    os.system("mkdir ./data/tmp_data/" + repo_src_name)
+    os.system("mkdir ./data/tmp_data/" + repo_dst_name)
+
+    for file in file_list_src:
+        os.system("mv " + file + " ./data/tmp_data/" + repo_src_name + "/")
+
+    for file in file_list_dst:
+        os.system("mv " + file + " ./data/tmp_data/" + repo_dst_name + "/")
+
+    rename_mode2(repo_src_name, repo_dst_name)
+
+    os.system("rm -rf ./data/input/*")
+
+    file_list = []
+    dfs_dir_for_file("./data/tmp_data/", file_type, file_list)
+
+    for file in file_list:
+        os.system("mv " + file + " ./data/input/")
+
+    os.system("python3 rm_comment.py ./data/input/")
 
     
 def parse_code_from_repo_single(git_repo, file_type):
@@ -54,7 +79,7 @@ def parse_code_from_repo_single(git_repo, file_type):
 
     dfs_dir_for_file("./data/remote_data/" + repo_src_name, file_type, file_list_src)
 
-    os.system("rm ./data/input/*")
+    os.system("rm -rf ./data/input/*")
 
     for file in file_list_src:
         os.system("mv " + file + " ./data/input/")

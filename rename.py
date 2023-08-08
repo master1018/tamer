@@ -63,3 +63,4 @@ def rename_mode2(src_dir, dst_dir):
 
     with open(name_to_id_path, "w") as f:
         json.dump(name_to_id, f)
+
