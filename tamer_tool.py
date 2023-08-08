@@ -85,4 +85,7 @@ def parse_code_from_repo_single(git_repo, file_type):
         os.system("mv " + file + " ./data/input/")
     
     os.system("python3 rm_comment.py ./data/input/")
+<<<<<<< HEAD
 parse_code_from_repo_double("https://github.com/master1018/tamer_dataset.git", "https://github.com/master1018/tamer_dataset2.git", "java")
+=======
+>>>>>>> a00c302f143afc07ad6307693abd517a6bf91c68

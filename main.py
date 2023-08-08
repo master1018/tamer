@@ -399,6 +399,8 @@ def init() -> None:
         st.session_state.dst_url = ""
     if "show_single_res" not in st.session_state:
         st.session_state.show_single_res = 0
+    if "parse_result_list" not in st.session_state:
+        st.session_state.parse_result_list = []
 
 def show_result(filename) -> None:
     ret1, ret2, ret3 = res_visual()
@@ -425,7 +427,6 @@ def show_result(filename) -> None:
         
     st.session_state.show_index = int(select_row)
     chose_index = st.session_state.show_index
-    print("chose_index:" + str(chose_index))
     # 行对齐
     if (chose_index > 0):
         a = list(ret1[chose_index - 1]).count("\n")
@@ -506,7 +507,17 @@ def callback1() -> None:
             st.session_state.clone_pairs = []
             st.session_state.options = []
 
-
+        else:
+            if st.session_state.src_url != "" and st.session_state.dst_url != "":
+                parse_code_from_repo_double(st.session_state.src_url, st.session_state.dst_url, st.session_state.file_type)
+            
+            os.system("rm -f ./tmp/type")
+            # use work_type 3 of tamer
+            mode_write = str(3)
+            os.system("echo " + mode_write + " > ./tmp/type")
+            command = "java -jar " + exec_jar_pos
+            os.system(command)
+            st.session_state.options = []
            
 
     elif st.session_state.mode == 3:
@@ -695,6 +706,187 @@ def show_result2() -> None:
 
     for i in range(0, 13):
         st.write(" ")
+    #with c5:
+    #    st_echarts(st.session_state.options[2])
+
+def show_result2_2() -> None:
+    # print(id_to_name)
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.markdown("""
+            <video width="250" autoplay="true" muted="true" loop="true" align="center">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
+                    type="video/mp4" />
+            </video>
+            <h2 align="center">已检测有效代码</h2>
+            <h3 align="center">    100982行</h3>""", unsafe_allow_html=True)
+   # c1, c2 = st.columns(2)
+    with c2:
+        st.markdown("""
+            <video width="250" autoplay="true" muted="true" loop="true">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/efficient.mp4" 
+                    type="video/mp4" />
+            </video>
+            <h2 align="center">检测耗时</h2>
+            <h3 align="center">    3.12s</h3>""", unsafe_allow_html=True)
+    with c3:
+        st.markdown("""
+            <video width="250" autoplay="true" muted="true" loop="true">
+            <source 
+                    src="https://www.jfrogchina.com/wp-content/uploads/2020/02/delivering-trust.mp4" 
+                    type="video/mp4" />
+            </video>
+            <h2 align="center">发现克隆代码</h2>
+            <h3 align="center">    756对</h3>""", unsafe_allow_html=True)
+
+    c2, c3 = st.columns(2)
+    selected = []
+    res = Result()
+    result_dir = "./result/exp_data/"
+    output_file = os.listdir(result_dir)
+    if st.session_state.parse_result_list == []:
+        write_str = ""
+    # static the sum result 
+        for output in output_file:
+            if "output" in output and output[0] != '.':
+                res.get_result_msg(result_dir + output)
+                res.parse_result_msg()
+                for i in range(0, len(res.line_msg)):
+                    file_id1 = 0
+                    file_id2 = 0
+
+                    cur = len(res.cmp_file1) - 1
+                    while res.cmp_file1[cur] != "/":
+                        cur -= 1
+                    file_id1 = int(res.cmp_file1[cur + 1: len(res.cmp_file1) - 5])
+
+                    cur = len(res.cmp_file2) - 1
+                    while res.cmp_file2[cur] != "/":
+                        cur -= 1
+                    file_id2 = int(res.cmp_file2[cur + 1: len(res.cmp_file2) - 5])
+
+                    write_str += str(res.similar_arr[i])
+                    write_str += " "
+
+                    st.session_state.parse_result_list.append([id_to_name[str(file_id1)] + ".java", "({0}, {1})".format(res.line_msg[i][0], res.line_msg[i][1]), \
+                                            id_to_name[str(file_id2)] + ".java", "({0}, {1})".format(res.line_msg[i][2], res.line_msg[i][3]), \
+                                                "{0}%".format(res.similar_arr[i]) ])
+        fp = open("./result/output2", "w")
+        fp.write(write_str)
+        fp.close()
+
+    with c2:
+        for i in range(0, 13):
+            st.write(" ")
+        res = Result()
+        res.read_data_set()
+        st_echarts(st.session_state.options[1])
+    with c3:
+        for i in range(0, 10):
+            st.write(" ")
+        #if st.session_state.clone_pairs == []:
+        #    tmp = 0
+        #    for i in range(0, len(clone_pairs)):
+        #        if type(clone_pairs[i]) == int:
+        #            tmp = clone_pairs[i]
+        #        else:
+        #            for j in range(0, len(clone_pairs[i])):
+        #                # TODO: map对应的文件名
+        #                st.session_state.clone_pairs.append([id_to_name[str(tmp)] + ".java", id_to_name[str(clone_pairs[i][j])] + ".java", str(similar_arr[i]) + "%"])
+        df = pd.DataFrame(np.array(st.session_state.parse_result_list))
+        df.columns = ["源仓库文件", "克隆代码行索引1",  "目标仓库文件", "克隆代码行索引2","相似度"]
+        gb = GridOptionsBuilder.from_dataframe(df)
+        selection_mode = 'single' # 定义单选模式，多选为'multiple'
+        enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+        #gb.configure_default_column(editable=True) #定义允许编辑
+        
+        return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+        gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+        
+        gb.configure_side_bar()
+        gb.configure_grid_options(domLayout='normal')
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
+        #gb.configure_default_column(editable=True, groupable=True)
+        gridOptions = gb.build()
+        
+        update_mode_value = GridUpdateMode.MODEL_CHANGED
+
+        grid_response = AgGrid(
+                        df, 
+                        gridOptions=gridOptions,
+                        fit_columns_on_grid_load = True,
+                        data_return_mode=return_mode_value,
+                        update_mode=update_mode_value,
+                        enable_enterprise_modules=enable_enterprise_modules,
+                        theme='streamlit'
+                            )  
+        selected = grid_response['selected_rows']
+        # print(selected)
+
+    if len(selected) > 0:
+        name1 = selected[0]['源仓库文件']
+        name2 = selected[0]['目标仓库文件']
+        res = Result()
+        res.get_result_msg("./result/exp_data/output" + str(name_to_id[name1[:-5]]) + "_" + str(name_to_id[name2[:-5]]))
+        res.parse_result_msg()
+        res.save_result()
+        
+        path = "./data/input/"
+        code1 = ""
+        code2 = ""
+
+        begin = 0
+        end = 0
+        cur = 0
+
+        while selected[0]['克隆代码行索引1'][cur] != ',':
+            cur += 1
+        begin = int(selected[0]['克隆代码行索引1'][1: cur])
+        end = int(selected[0]['克隆代码行索引1'][cur + 1: len(selected[0]['克隆代码行索引1'])])
+
+        fp = open(path + str(name_to_id[name1[:-5]]) + ".java")
+        while True:
+            line = fp.readline()
+            if not line:
+                break
+            if line >=  begin and line <= end:
+                code1 += line
+        
+        begin = 0
+        end = 0
+        cur = 0
+
+        while selected[0]['克隆代码行索引2'][cur] != ',':
+            cur += 1
+        begin = int(selected[0]['克隆代码行索引2'][1: cur])
+        end = int(selected[0]['克隆代码行索引2'][cur + 1: len(selected[0]['克隆代码行索引2'])])
+
+        fp = open(path + str(name_to_id[name2[:-5]]) + ".java")
+        while True:
+            line = fp.readline()
+            if not line:
+                break
+            if line >=  begin and line <= end:
+                code2 += line
+
+        a = list(code1).count("\n")
+        b = list(code2).count("\n")
+        if (a > b):
+            code2 += ".\n" * (a - b - 1) + "."
+        elif (a < b):
+            code1 += ".\n" * (b - a - 1) + "."
+
+        s1, s2 = st.columns(2)
+        s1.code(code1, st.session_state.file_type)
+        s2.code(code2, st.session_state.file_type)
+
+    #for i in range(0, 13):
+    #    st.write(" ")
     #with c5:
     #    st_echarts(st.session_state.options[2])
 
@@ -975,7 +1167,10 @@ def main() -> None:
             st.session_state.mode = 1
             show_single()
     elif sem_show == 4:
-        if (st.session_state.show_res == 1):
+        if (st.session_state.show_res == 1 and st.session_state.muti_mode == 0):
+            show_result2_2()
+
+        elif (st.session_state.show_res == 1):
             show_result2()
         else:
             st.session_state.mode = 2
