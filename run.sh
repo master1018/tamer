@@ -1,10 +1,11 @@
 echo "Init..."
 rm ./result/res
 rm ./result/output
+rm ./result/output2 
 rm ./result/res_graph*
-rm ./result/exp_data/ 
+rm -rf ./result/exp_data/ 
 rm ./tmp/sem
-rm ./data/input/*
+rm -rf ./data/input/*
 rm ./data/remote_data/
 touch ./tmp/sem
 mkdir ./result/exp_data/

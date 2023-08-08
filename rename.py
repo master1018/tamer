@@ -3,7 +3,7 @@ import json
 import sys
 
 def rename_mode1():
-    path = "./data/tmp_data/"
+    path = "./data/input/"
     file_list = os.listdir(path)
     id_to_name_path = "./data/id_to_name.json"
     name_to_id_path = "./data/name_to_id.json"
@@ -14,9 +14,9 @@ def rename_mode1():
     for file in file_list:
         if file.endswith(".java"):
             file_name = file[0: len(file) - 5]
-            os.system("mv " + path + file + " " + path + "{0}.java".format(file_id + 500000))
-            id_to_name[file_id + 500000] = file_name
-            name_to_id[file_name] = file_id + 500000
+            os.system("mv " + path + file + " " + path + "{0}.java".format(file_id))
+            id_to_name[file_id] = file_name
+            name_to_id[file_name] = file_id
             file_id += 1
 
     with open(id_to_name_path, "w") as f:

@@ -78,13 +78,13 @@ public class Func
             ps = new PrintStream(file_res);
             System.setOut(ps);
         }
-        else if (type == 3) {
+        else if (type == 3 || type == 2) {
             file_res = "/Users/haoranyan/git_rep/tamer/result/exp_data/output" + Integer.toString(this.funcId) + "_" + Integer.toString(another.funcId);
             ps = new PrintStream(file_res);
             System.setOut(ps);
         }
 
-        if (type == 1 || type == 3) {
+        if (type == 1 || type == 3 || type == 2) {
             System.out.println(this.fileName);
             System.out.println(another.fileName);
         }
@@ -111,7 +111,7 @@ public class Func
                     temp_result += tmp_lcs;
 
                     // output report in dir ./result/
-                    if ((type == 1 || type == 3) && i != 9) {
+                    if (((type == 1 || type == 3) && i != 9) || (type == 2)) {
                         double similar_cal = 0;
                         similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
                         int print_similar = (int)((similar_cal + 0.005) * 100);
@@ -212,8 +212,8 @@ public class Func
                 char a = (char)(string2char.get(temp) + 48);
                 root += a;
                 if (temp.compareTo("TryStmt") != 0 && temp.compareTo("WhileStmt") != 0
-                        && temp.compareTo("IfStmt") != 0
-                && temp.compareTo("SwitchStmt") != 0 && temp.compareTo("DoStmt") != 0 && temp.compareTo("ForEachStmt") != 0 && temp.compareTo("ForStmt") != 0 && temp.compareTo("SynchronizedStmt") != 0) {
+                        && temp.compareTo("") != 0
+                && temp.compareTo("SwitchStmIfStmtt") != 0 && temp.compareTo("DoStmt") != 0 && temp.compareTo("ForEachStmt") != 0 && temp.compareTo("ForStmt") != 0 && temp.compareTo("SynchronizedStmt") != 0) {
                     var children = head.getChildNodes();
 
                     for (int i = children.size() - 1; i >= 0; i--) {

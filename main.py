@@ -22,6 +22,7 @@ from streamlit_elements import dashboard
 import random
 import json
 from tamer_tool import *
+from rename import *
 
 with open("./data/name_to_id.json", "r") as f:
     name_to_id = json.load(f)
@@ -148,8 +149,7 @@ class Result:
             begin = self.line_msg[i][2]
             end = self.line_msg[i][3]
             count = 0
-            # fp2 = open(self.cmp_file2, "r")
-            fp2 = open("./data/input/500002.java", "r")
+            fp2 = open(self.cmp_file2, "r")
             dele_space = 0
             while True:
                 line = fp2.readline()
@@ -168,7 +168,7 @@ class Result:
         fp.close()
 
     def read_data_set(self):
-        fp = open("./result/output_type_2", "r")
+        fp = open("./result/output2", "r")
         tmp_str = fp.read()
         tmp_list = tmp_str.split(" ")
         tmp_list.pop(len(tmp_list) - 1)
@@ -207,6 +207,7 @@ class Result:
         st.session_state.options.append(option_pie2)
         st.session_state.options.append(option_bar)
         
+        return self.similar_arr
 
 def aggrid(df):
     gb = GridOptionsBuilder.from_dataframe(df)
@@ -490,14 +491,23 @@ def callback1() -> None:
         if st.session_state.tmp != None:
             st.session_state.tmp.empty()
     elif st.session_state.mode == 2:
-        st.session_state.clone_pairs = []
-        st.session_state.options = []
-        res = Result()
-        res.read_data_set()
-        if st.session_state.src_url != "" and st.session_state.dst_url != "":
-            file_list = []
-            dfs_dir_for_file()
-            #TODO
+        if st.session_state.muti_mode == 1:
+            # generate output
+            if st.session_state.src_url != "":
+                parse_code_from_repo_single(st.session_state.src_url, st.session_state.file_type)
+                rename_mode1()
+
+            os.system("rm -f ./tmp/type")
+            mode_write = str(st.session_state.mode)
+            os.system("echo " + mode_write + " > ./tmp/type")
+            command = "java -jar " + exec_jar_pos
+            os.system(command)
+     
+            st.session_state.clone_pairs = []
+            st.session_state.options = []
+
+
+           
 
     elif st.session_state.mode == 3:
         # TODO add result auto parse
@@ -546,31 +556,10 @@ def get_base64(bin_file):
     return base64.b64encode(data).decode()
 
 def show_single_result(name1, name2) -> None:
-
-    if st.session_state.src_file != None:
-        print(name_to_id[name2[:-5]])
-        fp = open("./data/input/" + str(name_to_id[name1[:-5]]) + st.session_state.file_type, "w")
-        fp.write(st.session_state.src_file)
-        fp.close()
-        st.session_state.src_file = None
-
-    if st.session_state.dst_file != None:
-        print(name_to_id[name2[:-5]])
-        fp = open("./data/input/" + str(name_to_id[name2[:-5]]) +st.session_state.file_type, "w")
-        fp.write(st.session_state.dst_file)
-        fp.close()
-        st.session_state.dst_file = None
-    
-        # generate output
-    os.system("rm -f ./tmp/type")
-    mode_write = str(st.session_state.mode)
-    os.system("echo " + mode_write + " > ./tmp/type")
-    command = "java -jar " + exec_jar_pos
-    os.system(command)
     
     # parse for output
     res = Result()
-    res.get_result_msg("./result/output" + str(name_to_id[name1[:-5]]) + "_" + str(name_to_id[name2[:-5]]))
+    res.get_result_msg("./result/exp_data/output" + str(name_to_id[name1[:-5]]) + "_" + str(name_to_id[name2[:-5]]))
     res.parse_result_msg()
     res.save_result()
 
@@ -623,6 +612,8 @@ def show_result2() -> None:
 
     c2, c3 = st.columns(2)
     selected = []
+    res = Result()
+    similar_arr = res.read_data_set()
     with c2:
         for i in range(0, 13):
             st.write(" ")
@@ -638,7 +629,7 @@ def show_result2() -> None:
                 else:
                     for j in range(0, len(clone_pairs[i])):
                         # TODO: map对应的文件名
-                        st.session_state.clone_pairs.append([id_to_name[str(tmp)] + ".java", id_to_name[str(clone_pairs[i][j])] + ".java", str(random.randint(65, 100)) + "%"])
+                        st.session_state.clone_pairs.append([id_to_name[str(tmp)] + ".java", id_to_name[str(clone_pairs[i][j])] + ".java", str(similar_arr[i]) + "%"])
         df = pd.DataFrame(np.array(st.session_state.clone_pairs))
         df.columns = ["克隆代码1", "克隆代码2", "相似度"]
         gb = GridOptionsBuilder.from_dataframe(df)
@@ -878,7 +869,7 @@ def show_multi() -> None:
     c2.text("")
     c2.text("")
     if st.session_state.muti_mode == 1:
-        c2.text_input("请输入文件路径")
+        st.session_state.src_url = c2.text_input("请输入文件路径")
     if st.session_state.muti_mode == 0:
         st.session_state.src_url = c2.text_input("请输入源文件路径")
     c3, c5, c4 = c2.columns(3)

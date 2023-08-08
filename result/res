@@ -1,17 +1,57 @@
-100%
+72%
 src
-1. public class SimpleJavaProgram {
-2.     public static void main(String[] args) {
-3.         System.out.println("Hello, World!");
-4.     }
-5. }
+1. public class Person extends UuidEntity {
+2.     private static final long serialVersionUID = 1L;
+3.     private String first;
+4.     private String last;
+5.     private Gender gender;
+6.     private String multiWordProperty;
+7.     public String getFirst() {
+8.         return first;
+9.     }
+10.     public void setFirst(String first) {
+11.         this.first = first;
+12.     }
+13.     public Gender getGender() {
+14.         return gender;
+15.     }
+16.     public void setGender(Gender gender) {
+17.         this.gender = gender;
+18.     }
+19.     public String getLast() {
+20.         return last;
+21.     }
+22.     public void setLast(String last) {
+23.         this.last = last;
+24.     }
+25.     public String getMultiWordProperty() {
+26.         return multiWordProperty;
+27.     }
+28.     public void setMultiWordProperty(String multiWordProperty) {
+29.         this.multiWordProperty = multiWordProperty;
+30.     }
+31. }
 dst
-1. public class SimpleJavaProgram {
-2.     public static void main(String[] args) {
-3.         System.out.println("Hello, World!");
-4.     }
-5. }
-90%
-src
-dst
-6. 
+1. public class ResultadoProcesoFormulario implements Serializable {
+2.     private DocumentoFront formulario;
+3.     private String xmlInicial;
+4.     private String xmlActual;
+5.     public String getXmlActual() {
+6.         return xmlActual;
+7.     }
+8.     public void setXmlActual(String xmlActual) {
+9.         this.xmlActual = xmlActual;
+10.     }
+11.     public String getXmlInicial() {
+12.         return xmlInicial;
+13.     }
+14.     public void setXmlInicial(String xmlInicial) {
+15.         this.xmlInicial = xmlInicial;
+16.     }
+17.     public DocumentoFront getFormulario() {
+18.         return formulario;
+19.     }
+20.     public void setFormulario(DocumentoFront formulario) {
+21.         this.formulario = formulario;
+22.     }
+23. }
