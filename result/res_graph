@@ -1,9 +1,0 @@
-graph {
-	node [shape=box]
-	rankdir=LR
-	S [label="Clone Pairs"]
-	A0 [label="1. public class Person extends UuidEntity {\l2.     private static final long serialVersionUID = 1L;\l3.     private String first;\l4.     private String last;\l5.     private Gender gender;\l6.     private String multiWordProperty;\l7.     public String getFirst() {\l8.         return first;\l9.     }\l10.     public void setFirst(String first) {\l11.         this.first = first;\l12.     }\l13.     public Gender getGender() {\l14.         return gender;\l15.     }\l16.     public void setGender(Gender gender) {\l17.         this.gender = gender;\l18.     }\l19.     public String getLast() {\l20.         return last;\l21.     }\l22.     public void setLast(String last) {\l23.         this.last = last;\l24.     }\l25.     public String getMultiWordProperty() {\l26.         return multiWordProperty;\l27.     }\l28.     public void setMultiWordProperty(String multiWordProperty) {\l29.         this.multiWordProperty = multiWordProperty;\l30.     }\l31. }\l" color=blue]
-	B0 [label="1. public class ResultadoProcesoFormulario implements Serializable {\l2.     private DocumentoFront formulario;\l3.     private String xmlInicial;\l4.     private String xmlActual;\l5.     public String getXmlActual() {\l6.         return xmlActual;\l7.     }\l8.     public void setXmlActual(String xmlActual) {\l9.         this.xmlActual = xmlActual;\l10.     }\l11.     public String getXmlInicial() {\l12.         return xmlInicial;\l13.     }\l14.     public void setXmlInicial(String xmlInicial) {\l15.         this.xmlInicial = xmlInicial;\l16.     }\l17.     public DocumentoFront getFormulario() {\l18.         return formulario;\l19.     }\l20.     public void setFormulario(DocumentoFront formulario) {\l21.         this.formulario = formulario;\l22.     }\l23. }\l" color=blue]
-	S -- A0
-	A0 -- B0 [label="72%" color=blue style=dashed]
-}
