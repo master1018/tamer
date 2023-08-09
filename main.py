@@ -1187,15 +1187,15 @@ def show_config() -> None:
     c1, c2 = st.columns([0.5,0.5])
     with c1:
         config = [
-        ["二元表达式(BinaryExpression)"],["一元表达式(UnaryExpression)"],["函数调用表达式(FunctionCall)"],["条件语句(IfStatement)"],
-        ["循环语句(WhileStatement)"],["循环语句(ForStatement)"],["开关语句(SwitchStatement)"],
-        ["赋值语句(AssignmentStatement)"],["变量声明语句(VariableDeclaration)"],["FunctionDeclaration(函数声明语句)"],
-        ["类声明语句(ClassDeclaration)"],["跳出语句(BreakStatement)"],["继续语句(ContinueStatement)"],
-        ["返回语句(ReturnStatement)"],["字面量(Literal)"],["标识符(Identifier)"]
-
+        ["WhileStmt"],["IfStmt"], ["SwitchStmt"],
+        ["TryStmt"],["ForEachStmt"],["ThrowStmt"],
+        ["ForStmt"],["DoStmt"],["SynchronizedStmt"],
+        ['BlockStmt'], ['ExpressionStmt'], ['ReturnStmt'], 
+        ['ContinueStmt'], ['EmptyStmt'], ['AssertStmt'], ['ExplicitConstructorInvocationStmt'],
+        ['BreakStmt'], ['LabeledStmt']
     ]
         df = pd.DataFrame(config)
-        df.columns = ['检测节点类型']
+        df.columns = ['语句选择']
         gb = GridOptionsBuilder.from_dataframe(df)
         selection_mode = 'multiple'
         enable_enterprise_modules = True # 设置企业化模型，可以筛选等
