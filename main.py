@@ -23,6 +23,8 @@ import random
 import json
 from tamer_tool import *
 from rename import *
+from streamlit_agraph import agraph, Node, Edge, Config
+import copy
 
 with open("./data/name_to_id.json", "r") as f:
     name_to_id = json.load(f)
@@ -40,6 +42,42 @@ labels2         =   ["low", "medium", "high"]
 exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
 #  1000279=[1000463], 1000533=[1000559, 1000970, 1000499, 1000179]
 # 1000077=[1000140], 1000837=[1000431, 1000814, 1000285, 1000043, 2000166, 1000096], 2000272=[2000223], 
+
+def build_node_graph(src_list, dst_list, edge_label):
+    nodes = []
+    edges = []
+    new_list = copy.deepcopy(src_list)
+    new_list.extend(dst_list)
+    new_list = list(set(new_list))
+
+    for i in range(0, len(new_list)):
+        node = Node(id=new_list[i], 
+                   label=new_list[i], 
+                   size=15, 
+                   shape="circularImage",
+                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png")
+        nodes.append(node)
+    
+    for i in range(0, len(edge_label)):
+        edges.append( Edge(source=src_list[i], 
+                   label=edge_label[i], 
+                   target=dst_list[i], 
+                   # **kwargs
+                   ) 
+            ) 
+    config = Config(width=750,
+                height=950,
+                directed=True, 
+                physics=True, 
+                hierarchical=False,
+                # **kwargs
+                )
+
+    return_value = agraph(nodes=nodes, 
+                      edges=edges, 
+                      config=config)
+    
+    return return_value
 
 class Result:
     cmp_file1 = ""
@@ -180,14 +218,14 @@ class Result:
             if (self.similar_arr[i] >= 1000):
                 self.similar_arr[i] = 1000
 
-            if self.similar_arr[i] >= 20:
+            if self.similar_arr[i] >= 500:
                 stat[0] += 1
 
-            if self.similar_arr[i] <= 400 and self.similar_arr[i] > 200:
+            if self.similar_arr[i] <= 700 and self.similar_arr[i] > 500:
                 stat[1] += 1
-            elif self.similar_arr[i] > 400 and self.similar_arr[i] <= 700:
+            elif self.similar_arr[i] > 700 and self.similar_arr[i] <= 900:
                 stat[2] += 1
-            elif self.similar_arr[i] > 700:
+            elif self.similar_arr[i] > 900:
                 stat[3] += 1
             else:
                 stat[4] += 1
@@ -248,11 +286,11 @@ def list_to_df(src_list):
     for i in range(0, len(src_list)):
         tmp = src_list[i][3][0: len(src_list[i][3]) - 1]
         tmp = int(tmp)
-        if tmp <= 40:
+        if tmp <= 70 and tmp >= 50:
             src_list[i][4] = "low"
-        elif tmp > 40 and tmp <= 70:
+        elif tmp > 70 and tmp <= 90:
             src_list[i][4] = "medium" 
-        else:
+        elif tmp > 90:
             src_list[i][4] = "high"
 
   # print(src_list)
@@ -408,11 +446,11 @@ def show_result(filename) -> None:
     static_res = [0, 0, 0]
     for i in range(0, len(ret3)):
         cmp = int(ret3[i][0:len(ret3[i]) - 1])
-        if (cmp <= 40):
+        if (cmp <= 70 and cmp >= 50):
             static_res[0] += list(ret2[i]).count("\n")
-        elif cmp > 40 and cmp < 70:
+        elif cmp > 70 and cmp < 90:
             static_res[1] += list(ret2[i]).count("\n")
-        else:
+        elif cmp >= 90:
             static_res[2] += list(ret2[i]).count("\n")
 
     st.header("检测结果")
@@ -812,7 +850,7 @@ def show_result2_2() -> None:
         
     gb.configure_side_bar()
     gb.configure_grid_options(domLayout='normal')
-    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
         #gb.configure_default_column(editable=True, groupable=True)
     gridOptions = gb.build()
         

@@ -1,1 +1,0 @@
-class ProcUseProcOrImplicit extends SomeClass { }

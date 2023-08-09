@@ -1,2 +1,0 @@
-class SyntaxError extends Exception {
-}

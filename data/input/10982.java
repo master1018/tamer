@@ -1,1 +1,0 @@
-class t implements Runnable {}

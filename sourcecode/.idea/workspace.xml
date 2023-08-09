@@ -10,11 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7131092e-ea3e-442f-b743-0196e0a3e178" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../data/id_to_name.json" beforeDir="false" afterPath="$PROJECT_DIR$/../data/id_to_name.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/10.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/11.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data/input/1158.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/12.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/13.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data/input/2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../data/input/2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/4.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/5.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/500001.java" beforeDir="false" />
@@ -28,26 +29,16 @@
       <change beforePath="$PROJECT_DIR$/../data/input/500011.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/500012.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/500013.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data/input/501560.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/6.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/7.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/8.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../data/input/9.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/name_to_id.json" beforeDir="false" afterPath="$PROJECT_DIR$/../data/name_to_id.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output11_500011" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output11_500013" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output13_500004" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output13_500011" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output13_500013" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output4_500012" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output8_500008" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output8_500009" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output9_500008" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/exp_data/output9_500009" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../result/output2" beforeDir="false" afterPath="$PROJECT_DIR$/../result/output2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/finals_jar/finals.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/finals_jar/finals.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Func.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Func.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Func.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/Func.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmp/sem" beforeDir="false" afterPath="$PROJECT_DIR$/../tmp/sem" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmp/type" beforeDir="false" afterPath="$PROJECT_DIR$/../tmp/type" afterDir="false" />
     </list>

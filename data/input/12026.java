@@ -1,1 +1,0 @@
-class DeprecatedClass extends Exception {}

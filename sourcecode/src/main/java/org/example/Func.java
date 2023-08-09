@@ -115,9 +115,9 @@ public class Func
                         double similar_cal = 0;
                         similar_cal = (double)tmp_lcs * 1.0 / (a.length() + b.length() - tmp_lcs);
                         int print_similar = (int)((similar_cal + 0.005) * 100);
-                        if (type == 2 && print_similar < 20)
+                        if (type == 2 && print_similar < 50)
                             continue;
-                        if (type == 1 && print_similar < 20)
+                        if (type == 1 && print_similar < 50)
                             continue;
                         if (type == 3 && print_similar < 70)
                             continue;
@@ -212,7 +212,7 @@ public class Func
                 char a = (char)(string2char.get(temp) + 48);
                 root += a;
                 if (temp.compareTo("TryStmt") != 0 && temp.compareTo("WhileStmt") != 0
-                        && temp.compareTo("IfStmt") != 0
+                       && temp.compareTo("IfStmt") != 0
                 && temp.compareTo("SwitchStmIfStmtt") != 0 && temp.compareTo("DoStmt") != 0 && temp.compareTo("ForEachStmt") != 0 && temp.compareTo("ForStmt") != 0 && temp.compareTo("SynchronizedStmt") != 0) {
                     var children = head.getChildNodes();
 

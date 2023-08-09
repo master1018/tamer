@@ -1,3 +1,0 @@
-class AssertAsIdentifier {
-    int assert;
-}

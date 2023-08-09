@@ -1,3 +1,0 @@
-class UnnamedPackage {
-    class UnnamedPackage { }
-}

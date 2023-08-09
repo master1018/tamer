@@ -1,5 +1,0 @@
-class DepX
-{
-}
-class X {
-}

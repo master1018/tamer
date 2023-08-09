@@ -1,5 +1,0 @@
-public class StringTypeTest extends Applet {
-    public String getString() {
-        return new String("hello");
-    }
-}

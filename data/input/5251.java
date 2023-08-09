@@ -1,5 +1,0 @@
-class IllegalAnnotation {
-    {
-        @interface SomeAnnotation { }
-    }
-}

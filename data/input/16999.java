@@ -1,5 +1,0 @@
-class NoDepX
-{
-}
-class X {
-}
