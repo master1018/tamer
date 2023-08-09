@@ -1,67 +1,23 @@
-public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
-    private Servant defaultServant ;
-    POAPolicyMediatorImpl_NR_UDS( Policies policies, POAImpl poa )
-    {
-        super( policies, poa ) ;
-        if (policies.retainServants())
-            throw poa.invocationWrapper().policyMediatorBadPolicyInFactory() ;
-        if (!policies.useDefaultServant())
-            throw poa.invocationWrapper().policyMediatorBadPolicyInFactory() ;
-        defaultServant = null ;
+class BSTIterator {
+    private int idx;
+    private List<Integer> arr;
+    public BSTIterator(TreeNode root) {
+        idx = 0;
+        arr = new ArrayList<Integer>();
+        inorderTraversal(root, arr);
     }
-    protected java.lang.Object internalGetServant( byte[] id,
-        String operation ) throws ForwardRequest
-    {
-        if (defaultServant == null)
-            throw poa.invocationWrapper().poaNoDefaultServant() ;
-        return defaultServant;
+    public int next() {
+        return arr.get(idx++);
     }
-    public void returnServant()
-    {
+    public boolean hasNext() {
+        return idx < arr.size();
     }
-    public void etherealizeAll()
-    {
-    }
-    public void clearAOM()
-    {
-    }
-    public ServantManager getServantManager() throws WrongPolicy
-    {
-        throw new WrongPolicy();
-    }
-    public void setServantManager( ServantManager servantManager ) throws WrongPolicy
-    {
-        throw new WrongPolicy();
-    }
-    public Servant getDefaultServant() throws NoServant, WrongPolicy
-    {
-        if (defaultServant == null)
-            throw new NoServant();
-        return defaultServant;
-    }
-    public void setDefaultServant( Servant servant ) throws WrongPolicy
-    {
-        this.defaultServant = servant;
-        setDelegate(defaultServant, "DefaultServant".getBytes());
-    }
-    public final void activateObject(byte[] id, Servant servant)
-        throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive
-    {
-        throw new WrongPolicy();
-    }
-    public Servant deactivateObject( byte[] id ) throws ObjectNotActive, WrongPolicy
-    {
-        throw new WrongPolicy();
-    }
-    public byte[] servantToId( Servant servant ) throws ServantNotActive, WrongPolicy
-    {
-        throw new WrongPolicy();
-    }
-    public Servant idToServant( byte[] id )
-        throws WrongPolicy, ObjectNotActive
-    {
-        if (defaultServant != null)
-            return defaultServant;
-        throw new ObjectNotActive() ;
+    private void inorderTraversal(TreeNode root, List<Integer> arr) {
+        if (root == null) {
+            return;
+        }
+        inorderTraversal(root.left, arr);
+        arr.add(root.val);
+        inorderTraversal(root.right, arr);
     }
 }
