@@ -1079,19 +1079,23 @@ def show_multi() -> None:
 
 def show_result3() -> None:
     # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
-    c1, c2 = st.columns([0.3,0.7])
+    c1, c2 = st.columns([0.5,0.5])
     with c1:
-        st.image("./image/bug_small.gif")
+    #    st.image("./image/bug_small.gif")
+        st.text("这里放饼状图！")
+        
+    with c2:
+        st.text("这里放柱状图！")
     cwe_cal = [
-        ['2.java', '(7, 10)', 'cwe-259', '64%'],
-        ['3.java', '(12, 21)', 'cwe-78', '92%'],
-        ['4.java', '(9, 14)', 'cwe-117', '86%']
+        ['2.java', '(7, 10)', 'cwe-259', '64%', 'low'],
+        ['3.java', '(12, 21)', 'cwe-78', '92%', 'high'],
+        ['4.java', '(9, 14)', 'cwe-117', '86%', 'middle']
     ]
     df = pd.DataFrame(cwe_cal)
-    df.columns = ['文件名', '漏洞位置', 'cwe类型', '可信度']
+    df.columns = ['文件名', '漏洞位置', 'cwe类型', '可信度', '危险程度']
     select = -1
-    with c2:
-        select = aggrid_cwe(df)
+    #with c2:
+    select = aggrid_cwe(df)
     if select != -1:
         select_file = select[0]
         ret1, ret2, ret3 = res_visual("./result/exp_data/res" + select_file)
@@ -1123,22 +1127,24 @@ def show_exp() -> None:
     st.text("")
     c1, c2, c3 = st.columns([0.7,0.2,0.1])
     c1.text_input("请输入源文件路径")
-    c2.selectbox("请选择代码语言",options=choice_code)
+    select_code = c2.selectbox("请选择代码语言",options=choice_code)
+    st.session_state.file_type = file_type[choice_code.index(select_code)]
     c3.text("")
     c3.text("")
     c3.button("检测", on_click=callback1)
     st.text("")
     st.text("")
-    c1, c2 = st.columns(2)
+    c1, c2 = st.columns([0.5,0.5])
+    with c1:
+        st.image("./image/exp.gif")
+    
     with c2:
-        st.subheader("已配置漏洞数据集")
+        # st.subheader("请选择漏洞来源：")
+        st.text("")
+        st.selectbox("请选择漏洞来源：", options=["CWE","CNVD"])
+        st.text("")
         show_cwe_list(cwe_list)
-    c1.markdown("""
-        <video width="400" autoplay="true" muted="true" loop="true">
-        <source 
-                src="https://www.jfrogchina.com/wp-content/uploads/2020/02/Native-Steps-R1-Animation-400X400.mp4" 
-                type="video/mp4" />
-        </video>""", unsafe_allow_html=True)
+
 
 def main() -> None:
     init()
