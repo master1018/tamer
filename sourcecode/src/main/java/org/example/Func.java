@@ -212,7 +212,7 @@ public class Func
                 char a = (char)(string2char.get(temp) + 48);
                 root += a;
                 if (temp.compareTo("TryStmt") != 0 && temp.compareTo("WhileStmt") != 0
-                        && temp.compareTo("") != 0
+                        && temp.compareTo("IfStmt") != 0
                 && temp.compareTo("SwitchStmIfStmtt") != 0 && temp.compareTo("DoStmt") != 0 && temp.compareTo("ForEachStmt") != 0 && temp.compareTo("ForStmt") != 0 && temp.compareTo("SynchronizedStmt") != 0) {
                     var children = head.getChildNodes();
 

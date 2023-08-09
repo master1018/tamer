@@ -1,0 +1,3 @@
+class CantResolveLocation {
+    Unknown y;
+}

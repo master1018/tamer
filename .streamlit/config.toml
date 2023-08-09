@@ -2,3 +2,7 @@
 secondaryBackgroundColor="#D6EBF9"
 primaryColor="#D6EBF9"
 backgroundColor="#FFFFFF"
+
+[server]
+maxUploadSize = 500
+maxMessageSize = 500
