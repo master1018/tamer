@@ -46,6 +46,21 @@ cwe_list = [
      "level": "low",
      "description": "Improper Output Neutralization for Logs",
      "solution": "yes",
+    },
+    {"name": "cwe-259",
+     "level": "low",
+     "description": "Use of Hard-coded Password",
+     "solution": "yes",
+    },
+    {"name": "cwe-259",
+     "level": "low",
+     "description": "Use of Hard-coded Password",
+     "solution": "yes",
+    },
+    {"name": "cwe-259",
+     "level": "low",
+     "description": "Use of Hard-coded Password",
+     "solution": "yes",
     }
 ]
 

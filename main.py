@@ -1117,19 +1117,23 @@ def show_multi() -> None:
 
 def show_result3() -> None:
     # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
-    c1, c2 = st.columns([0.3,0.7])
+    c1, c2 = st.columns([0.5,0.5])
     with c1:
-        st.image("./image/bug_small.gif")
+    #    st.image("./image/bug_small.gif")
+        st.text("这里放饼状图！")
+        
+    with c2:
+        st.text("这里放柱状图！")
     cwe_cal = [
-        ['2.java', '(7, 10)', 'cwe-259', '64%'],
-        ['3.java', '(12, 21)', 'cwe-78', '92%'],
-        ['4.java', '(9, 14)', 'cwe-117', '86%']
+        ['2.java', '(7, 10)', 'cwe-259', '64%', 'low'],
+        ['3.java', '(12, 21)', 'cwe-78', '92%', 'high'],
+        ['4.java', '(9, 14)', 'cwe-117', '86%', 'middle']
     ]
     df = pd.DataFrame(cwe_cal)
-    df.columns = ['文件名', '漏洞位置', 'cwe类型', '可信度']
+    df.columns = ['文件名', '漏洞位置', 'cwe类型', '可信度', '危险程度']
     select = -1
-    with c2:
-        select = aggrid_cwe(df)
+    #with c2:
+    select = aggrid_cwe(df)
     if select != -1:
         select_file = select[0]
         ret1, ret2, ret3 = res_visual("./result/exp_data/res" + select_file)
@@ -1161,29 +1165,121 @@ def show_exp() -> None:
     st.text("")
     c1, c2, c3 = st.columns([0.7,0.2,0.1])
     c1.text_input("请输入源文件路径")
-    c2.selectbox("请选择代码语言",options=choice_code)
+    select_code = c2.selectbox("请选择代码语言",options=choice_code)
+    st.session_state.file_type = file_type[choice_code.index(select_code)]
     c3.text("")
     c3.text("")
     c3.button("检测", on_click=callback1)
     st.text("")
     st.text("")
-    c1, c2 = st.columns(2)
+    c1, c2 = st.columns([0.5,0.5])
+    with c1:
+        st.image("./image/exp.gif")
+    
     with c2:
-        st.subheader("已配置漏洞数据集")
+        # st.subheader("请选择漏洞来源：")
+        st.text("")
+        st.selectbox("请选择漏洞来源：", options=["CWE","CNVD"])
+        st.text("")
         show_cwe_list(cwe_list)
-    c1.markdown("""
-        <video width="400" autoplay="true" muted="true" loop="true">
-        <source 
-                src="https://www.jfrogchina.com/wp-content/uploads/2020/02/Native-Steps-R1-Animation-400X400.mp4" 
-                type="video/mp4" />
-        </video>""", unsafe_allow_html=True)
+
+def show_config() -> None:
+    c1, c2 = st.columns([0.5,0.5])
+    with c1:
+        config = [
+        ["二元表达式(BinaryExpression)"],["一元表达式(UnaryExpression)"],["函数调用表达式(FunctionCall)"],["条件语句(IfStatement)"],
+        ["循环语句(WhileStatement)"],["循环语句(ForStatement)"],["开关语句(SwitchStatement)"],
+        ["赋值语句(AssignmentStatement)"],["变量声明语句(VariableDeclaration)"],["FunctionDeclaration(函数声明语句)"],
+        ["类声明语句(ClassDeclaration)"],["跳出语句(BreakStatement)"],["继续语句(ContinueStatement)"],
+        ["返回语句(ReturnStatement)"],["字面量(Literal)"],["标识符(Identifier)"]
+
+    ]
+        df = pd.DataFrame(config)
+        df.columns = ['检测节点类型']
+        gb = GridOptionsBuilder.from_dataframe(df)
+        selection_mode = 'multiple'
+        enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+        #gb.configure_default_column(editable=True) #定义允许编辑
+        
+        return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+        gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+        
+        gb.configure_side_bar()
+        gb.configure_grid_options(domLayout='normal')
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
+        #gb.configure_default_column(editable=True, groupable=True)
+        gridOptions = gb.build()
+        
+        update_mode_value = GridUpdateMode.MODEL_CHANGED
+        
+        grid_response = AgGrid(
+                            df, 
+                            gridOptions=gridOptions,
+                            fit_columns_on_grid_load = True,
+                            data_return_mode=return_mode_value,
+                            update_mode=update_mode_value,
+                            enable_enterprise_modules=enable_enterprise_modules,
+                            theme='streamlit'
+                            )
+    with c2:
+        st.selectbox("检测所用线程数：", options=["1","2","3","4","5","6","7","8(max)"])
+        st.text("")
+        st.selectbox("主题颜色：", options=["light","dark","blue","grey","custom"])
+        st.text("")
+        c3, c4 = st.columns(2)
+        c3.selectbox("报告内容：", options=["单件检测","批量检测","漏洞检测"])
+        c4.selectbox("报告格式：", options=["pdf","txt","jpg","png","markdown"])
+        c3, c4 = st.columns([0.8,0.2])
+        c4.text("")
+        c4.button("克隆报告导出")
+    st.text("")
+    st.text("")
+    c3,c1,c2=st.columns([0.5,0.2,0.3])
+    c1.text("")
+    c1.subheader("代码克隆程度阈值：")
+    with c2:
+        c9, c5, c6, c7, c8 = st.columns([0.2,0.2,0.2,0.2,0.2])
+        c9.text("")
+        c9.subheader("低：")
+        c5.text_input("最小相似度", value=50)
+        c6.text("")
+        c6.subheader("% ~")
+        c7.text_input("最大相似度", value=70)
+        c8.text("")
+        c8.subheader("%")
+    with c2:
+        c9, c5, c6, c7, c8 = st.columns([0.2,0.2,0.2,0.2,0.2])
+        c9.text("")
+        c9.subheader("中：")
+        c5.text_input("最小相似度", value=70)
+        c6.text("")
+        c6.subheader("% ~")
+        c7.text_input("最大相似度", value=90)
+        c8.text("")
+        c8.subheader("%")
+    with c2:
+        c9, c5, c6, c7, c8 = st.columns([0.2,0.2,0.2,0.2,0.2])
+        c9.text("")
+        c9.subheader("高：")
+        c5.text_input("最小相似度", value=90)
+        c6.text("")
+        c6.subheader("% ~")
+        c7.text_input("最大相似度", value=100)
+        c8.text("")
+        c8.subheader("%")
+    c3.subheader("更多…")
+    c3.text("CWE官网:https://cwe.mitre.org")
+    c3.text("CNVD官网:https://www.cnvd.org.cn")
+    c3.subheader("关于我们：")
+    c3.text("github:https://github.com/master1018/tamer")
+    c3.text("More Information >>>")
 
 def main() -> None:
     init()
     st.sidebar.image("./image/logo.png")
     with st.sidebar:
-        selected = option_menu("菜单", ["主页", '产品介绍', '单件检测', '批量检测', '漏洞检测'],
-                            icons=['house', 'bar-chart', 'file-earmark-check', 'file-earmark-code', 'exclamation-circle'], menu_icon="cast", default_index=0)
+        selected = option_menu("菜单", ["主页", '产品介绍', '单件检测', '批量检测', '漏洞检测', '系统全局配置'],
+                            icons=['house', 'bar-chart', 'file-earmark-check', 'file-earmark-code', 'exclamation-circle', 'gear'], menu_icon="cast", default_index=0)
     fp = open("./tmp/sem", "w")
     if(selected == "主页"):
         fp.write("1")
@@ -1195,6 +1291,8 @@ def main() -> None:
         fp.write("4")
     elif(selected == "漏洞检测"):
         fp.write("5")
+    elif(selected == "系统全局配置"):
+        fp.write("6")
     fp.close()
     fp = open("./tmp/sem", "r")
     sem_show = int(fp.read())
@@ -1228,6 +1326,8 @@ def main() -> None:
             st.session_state.mode = 3
            # st.button("检测", on_click=callback1)
             show_exp()
+    elif sem_show == 6:
+        show_config()
     
     #c1, c2 = st.sidebar.columns(2)
     #c1.button("检测", on_click=callback1)
