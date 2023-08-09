@@ -442,7 +442,6 @@ def show_result(filename) -> None:
 
         # 绘制饼状图
     fig = plt.figure()
-    print("file_type:" + st.session_state.file_type)
     dst_lines = readline_count("./data/input/" + filename + st.session_state.file_type)
     pie_sizes = [dst_lines - sum(static_res), static_res[0], static_res[1], static_res[2]]
     #pie_colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
@@ -458,6 +457,7 @@ def show_result(filename) -> None:
 
 def exec_jar() -> None:
     # generate output
+    os.system("python3 rm_comment.py ./data/input/")
     os.system("rm -f ./tmp/type")
     mode_write = str(st.session_state.mode)
     os.system("echo " + mode_write + " > ./tmp/type")
@@ -497,7 +497,7 @@ def callback1() -> None:
             if st.session_state.src_url != "":
                 parse_code_from_repo_single(st.session_state.src_url, st.session_state.file_type)
                 rename_mode1()
-
+            os.system("python3 rm_comment.py ./data/input/")
             os.system("rm -f ./tmp/type")
             mode_write = str(st.session_state.mode)
             os.system("echo " + mode_write + " > ./tmp/type")
@@ -513,6 +513,7 @@ def callback1() -> None:
             
             os.system("rm -f ./tmp/type")
             # use work_type 3 of tamer
+            os.system("python3 rm_comment.py ./data/input/")
             mode_write = str(3)
             os.system("echo " + mode_write + " > ./tmp/type")
             command = "java -jar " + exec_jar_pos
@@ -632,15 +633,17 @@ def show_result2() -> None:
     with c3:
         for i in range(0, 10):
             st.write(" ")
+        idx = -1
         if st.session_state.clone_pairs == []:
             tmp = 0
             for i in range(0, len(clone_pairs)):
                 if type(clone_pairs[i]) == int:
                     tmp = clone_pairs[i]
+                    idx += 1
                 else:
                     for j in range(0, len(clone_pairs[i])):
                         # TODO: map对应的文件名
-                        st.session_state.clone_pairs.append([id_to_name[str(tmp)] + ".java", id_to_name[str(clone_pairs[i][j])] + ".java", str(similar_arr[i]) + "%"])
+                        st.session_state.clone_pairs.append([id_to_name[str(tmp)] + ".java", id_to_name[str(clone_pairs[i][j])] + ".java", str(similar_arr[idx]) + "%"])
         df = pd.DataFrame(np.array(st.session_state.clone_pairs))
         df.columns = ["克隆代码1", "克隆代码2", "相似度"]
         gb = GridOptionsBuilder.from_dataframe(df)
@@ -770,7 +773,7 @@ def show_result2_2() -> None:
                         cur -= 1
                     file_id2 = int(res.cmp_file2[cur + 1: len(res.cmp_file2) - 5])
 
-                    write_str += str(res.similar_arr[i])
+                    write_str += str(res.similar_arr[i] * 10)
                     write_str += " "
 
                     st.session_state.parse_result_list.append([id_to_name[str(file_id1)] + ".java", "({0}, {1})".format(res.line_msg[i][0], res.line_msg[i][1]), \
@@ -786,8 +789,7 @@ def show_result2_2() -> None:
         res = Result()
         res.read_data_set()
         st_echarts(st.session_state.options[1])
-    with c3:
-        for i in range(0, 10):
+    for i in range(0, 10):
             st.write(" ")
         #if st.session_state.clone_pairs == []:
         #    tmp = 0
@@ -798,25 +800,25 @@ def show_result2_2() -> None:
         #            for j in range(0, len(clone_pairs[i])):
         #                # TODO: map对应的文件名
         #                st.session_state.clone_pairs.append([id_to_name[str(tmp)] + ".java", id_to_name[str(clone_pairs[i][j])] + ".java", str(similar_arr[i]) + "%"])
-        df = pd.DataFrame(np.array(st.session_state.parse_result_list))
-        df.columns = ["源仓库文件", "克隆代码行索引1",  "目标仓库文件", "克隆代码行索引2","相似度"]
-        gb = GridOptionsBuilder.from_dataframe(df)
-        selection_mode = 'single' # 定义单选模式，多选为'multiple'
-        enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+    df = pd.DataFrame(np.array(st.session_state.parse_result_list))
+    df.columns = ["源仓库文件", "克隆代码行索引1",  "目标仓库文件", "克隆代码行索引2","相似度"]
+    gb = GridOptionsBuilder.from_dataframe(df)
+    selection_mode = 'single' # 定义单选模式，多选为'multiple'
+    enable_enterprise_modules = True # 设置企业化模型，可以筛选等
         #gb.configure_default_column(editable=True) #定义允许编辑
         
-        return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
-        gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+    return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+    gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
         
-        gb.configure_side_bar()
-        gb.configure_grid_options(domLayout='normal')
-        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
+    gb.configure_side_bar()
+    gb.configure_grid_options(domLayout='normal')
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
         #gb.configure_default_column(editable=True, groupable=True)
-        gridOptions = gb.build()
+    gridOptions = gb.build()
         
-        update_mode_value = GridUpdateMode.MODEL_CHANGED
+    update_mode_value = GridUpdateMode.MODEL_CHANGED
 
-        grid_response = AgGrid(
+    grid_response = AgGrid(
                         df, 
                         gridOptions=gridOptions,
                         fit_columns_on_grid_load = True,
@@ -825,8 +827,7 @@ def show_result2_2() -> None:
                         enable_enterprise_modules=enable_enterprise_modules,
                         theme='streamlit'
                             )  
-        selected = grid_response['selected_rows']
-        # print(selected)
+    selected = grid_response['selected_rows']
 
     if len(selected) > 0:
         name1 = selected[0]['源仓库文件']
@@ -847,14 +848,16 @@ def show_result2_2() -> None:
         while selected[0]['克隆代码行索引1'][cur] != ',':
             cur += 1
         begin = int(selected[0]['克隆代码行索引1'][1: cur])
-        end = int(selected[0]['克隆代码行索引1'][cur + 1: len(selected[0]['克隆代码行索引1'])])
+        end = int(selected[0]['克隆代码行索引1'][cur + 1: len(selected[0]['克隆代码行索引1']) - 1])
 
         fp = open(path + str(name_to_id[name1[:-5]]) + ".java")
+        count = 0
         while True:
+            count += 1
             line = fp.readline()
             if not line:
                 break
-            if line >=  begin and line <= end:
+            if count >=  begin and count <= end:
                 code1 += line
         
         begin = 0
@@ -864,14 +867,16 @@ def show_result2_2() -> None:
         while selected[0]['克隆代码行索引2'][cur] != ',':
             cur += 1
         begin = int(selected[0]['克隆代码行索引2'][1: cur])
-        end = int(selected[0]['克隆代码行索引2'][cur + 1: len(selected[0]['克隆代码行索引2'])])
+        end = int(selected[0]['克隆代码行索引2'][cur + 1: len(selected[0]['克隆代码行索引2'] ) - 1])
 
         fp = open(path + str(name_to_id[name2[:-5]]) + ".java")
+        count = 0
         while True:
+            count += 1
             line = fp.readline()
             if not line:
                 break
-            if line >=  begin and line <= end:
+            if count >=  begin and count <= end:
                 code2 += line
 
         a = list(code1).count("\n")
@@ -882,8 +887,8 @@ def show_result2_2() -> None:
             code1 += ".\n" * (b - a - 1) + "."
 
         s1, s2 = st.columns(2)
-        s1.code(code1, st.session_state.file_type)
-        s2.code(code2, st.session_state.file_type)
+        s1.code(code1, "java", line_numbers=True)
+        s2.code(code2, "java", line_numbers=True)
 
     #for i in range(0, 13):
     #    st.write(" ")
@@ -1167,6 +1172,8 @@ def main() -> None:
             st.session_state.mode = 1
             show_single()
     elif sem_show == 4:
+        st.session_state.show_res = 1
+        st.session_state.muti_mode = 0
         if (st.session_state.show_res == 1 and st.session_state.muti_mode == 0):
             show_result2_2()
 

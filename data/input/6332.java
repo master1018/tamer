@@ -1,0 +1,1 @@
+class InterfaceNotExpected extends I { }

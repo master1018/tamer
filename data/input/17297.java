@@ -1,0 +1,1 @@
+class EnumNoSubclassing extends Enum { }

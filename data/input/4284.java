@@ -1,0 +1,4 @@
+class SourcePathA {
+}
+class SourcePathB {
+}

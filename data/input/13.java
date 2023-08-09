@@ -1,43 +1,50 @@
-class Trie {
-    Node root;
-    public Trie() {
-        root = new Node();
+public class LCDTextAndGraphicsState extends Component {
+    String text = "This test passes only if this text appears SIX TIMES";
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D)g.create();
+        g2d.setColor(Color.white);
+        g2d.fillRect(0,0,getSize().width, getSize().height);
+        test1(g.create(0,   0, 500, 200));
+        test2(g.create(0, 200, 500, 200));
+        test3(g.create(0, 400, 500, 200));
     }
-    public boolean search(String word) {
-        Node p = root;
-        for(int i = 0;i < word.length();i ++)
-        {
-            int u = word.charAt(i) - 'a';
-            if(p.son[u] == null) return false;
-            p = p.son[u]; 
-        }
-        return p.is_end;
+    public void test1(Graphics g) {
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                             RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        g2d.setColor(Color.black);
+        g2d.drawString(text, 10, 50);
+        g2d.setComposite(AlphaComposite.getInstance(
+                         AlphaComposite.SRC_OVER, 0.9f));
+        g2d.drawString(text, 10, 80);
     }
-    public boolean check(int exp1, int exp2, int check1, int check2)
-    {
-        if (check1 * check2 == exp1 | exp2)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
+    public void test2(Graphics g) {
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                             RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        g2d.setColor(Color.black);
+        g2d.drawString(text, 10, 50);
+        g2d.setPaint(new GradientPaint(
+                     0f, 0f, Color.BLACK, 100f, 100f, Color.GRAY));
+        g2d.drawString(text, 10, 80);
     }
-    private int switchCase(int[] arr) {
-        int len = arr.length;
-        switch(len)
-        {
-         case 0:
-            return len;
-         case 1:
-            int ret = 0;
-            for (int i = 0; i < len; i++) {
-                ret += arr[i];
-            }
-            return ret;
-         default:
-            return 0;
-       }
+    public void test3(Graphics g) {
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                             RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        g2d.setColor(Color.black);
+        g2d.drawString(text, 10, 50);
+        Shape s = new RoundRectangle2D.Double(0, 60, 400, 50, 5, 5);
+        g2d.clip(s);
+        g2d.drawString(text, 10, 80);
+    }
+    public Dimension getPreferredSize() {
+        return new Dimension(500,600);
+    }
+    public static void main(String[] args) throws Exception {
+        Frame f = new Frame("Composite and Text Test");
+        f.add(new LCDTextAndGraphicsState(), BorderLayout.CENTER);
+        f.pack();
+        f.setVisible(true);
     }
 }

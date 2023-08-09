@@ -1,0 +1,1 @@
+class NoInterfaceExpected extends Runnable { }

@@ -48,10 +48,18 @@ def parse_code_from_repo_double(git_repo_src, git_repo_dst, file_type):
     os.system("mkdir ./data/tmp_data/" + repo_dst_name)
 
     for file in file_list_src:
-        os.system("mv " + file + " ./data/tmp_data/" + repo_src_name + "/")
+        cur = len(file) - 1
+        while file[cur] != "/":
+            cur -= 1
+        file_name = file[cur + 1: len(file)]
+        os.system("mv " + file + " ./data/tmp_data/" + repo_src_name + "/" + repo_src_name + ":" + file_name)
 
     for file in file_list_dst:
-        os.system("mv " + file + " ./data/tmp_data/" + repo_dst_name + "/")
+        cur = len(file) - 1
+        while file[cur] != "/":
+            cur -= 1
+        file_name = file[cur + 1: len(file)]
+        os.system("mv " + file + " ./data/tmp_data/" + repo_dst_name + "/" + repo_dst_name + ":" + file_name)
 
     rename_mode2(repo_src_name, repo_dst_name)
 

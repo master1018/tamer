@@ -1,0 +1,5 @@
+class DepX
+{
+}
+class X {
+}

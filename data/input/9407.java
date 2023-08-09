@@ -1,0 +1,1 @@
+class EnumTypesNotExtensible extends E { }

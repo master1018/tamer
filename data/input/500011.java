@@ -1,60 +1,140 @@
-class Trie {
-    private Trie[] children;
-    private boolean isEnd;
-    private int[][] matrix;
-    private int INVALID = 0;
-    private int VALID   = 1;
-    private int pub     = 0;
-    private int secret  = 0;
-    public Trie() {
-        children = new Trie[26];
-        isEnd = false;
-    }
-    private int err_handle()
-    {
-        return INVALID;
-    }
-    public int check_vaild(int a, int b)
-    {
-        int expand_val = pub | secret;
-        if (a * b == expand_val)
-        {
-            return VALID;
-        }
-        else
-        {
-            return err_handle();
+public class HashMapPerformanceTest extends PerformanceTestBase {
+    public static final int ITERATIONS = 1000;
+    public HashMap mMap;
+    public String[] mKeys;
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void setUp() throws Exception {
+        super.setUp();
+        mMap = new HashMap();
+        mKeys = new String[ITERATIONS];
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            mKeys[i] = Integer.toString(i, 16);
+            mMap.put(mKeys[i], i);
         }
     }
-    private Trie searchPrefix(String prefix) {
-        Trie node = this;
-        for (int i = 0; i < prefix.length(); i++) {
-            char ch = prefix.charAt(i);
-            int index = ch - 'a';
-            if (node.children[index] == null) {
-                return null;
-            }
-            node = node.children[index];
-        }
-        return node;
+    @Override
+    public int startPerformance(PerformanceTestCase.Intermediates intermediates) {
+        intermediates.setInternalIterations(ITERATIONS);
+        return 0;
     }
-    private int sum_xor(int[] arr) {
-        int ret = 0;
-        int idx = 0;
-        while (idx < 26) {
-            ret ^= arr[idx];
+    public void testHashMapGet() {
+        int num;
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
+            num = (Integer) mMap.get(mKeys[i]);
         }
-        return ret;
     }
-    private int switchCase(int[] chose) {
-        switch(chose.length)
-        {
-         case 0:
-            return chose.length;
-         case 1:
-            return sum_xor(chose);
-         default:
-            return 0;
-       }
+    public void testHashMapKeySet() {
+        Set keyset;
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+            keyset = mMap.keySet();
+        }
+    }
+    public void testHashMapEntrySet() {
+        Set keyset;
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+            keyset = mMap.entrySet();
+        }
+    }
+    public void testHashMapValues() {
+        Collection c;
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            c = mMap.values();
+            c = mMap.values();
+            c = mMap.values();
+            c = mMap.values();
+            c = mMap.values();
+            c = mMap.values();
+            c = mMap.values();
+            c = mMap.values();
+            c = mMap.values();
+            c = mMap.values();
+        }
+    }
+    public void testHashMapSize() {
+        int len;
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            len = mMap.size();
+            len = mMap.size();
+            len = mMap.size();
+            len = mMap.size();
+            len = mMap.size();
+            len = mMap.size();
+            len = mMap.size();
+            len = mMap.size();
+            len = mMap.size();
+            len = mMap.size();
+        }
+    }
+    public void testHashMapContainsValue() {
+        boolean flag;
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+            flag = mMap.containsValue(i);
+        }
+    }
+    public void testHashMapRemove() {
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+            mMap.remove(mKeys[i]);
+        }
+    }
+    public void testHashMapClone() {
+        HashMap cMap;
+        for (int i = ITERATIONS - 1; i >= 0; i--) {
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+            cMap = (HashMap) mMap.clone();
+        }
     }
 }

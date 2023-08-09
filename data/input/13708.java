@@ -1,0 +1,3 @@
+class SyntaxErrorTest {
+    int i
+}
