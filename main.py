@@ -1145,13 +1145,62 @@ def show_exp() -> None:
         st.text("")
         show_cwe_list(cwe_list)
 
+def show_config() -> None:
+    c1, c2 = st.columns([0.5,0.5])
+    with c1:
+        config = [
+        ["二元表达式(BinaryExpression)"],["一元表达式(UnaryExpression)"],["函数调用表达式(FunctionCall)"],["条件语句(IfStatement)"],
+        ["循环语句(WhileStatement)"],["循环语句(ForStatement)"],["开关语句(SwitchStatement)"],
+        ["赋值语句(AssignmentStatement)"],["变量声明语句(VariableDeclaration)"],["FunctionDeclaration(函数声明语句)"],
+        ["类声明语句(ClassDeclaration)"],["跳出语句(BreakStatement)"],["继续语句(ContinueStatement)"],
+        ["返回语句(ReturnStatement)"],["字面量(Literal)"],["标识符(Identifier)"]
+
+    ]
+        df = pd.DataFrame(config)
+        df.columns = ['检测节点类型']
+        gb = GridOptionsBuilder.from_dataframe(df)
+        selection_mode = 'multiple'
+        enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+        #gb.configure_default_column(editable=True) #定义允许编辑
+        
+        return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+        gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+        
+        gb.configure_side_bar()
+        gb.configure_grid_options(domLayout='normal')
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
+        #gb.configure_default_column(editable=True, groupable=True)
+        gridOptions = gb.build()
+        
+        update_mode_value = GridUpdateMode.MODEL_CHANGED
+        
+        grid_response = AgGrid(
+                            df, 
+                            gridOptions=gridOptions,
+                            fit_columns_on_grid_load = True,
+                            data_return_mode=return_mode_value,
+                            update_mode=update_mode_value,
+                            enable_enterprise_modules=enable_enterprise_modules,
+                            theme='streamlit'
+                            )
+    with c2:
+        st.selectbox("检测所用线程数：", options=["1","2","3","4","5","6","7","8(max)"])
+        st.text("")
+        st.selectbox("主题颜色：", options=["light","dark","blue","grey","custom"])
+        st.text("")
+        c3, c4 = st.columns(2)
+        c3.selectbox("报告内容：", options=["单件检测","批量检测","漏洞检测"])
+        c4.selectbox("报告格式：", options=["pdf","txt","jpg","png","markdown"])
+        c3, c4 = st.columns([0.8,0.2])
+        c4.button("克隆报告导出")
+
 
 def main() -> None:
     init()
     st.sidebar.image("./image/logo.png")
     with st.sidebar:
-        selected = option_menu("菜单", ["主页", '产品介绍', '单件检测', '批量检测', '漏洞检测'],
-                            icons=['house', 'bar-chart', 'file-earmark-check', 'file-earmark-code', 'exclamation-circle'], menu_icon="cast", default_index=0)
+        selected = option_menu("菜单", ["主页", '产品介绍', '单件检测', '批量检测', '漏洞检测', '系统全局配置'],
+                            icons=['house', 'bar-chart', 'file-earmark-check', 'file-earmark-code', 'exclamation-circle', 'gear'], menu_icon="cast", default_index=0)
     fp = open("./tmp/sem", "w")
     if(selected == "主页"):
         fp.write("1")
@@ -1163,6 +1212,8 @@ def main() -> None:
         fp.write("4")
     elif(selected == "漏洞检测"):
         fp.write("5")
+    elif(selected == "系统全局配置"):
+        fp.write("6")
     fp.close()
     fp = open("./tmp/sem", "r")
     sem_show = int(fp.read())
@@ -1196,6 +1247,8 @@ def main() -> None:
             st.session_state.mode = 3
            # st.button("检测", on_click=callback1)
             show_exp()
+    elif sem_show == 6:
+        show_config()
     
     #c1, c2 = st.sidebar.columns(2)
     #c1.button("检测", on_click=callback1)
