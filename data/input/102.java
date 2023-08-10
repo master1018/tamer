@@ -1,0 +1,30 @@
+public class Constants {
+    public static final String GND_URI_ROOT = "http:
+    public static final short URN_STATUS_INACTIVE = 0;
+    public static final short URN_STATUS_ACTIVE = 1;
+    public static final short URN_STATUS_RESERVED = 2;
+    public static final short RESOLVE_FULL_INFO = 10;
+    public static final short RESOLVE_FIRST_URL = 11;
+    public static final short RESOLVE_ONLY_ARCHIVE = 12;
+    public static final short RESOLVE_ONLY_FRONTPAGE = 13;
+    public static final short URN_RESOLVING_OK = 700;
+    public static final short URN_IS_NULL = 701;
+    public static final short NO_ACTIVE_URL = 702;
+    public static final short URN_HAS_NEWER_VERSION = 703;
+    public static final short WRONG_URN_FORMAT = 705;
+    public static final short NO_REGISTERED_URL = 712;
+    public static final short REQUESTED_URN_IS_INACTIVE = 713;
+    public static final short REQUESTED_URN_IS_RESERVED = 714;
+    public static final short NO_SUCH_URN_STATUS = 715;
+    public static final short NO_SUCH_URN_IN_DATABASE = 741;
+    public static final short ERROR_DURING_RESOLVING = 745;
+    public static final short REMOTE_RESOLVER_INFORMATION = 750;
+    public static final short URN_FOR_URL_FOLLOWS = 850;
+    public static final short NO_URN_WITH_THIS_URL = 802;
+    public static final short PROBLEM_WITH_URN_ID = 803;
+    public static final short NAMESPACE_LISTING_SUCCESSFUL = 810;
+    public static final short NO_NAMESPACE_FOUND = 811;
+    public static final short INSTITUTION_LISTING_SUCCESSFUL = 820;
+    public static final short NO_INSTITUTION_FOUND = 821;
+    public static final short HTTP_STATUS_OK = 200;
+}

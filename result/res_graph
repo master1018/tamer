@@ -1,0 +1,29 @@
+graph {
+	node [shape=box]
+	rankdir=LR
+	S [label="Clone Pairs"]
+	A0 [label="58. if (!columns.insert(column)) return false;\l" color=blue]
+	B0 [label="37. if (!i.hasNext()) return \"\"; else i.next();\l" color=blue]
+	S -- A0
+	A0 -- B0 [label="53%" color=blue style=dashed]
+	A1 [label="58. if (!columns.insert(column)) return false;\l" color=green]
+	B1 [label="51. if (rc2.getItems().size() == 0) return 1;\l" color=green]
+	S -- A1
+	A1 -- B1 [label="50%" color=green style=dashed]
+	A2 [label="66. if (!columns.update(column)) return false;\l" color=black]
+	B2 [label="37. if (!i.hasNext()) return \"\"; else i.next();\l" color=black]
+	S -- A2
+	A2 -- B2 [label="53%" color=black style=dashed]
+	A3 [label="66. if (!columns.update(column)) return false;\l" color=red]
+	B3 [label="51. if (rc2.getItems().size() == 0) return 1;\l" color=red]
+	S -- A3
+	A3 -- B3 [label="50%" color=red style=dashed]
+	A4 [label="73. if (!columns.remove(column)) return false;\l" color=yellow]
+	B4 [label="37. if (!i.hasNext()) return \"\"; else i.next();\l" color=yellow]
+	S -- A4
+	A4 -- B4 [label="53%" color=yellow style=dashed]
+	A5 [label="73. if (!columns.remove(column)) return false;\l" color=blue]
+	B5 [label="51. if (rc2.getItems().size() == 0) return 1;\l" color=blue]
+	S -- A5
+	A5 -- B5 [label="50%" color=blue style=dashed]
+}

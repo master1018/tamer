@@ -46,27 +46,39 @@ exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
 def build_node_graph(src_list, dst_list, edge_label):
     nodes = []
     edges = []
-    new_list = copy.deepcopy(src_list)
-    new_list.extend(dst_list)
-    new_list = list(set(new_list))
+    new_list1 = copy.deepcopy(src_list)
+    new_list1 = list(set(new_list1))
 
-    for i in range(0, len(new_list)):
-        node = Node(id=new_list[i], 
-                   label=new_list[i], 
+    new_list2 = copy.deepcopy(dst_list)
+    new_list2 = list(set(new_list2))
+
+    for i in range(0, len(new_list1)):
+        node = Node(id="src_" + new_list1[i], 
+                   label="src_" + new_list1[i], 
                    size=15, 
                    shape="circularImage",
-                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png")
+                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png",
+                   color="green")
         nodes.append(node)
     
+    for i in range(0, len(new_list2)):
+        node = Node(id="dst_" + new_list2[i], 
+                   label="dst_" + new_list2[i], 
+                   size=15, 
+                   shape="circularImage",
+                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png",
+                   color="red")
+        nodes.append(node)
+
     for i in range(0, len(edge_label)):
-        edges.append( Edge(source=src_list[i], 
+        edges.append( Edge(source="src_" + src_list[i], 
                    label=edge_label[i], 
-                   target=dst_list[i], 
+                   target="dst_" + dst_list[i], 
                    # **kwargs
                    ) 
             ) 
-    config = Config(width=750,
-                height=950,
+    config = Config(width=800,
+                height=950 / 4,
                 directed=True, 
                 physics=True, 
                 hierarchical=False,
@@ -458,7 +470,18 @@ def show_result(filename) -> None:
         with st.empty():
             st.image("./result/res_graph.png")
     st.write("克隆对")
-        
+    
+    src_list = []
+    dst_list = []
+    edge_label = []
+
+    for ele in st.session_state.res_list:
+        src_list.append(ele[1])
+        dst_list.append(ele[2])
+        edge_label.append(ele[3])
+
+    build_node_graph(src_list, dst_list, edge_label)
+
     df = list_to_df(st.session_state.res_list)
     select_row = aggrid(df)
     c1, c2= st.columns(2)
@@ -1308,8 +1331,8 @@ def main() -> None:
             st.session_state.mode = 1
             show_single()
     elif sem_show == 4:
-        st.session_state.show_res = 1
-        st.session_state.muti_mode = 0
+        #st.session_state.show_res = 1
+        #t.session_state.muti_mode = 0
         if (st.session_state.show_res == 1 and st.session_state.muti_mode == 0):
             show_result2_2()
 

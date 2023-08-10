@@ -1,0 +1,30 @@
+53%
+src
+58. if (!columns.insert(column)) return false;
+dst
+37. if (!i.hasNext()) return ""; else i.next();
+50%
+src
+58. if (!columns.insert(column)) return false;
+dst
+51. if (rc2.getItems().size() == 0) return 1;
+53%
+src
+66. if (!columns.update(column)) return false;
+dst
+37. if (!i.hasNext()) return ""; else i.next();
+50%
+src
+66. if (!columns.update(column)) return false;
+dst
+51. if (rc2.getItems().size() == 0) return 1;
+53%
+src
+73. if (!columns.remove(column)) return false;
+dst
+37. if (!i.hasNext()) return ""; else i.next();
+50%
+src
+73. if (!columns.remove(column)) return false;
+dst
+51. if (rc2.getItems().size() == 0) return 1;
