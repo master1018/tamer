@@ -472,6 +472,7 @@ def reset():
     st.session_state.dst_url = ""
     st.session_state.show_single_res = 0
     st.session_state.parse_result_list = []
+    os.system(reset_path)
 
 def show_result(filename) -> None:
     ret1, ret2, ret3 = res_visual()
@@ -1377,30 +1378,19 @@ def main() -> None:
     with st.sidebar:
         selected = option_menu("菜单", ["主页", '产品介绍', '单件检测', '批量检测', '漏洞检测', '系统全局配置'],
                             icons=['house', 'bar-chart', 'file-earmark-check', 'file-earmark-code', 'exclamation-circle', 'gear'], menu_icon="cast", default_index=0)
+        st.button("重置系统", on_click=reset)
     fp = open("./tmp/sem", "w")
     if(selected == "主页"):
-        reset()
-        os.system(reset_path)
         fp.write("1")
     elif(selected == "产品介绍"):
-        reset()
-        os.system(reset_path)
         fp.write("2")
     elif(selected == "单件检测"):
-        reset()
-        os.system(reset_path)
         fp.write("3")
     elif(selected == "批量检测"):
-        reset()
-        os.system(reset_path)
         fp.write("4")
     elif(selected == "漏洞检测"):
-        reset()
-        os.system(reset_path)
         fp.write("5")
     elif(selected == "系统全局配置"):
-        reset()
-        os.system(reset_path)
         fp.write("6")
     fp.close()
     fp = open("./tmp/sem", "r")
