@@ -106,7 +106,7 @@ option_bar = {
       },
         "xAxis": {
             "type": 'category',
-            "data": ['20 ~ 40%', '40 ~ 70%', '70 ~ 100%']
+            "data": ['50 ~ 70%', '70 ~ 90%', '90 ~ 100%']
         },
         "yAxis": {
             "type": 'value'
@@ -143,6 +143,42 @@ option_pie2 = {
                 ['轻度克隆代码段', 2],
                 ['中度克隆代码段', 3],
                 ['高度克隆代码段', 4]
+            ]
+        },
+        "series": [
+            {
+                "type": 'pie',
+                "id": 'pie',
+                "radius": ['40%', '75%'],
+                #"center": ['50%', '30%'],
+                "emphasis": {"focus": 'data',
+                            "fontSize": '20',
+                            "fontWeight": 'bold'},
+                "label": {
+                    "formatter": '{b}: {@2023} ({d}%)'
+                },
+            }
+        ],
+            "tooltip": {
+                    "show": "true",
+                },
+            "label": {
+                "show":"true"
+    },
+    }
+
+
+option_pie3 = {
+        "legend": {},
+        "tooltip": {
+            "trigger": 'axis',
+            "showContent": "false"
+        },
+        "dataset": {
+            "source": [
+                ['', '2023'],
+                ['正常文件', 2],
+                ['可疑文件', 3]
             ]
         },
         "series": [
