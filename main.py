@@ -40,6 +40,7 @@ labels1         =   ["no clone", "low clone", "medium clone ", "high clone"]
 labels2         =   ["low", "medium", "high"]
 
 exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
+reset_path = "./initshell.sh"
 #  1000279=[1000463], 1000533=[1000559, 1000970, 1000499, 1000179]
 # 1000077=[1000140], 1000837=[1000431, 1000814, 1000285, 1000043, 2000166, 1000096], 2000272=[2000223], 
 
@@ -439,6 +440,25 @@ def init() -> None:
         st.session_state.show_single_res = 0
     if "parse_result_list" not in st.session_state:
         st.session_state.parse_result_list = []
+
+def reset():
+    st.session_state.file_type = ""
+    st.session_state.show_res = 0
+    st.session_state.src_file   =   None
+    st.session_state.dst_file   =   None
+    st.session_state.res_file   =   None
+    st.session_state.tmp        =   None
+    st.session_state.res_list = []
+    st.session_state.show_index = -1
+    st.session_state.mode = 1
+    st.session_state.options = []
+    st.session_state.clone_pairs = []
+    st.session_state.cwe_index = -1
+    st.session_state.muti_mode = 0
+    st.session_state.src_url = ""
+    st.session_state.dst_url = ""
+    st.session_state.show_single_res = 0
+    st.session_state.parse_result_list = []
 
 def show_result(filename) -> None:
     ret1, ret2, ret3 = res_visual()
@@ -1282,16 +1302,28 @@ def main() -> None:
                             icons=['house', 'bar-chart', 'file-earmark-check', 'file-earmark-code', 'exclamation-circle', 'gear'], menu_icon="cast", default_index=0)
     fp = open("./tmp/sem", "w")
     if(selected == "主页"):
+        reset()
+        os.system(reset_path)
         fp.write("1")
     elif(selected == "产品介绍"):
+        reset()
+        os.system(reset_path)
         fp.write("2")
     elif(selected == "单件检测"):
+        reset()
+        os.system(reset_path)
         fp.write("3")
     elif(selected == "批量检测"):
+        reset()
+        os.system(reset_path)
         fp.write("4")
     elif(selected == "漏洞检测"):
+        reset()
+        os.system(reset_path)
         fp.write("5")
     elif(selected == "系统全局配置"):
+        reset()
+        os.system(reset_path)
         fp.write("6")
     fp.close()
     fp = open("./tmp/sem", "r")
