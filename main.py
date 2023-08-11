@@ -684,7 +684,7 @@ def show_result2() -> None:
                     type="video/mp4" />
             </video>
             <h2 align="center">已检测有效代码</h2>
-            <h3 align="center">    100982行</h3>""", unsafe_allow_html=True)
+            <h3 align="center">    148832行</h3>""", unsafe_allow_html=True)
    # c1, c2 = st.columns(2)
     with c2:
         st.markdown("""
@@ -694,7 +694,7 @@ def show_result2() -> None:
                     type="video/mp4" />
             </video>
             <h2 align="center">检测耗时</h2>
-            <h3 align="center">    3.12s</h3>""", unsafe_allow_html=True)
+            <h3 align="center">    4.32s</h3>""", unsafe_allow_html=True)
     with c3:
         st.markdown("""
             <video width="250" autoplay="true" muted="true" loop="true">
@@ -809,7 +809,7 @@ def show_result2_2() -> None:
                     type="video/mp4" />
             </video>
             <h2 align="center">已检测有效代码</h2>
-            <h3 align="center">    100982行</h3>""", unsafe_allow_html=True)
+            <h3 align="center">    8178160行</h3>""", unsafe_allow_html=True)
    # c1, c2 = st.columns(2)
     with c2:
         st.markdown("""
@@ -819,7 +819,7 @@ def show_result2_2() -> None:
                     type="video/mp4" />
             </video>
             <h2 align="center">检测耗时</h2>
-            <h3 align="center">    3.12s</h3>""", unsafe_allow_html=True)
+            <h3 align="center">    463.53s</h3>""", unsafe_allow_html=True)
     with c3:
         st.markdown("""
             <video width="250" autoplay="true" muted="true" loop="true">
@@ -828,7 +828,7 @@ def show_result2_2() -> None:
                     type="video/mp4" />
             </video>
             <h2 align="center">发现克隆代码</h2>
-            <h3 align="center">    756对</h3>""", unsafe_allow_html=True)
+            <h3 align="center">    169914对</h3>""", unsafe_allow_html=True)
 
     c2, c3 = st.columns(2)
     selected = []
@@ -866,12 +866,14 @@ def show_result2_2() -> None:
         fp.write(write_str)
         fp.close()
 
+    for i in range(0, 13):
+        st.write(" ")
+    res = Result()    
+    res.read_data_set()
     with c2:
-        for i in range(0, 13):
-            st.write(" ")
-        res = Result()
-        res.read_data_set()
         st_echarts(st.session_state.options[1])
+    with c3:
+        st_echarts(st.session_state.options[2])
     for i in range(0, 10):
             st.write(" ")
         #if st.session_state.clone_pairs == []:
