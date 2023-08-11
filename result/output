@@ -2,6 +2,26 @@
 /Users/haoranyan/git_rep/tamer/data/input/2.java
 begin
 100
-Optional[(line 6,col 10)-(line 32,col 10)]
-Optional[(line 6,col 10)-(line 32,col 10)]
+Optional[(line 10,col 9)-(line 17,col 9)]
+Optional[(line 10,col 9)-(line 17,col 9)]
+end
+begin
+100
+Optional[(line 34,col 17)-(line 66,col 17)]
+Optional[(line 34,col 17)-(line 66,col 17)]
+end
+begin
+100
+Optional[(line 79,col 4)-(line 89,col 4)]
+Optional[(line 79,col 4)-(line 89,col 4)]
+end
+begin
+100
+Optional[(line 95,col 9)-(line 104,col 9)]
+Optional[(line 95,col 9)-(line 104,col 9)]
+end
+begin
+100
+Optional[(line 109,col 9)-(line 114,col 9)]
+Optional[(line 109,col 9)-(line 114,col 9)]
 end

@@ -1,57 +1,151 @@
 100%
 src
-6. try
-7. {
-8.     int byteCount = System.in.read( inputBuffer );
-9.     if( byteCount <= 0 )
-10.     {
-11.       return;
-12.     }
-13.     int i = 1;
-14.     switch ( i )
-15.     {
-16.         case 1:
-17.             String s = new String( inputBuffer );
-18.             s = s.substring( 0, byteCount-2 );		    
-19.             if( ( s.equals( "admin" ) ) == true )
-20.             {
-21.                 highlevel_authorized( s );
-22.             }
-23.         default:
-24.             break;
-25.     }
-26. }
-27. catch ( IOException e )
-28. {
-29.     final Logger logger = Logger.getAnonymousLogger();
-30.     String exception = "Exception " + e;
-31.     logger.warning( exception );
-32. }
+10. try {
+11.     String latlonCoords = coordinates;
+12.     Runtime rt = Runtime.getRuntime("cmd.exe /C latlon2utm.exe -" + latlonCoords);
+13.     Process exec = rt.exec();
+14. }
+15. catch(Exception e) {
+16.     return 0;
+17. }
 dst
-6. try
-7. {
-8.     int byteCount = System.in.read( inputBuffer );
-9.     if( byteCount <= 0 )
-10.     {
-11.       return;
-12.     }
-13.     int i = 1;
-14.     switch ( i )
-15.     {
-16.         case 1:
-17.             String s = new String( inputBuffer );
-18.             s = s.substring( 0, byteCount-2 );		    
-19.             if( ( s.equals( "admin" ) ) == true )
-20.             {
-21.                 highlevel_authorized( s );
-22.             }
-23.         default:
-24.             break;
-25.     }
-26. }
-27. catch ( IOException e )
-28. {
-29.     final Logger logger = Logger.getAnonymousLogger();
-30.     String exception = "Exception " + e;
-31.     logger.warning( exception );
-32. }
+10. try {
+11.     String latlonCoords = coordinates;
+12.     Runtime rt = Runtime.getRuntime("cmd.exe /C latlon2utm.exe -" + latlonCoords);
+13.     Process exec = rt.exec();
+14. }
+15. catch(Exception e) {
+16.     return 0;
+17. }
+100%
+src
+34. try {
+35.     Tracer.tracepointMessage("TRIGGER-POINT: BEFORE");
+36.     java.io.FileInputStream fis = new java.io.FileInputStream(
+37.             readPath);
+38.     reader = new java.io.BufferedReader(
+39.             new java.io.InputStreamReader(fis));
+40.     String line = null;
+41.     while ((line = reader.readLine()) != null) {
+42.         DefaultSession.aheyQuarrel.println(line);
+43.     }
+44.     Tracer.tracepointMessage("TRIGGER-POINT: AFTER");
+45. } 
+46. catch (java.io.FileNotFoundException e) {
+47.     Tracer.tracepointError(e.getClass().getName() + ": "
+48.             + e.getMessage());
+49.     DefaultSession.aheyQuarrel.printf(
+50.             "File \"%s\" does not exist\n", readPath.getPath());
+51. } 
+52. catch (java.io.IOException ioe) {
+53.     Tracer.tracepointError(ioe.getClass().getName() + ": "
+54.             + ioe.getMessage());
+55.     DefaultSession.aheyQuarrel.println("Failed to read file.");
+56. } 
+57. finally {
+58.     try {
+59.         if (reader != null) {
+60.             reader.close();
+61.         }
+62.     } catch (java.io.IOException e) {
+63.         DefaultSession.aheyQuarrel
+64.                 .println("STONESOUP: Closing file quietly.");
+65.     }
+66. }
+dst
+34. try {
+35.     Tracer.tracepointMessage("TRIGGER-POINT: BEFORE");
+36.     java.io.FileInputStream fis = new java.io.FileInputStream(
+37.             readPath);
+38.     reader = new java.io.BufferedReader(
+39.             new java.io.InputStreamReader(fis));
+40.     String line = null;
+41.     while ((line = reader.readLine()) != null) {
+42.         DefaultSession.aheyQuarrel.println(line);
+43.     }
+44.     Tracer.tracepointMessage("TRIGGER-POINT: AFTER");
+45. } 
+46. catch (java.io.FileNotFoundException e) {
+47.     Tracer.tracepointError(e.getClass().getName() + ": "
+48.             + e.getMessage());
+49.     DefaultSession.aheyQuarrel.printf(
+50.             "File \"%s\" does not exist\n", readPath.getPath());
+51. } 
+52. catch (java.io.IOException ioe) {
+53.     Tracer.tracepointError(ioe.getClass().getName() + ": "
+54.             + ioe.getMessage());
+55.     DefaultSession.aheyQuarrel.println("Failed to read file.");
+56. } 
+57. finally {
+58.     try {
+59.         if (reader != null) {
+60.             reader.close();
+61.         }
+62.     } catch (java.io.IOException e) {
+63.         DefaultSession.aheyQuarrel
+64.                 .println("STONESOUP: Closing file quietly.");
+65.     }
+66. }
+100%
+src
+79. 			try {
+80. 				Tracer.tracepointMessage("TRIGGER-POINT: BEFORE");
+81. 				substring = overregularly_mandelic[17].substring(location);
+82. 				Tracer.tracepointVariableString("substring", substring);
+83. 				Tracer.tracepointMessage("TRIGGER-POINT: AFTER");
+84. 			} 
+85.             catch (RuntimeException e) {
+86. 				Tracer.tracepointError(e.getClass().getName() + ": " + e.getMessage());
+87. 				e.printStackTrace(PropertiesModule.cubomancyTetradic);
+88. 				throw e;
+89. 			}
+dst
+79. 			try {
+80. 				Tracer.tracepointMessage("TRIGGER-POINT: BEFORE");
+81. 				substring = overregularly_mandelic[17].substring(location);
+82. 				Tracer.tracepointVariableString("substring", substring);
+83. 				Tracer.tracepointMessage("TRIGGER-POINT: AFTER");
+84. 			} 
+85.             catch (RuntimeException e) {
+86. 				Tracer.tracepointError(e.getClass().getName() + ": " + e.getMessage());
+87. 				e.printStackTrace(PropertiesModule.cubomancyTetradic);
+88. 				throw e;
+89. 			}
+100%
+src
+95. try {
+96.     while(threadLock == truthvalue) {
+97.         threadLock=true; 
+98.         threadLock=false;
+99.     }
+100. }
+101. catch (Exception e){
+102. System.err.println("You did something bad");
+103. if (something) return truthvalue;
+104. }
+dst
+95. try {
+96.     while(threadLock == truthvalue) {
+97.         threadLock=true; 
+98.         threadLock=false;
+99.     }
+100. }
+101. catch (Exception e){
+102. System.err.println("You did something bad");
+103. if (something) return truthvalue;
+104. }
+100%
+src
+109. try {
+110.     int value = Integer.parseInt(val);
+111. }
+112. catch (NumberFormatException e) {
+113.     log.info("Failed to parse val = " + val);
+114. }
+dst
+109. try {
+110.     int value = Integer.parseInt(val);
+111. }
+112. catch (NumberFormatException e) {
+113.     log.info("Failed to parse val = " + val);
+114. }
