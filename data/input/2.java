@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 public class CWE_List {
     public int cwe_259_use_of_hard_coded_password(String password) {
         if (!password.equals("Mew!")) {
@@ -114,3 +115,5 @@ public class CWE_List {
         }
     }
 }
+=======
+>>>>>>> 1e2d021731cf5f325d1133c2407f8d5687de679b
