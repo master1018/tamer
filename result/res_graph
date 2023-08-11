@@ -1,0 +1,9 @@
+graph {
+	node [shape=box]
+	rankdir=LR
+	S [label="Clone Pairs"]
+	A0 [label="6. try\l7. {\l8.     int byteCount = System.in.read( inputBuffer );\l9.     if( byteCount <= 0 )\l10.     {\l11.       return;\l12.     }\l13.     int i = 1;\l14.     switch ( i )\l15.     {\l16.         case 1:\l17.             String s = new String( inputBuffer );\l18.             s = s.substring( 0, byteCount-2 );		    \l19.             if( ( s.equals( \"admin\" ) ) == true )\l20.             {\l21.                 highlevel_authorized( s );\l22.             }\l23.         default:\l24.             break;\l25.     }\l26. }\l27. catch ( IOException e )\l28. {\l29.     final Logger logger = Logger.getAnonymousLogger();\l30.     String exception = \"Exception \" + e;\l31.     logger.warning( exception );\l32. }\l" color=blue]
+	B0 [label="6. try\l7. {\l8.     int byteCount = System.in.read( inputBuffer );\l9.     if( byteCount <= 0 )\l10.     {\l11.       return;\l12.     }\l13.     int i = 1;\l14.     switch ( i )\l15.     {\l16.         case 1:\l17.             String s = new String( inputBuffer );\l18.             s = s.substring( 0, byteCount-2 );		    \l19.             if( ( s.equals( \"admin\" ) ) == true )\l20.             {\l21.                 highlevel_authorized( s );\l22.             }\l23.         default:\l24.             break;\l25.     }\l26. }\l27. catch ( IOException e )\l28. {\l29.     final Logger logger = Logger.getAnonymousLogger();\l30.     String exception = \"Exception \" + e;\l31.     logger.warning( exception );\l32. }\l" color=blue]
+	S -- A0
+	A0 -- B0 [label="100%" color=blue style=dashed]
+}

@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 from streamlit_echarts import st_echarts
-from echarts_option import option_pie, option_gauge, option_bar, option_pie2
+from echarts_option import option_pie, option_gauge, option_bar, option_pie2, option_pie3
 from cwe_db import *
 from streamlit_option_menu import option_menu
 from streamlit_ace import st_ace
@@ -25,6 +25,7 @@ from tamer_tool import *
 from rename import *
 from streamlit_agraph import agraph, Node, Edge, Config
 import copy
+from v_data import *
 
 with open("./data/name_to_id.json", "r") as f:
     name_to_id = json.load(f)
@@ -44,30 +45,42 @@ reset_path = "./initshell.sh"
 #  1000279=[1000463], 1000533=[1000559, 1000970, 1000499, 1000179]
 # 1000077=[1000140], 1000837=[1000431, 1000814, 1000285, 1000043, 2000166, 1000096], 2000272=[2000223], 
 
-def build_node_graph(src_list, dst_list, edge_label):
+def build_node_graph(src_list, dst_list, edge_label, w=800, h=950 / 4):
     nodes = []
     edges = []
-    new_list = copy.deepcopy(src_list)
-    new_list.extend(dst_list)
-    new_list = list(set(new_list))
+    new_list1 = copy.deepcopy(src_list)
+    new_list1 = list(set(new_list1))
 
-    for i in range(0, len(new_list)):
-        node = Node(id=new_list[i], 
-                   label=new_list[i], 
+    new_list2 = copy.deepcopy(dst_list)
+    new_list2 = list(set(new_list2))
+
+    for i in range(0, len(new_list1)):
+        node = Node(id="src_" + new_list1[i], 
+                   label="src_" + new_list1[i], 
                    size=15, 
                    shape="circularImage",
-                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png")
+                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png",
+                   color="green")
         nodes.append(node)
     
+    for i in range(0, len(new_list2)):
+        node = Node(id="dst_" + new_list2[i], 
+                   label="dst_" + new_list2[i], 
+                   size=15, 
+                   shape="circularImage",
+                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png",
+                   color="red")
+        nodes.append(node)
+
     for i in range(0, len(edge_label)):
-        edges.append( Edge(source=src_list[i], 
+        edges.append( Edge(source="src_" + src_list[i], 
                    label=edge_label[i], 
-                   target=dst_list[i], 
+                   target="dst_" + dst_list[i], 
                    # **kwargs
                    ) 
             ) 
-    config = Config(width=750,
-                height=950,
+    config = Config(width=w,
+                height=h,
                 directed=True, 
                 physics=True, 
                 hierarchical=False,
@@ -478,7 +491,18 @@ def show_result(filename) -> None:
         with st.empty():
             st.image("./result/res_graph.png")
     st.write("克隆对")
-        
+    
+    src_list = []
+    dst_list = []
+    edge_label = []
+
+    for ele in st.session_state.res_list:
+        src_list.append(ele[1])
+        dst_list.append(ele[2])
+        edge_label.append(ele[3])
+
+    build_node_graph(src_list, dst_list, edge_label)
+
     df = list_to_df(st.session_state.res_list)
     select_row = aggrid(df)
     c1, c2= st.columns(2)
@@ -1137,45 +1161,98 @@ def show_multi() -> None:
 
 def show_result3() -> None:
     # TODO 需要根据规则文件的行数来寻找具体的cwe为多少，然后从cwe_db内读取相应的参数
+    file_stat = []
+    res = Result()
+    result_dir = "./result/exp_data/"
+
+    # [BEGIN]
+    #output_file = os.listdir(result_dir)
+    #if st.session_state.parse_result_list == []:
+    #    write_str = ""
+    # static the sum result 
+    #    for output in output_file:
+    #        if "output" in output and output[0] != '.':
+    #            res.get_result_msg(result_dir + output)
+    #            res.parse_result_msg()
+    #            for i in range(0, len(res.line_msg)):
+    #                file_id1 = 0
+    #                file_id2 = 0
+
+    #                cur = len(res.cmp_file1) - 1
+    #                while res.cmp_file1[cur] != "/":
+    #                    cur -= 1
+    #                file_id1 = int(res.cmp_file1[cur + 1: len(res.cmp_file1) - 5])
+
+    #                cur = len(res.cmp_file2) - 1
+    #                while res.cmp_file2[cur] != "/":
+    #                    cur -= 1
+    #                file_id2 = int(res.cmp_file2[cur + 1: len(res.cmp_file2) - 5])
+
+    #                write_str += str(res.similar_arr[i] * 10)
+    #                write_str += " "
+                    
+                    # TODO 编
+    #                st.session_state.parse_result_list.append([id_to_name[str(file_id1)] + ".java", "({0}, {1})".format(res.line_msg[i][0], res.line_msg[i][1]), \
+    #                                        id_to_name[str(file_id2)] + ".java", "({0}, {1})".format(res.line_msg[i][2], res.line_msg[i][3]), \
+    #                                            "{0}%".format(res.similar_arr[i]) ])
+    #                file_stat.append(id_to_name[str(file_id2)] + ".java")
+    #    fp = open("./result/output2", "w")
+    #    fp.write(write_str)
+    #    fp.close()
+
+    # [END]
+        
     c1, c2 = st.columns([0.5,0.5])
+    # 第一行展示两个统计图
     with c1:
     #    st.image("./image/bug_small.gif")
-        st.text("这里放饼状图！")
-        
+        option_pie3["dataset"]["source"][1][1] = 3132 - 93
+        option_pie3["dataset"]["source"][2][1] = 93
+        st_echarts(option_pie3)
+    
+    #TODO 写入output
+    cwe_cal = v_cwe
+
+    writ_str = ""
+    for i in range(0, len(cwe_cal)):
+        val = cwe_cal[i][3]
+        writ_str += str(val * 10)
+        writ_str += ' '
+    
+    fp = open("./result/output2", "w")
+    fp.write(writ_str)
+    fp.close()
+
     with c2:
-        st.text("这里放柱状图！")
-    cwe_cal = [
-        ['2.java', '(7, 10)', 'cwe-259', '64%', 'low'],
-        ['3.java', '(12, 21)', 'cwe-78', '92%', 'high'],
-        ['4.java', '(9, 14)', 'cwe-117', '86%', 'middle']
-    ]
+        res = Result()
+        res.read_data_set()
+        st_echarts(st.session_state.options[2])
+    with st.expander("可视化散点图"):
+        build_node_graph(a_graph_src, a_graph_dst, a_graph_edge, 1200, 800)
+    
+    
     df = pd.DataFrame(cwe_cal)
-    df.columns = ['文件名', '漏洞位置', 'cwe类型', '可信度', '危险程度']
+    df.columns = ['序列', '文件索引', '行索引', '可信度']
     select = -1
     #with c2:
     select = aggrid_cwe(df)
+  
     if select != -1:
-        select_file = select[0]
-        ret1, ret2, ret3 = res_visual("./result/exp_data/res" + select_file)
-        # TODO 如果一个代码中有多个漏洞，表格选择的返回值需要有两个，一个是文件的索引，一个是行数的索引
-        # 行数的索引需要转换成idx值，可以做一个map表进行映射     
-        #print(ret2)
-        #c1, c2 = st.columns(2)
-        cwe_index = -1
-        if int(select_file) == 3:
-            cwe_index = 1
-        
-        st.code(ret2[0], "java")
-        if cwe_index != -1:
-            with st.expander("CWE描述"):
-                st.write(cwe_list[cwe_index]['decript-cn'])
-            with st.expander("安全隐患"):
-                st.write(cwe_list[cwe_index]['attacker'])
-            with st.expander('解决方案'):
-                st.write(cwe_list[cwe_index]['solution'])
-            st.markdown(f"""
-                - [更多关于CWE-78](https://cwe.mitre.org/data/definitions/78.html)
-            """)
+        v_code_chose = None
+        if int(select) <= 10:
+            v_code_chose = v_code_list[int(select) - 1]
+
+        with st.expander("source code"):
+            st.code(v_code_chose, "java", line_numbers=True)
+    
+        c3, c4 = st.columns(2)
+        with c3:
+            show_cwe_list_md(cwe_list_new[v_cwe_map[int(select) - 1]])
+        with c4:
+            with st.expander("详细描述"):
+                st.write(cwe_des[v_cwe_map[int(select) - 1]][0])
+            with st.expander("修复方案"):
+                st.write(cwe_des[v_cwe_map[int(select) - 1]][1])
 
 def show_exp() -> None:
     #set_bg_hack_url()
@@ -1340,8 +1417,8 @@ def main() -> None:
             st.session_state.mode = 1
             show_single()
     elif sem_show == 4:
-        st.session_state.show_res = 1
-        st.session_state.muti_mode = 0
+        #st.session_state.show_res = 1
+        #st.session_state.muti_mode = 0
         if (st.session_state.show_res == 1 and st.session_state.muti_mode == 0):
             show_result2_2()
 
