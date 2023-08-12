@@ -1043,7 +1043,7 @@ def show_info() -> None:
                 with mui.Typography(padding=3):
                     html.br()
                     html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABKElEQVRIDe2VwU7CQBCGCyFoQrzIDU/1HXgNfQafy4OrB+88Bw9h2kRPkpggoIYEvx+aZru0W1uKvTDJl+7OzL+7s5N0g6AFC9nTQASfsClBOTEYkDZjncxslzDF14MJvMIP+OyM4AhuYQ1jeIFcM3g/4Do36ndKI63xpanUJ19CSUxaXW1q3XS0G1zyeXN8VabSDm2B7tq2AZOvxKHEB7hI5kWfOYE7mIG0WiM1t4I00NTArcBeVye6sR11xkev4Ogb+K6oTpP3brHVCk5N3vajTpOfUd7vdbPA0XST9XZkzK1gQbSfZNRp8jnalb2DW4EWvbITKo718Lz7NIbgoQ/Oo71B2ZOp//u3LcgZ61p0cv0YS59M6UPQKWJYwl8e/Yg8A9L+r/0CQWJE+XWXN48AAAAASUVORK5CYII="),html.font(" N-grams特征提取", color = "purple"),align="center")
-                    html.div("N-grams是一种基于统计语言模型的算法，其思想是将待检测序列以结点为单位进行大小为N的滑动窗口操作，形成了长度为N的子广列。该方法主要用于捕捉序列中的局部模式，可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。",css={"text-indent":"2em"})
+                    html.div("N-grams是一种基于统计语言模型的算法，其思想是将待检测序列以结点为单位进行大小为N的滑动窗口操作，形成了长度为N的子序列。该方法主要用于捕捉序列中的局部模式，可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。",css={"text-indent":"2em"})
                     #html.p1("通过该方法可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。")
                     for i in range(3):
                         html.br()
