@@ -828,7 +828,7 @@ def show_result2_2() -> None:
                     type="video/mp4" />
             </video>
             <h2 align="center">发现克隆代码</h2>
-            <h3 align="center">    169914对</h3>""", unsafe_allow_html=True)
+            <h3 align="center">    53641对</h3>""", unsafe_allow_html=True)
 
     c2, c3 = st.columns(2)
     selected = []
