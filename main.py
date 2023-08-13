@@ -995,9 +995,9 @@ def show_info() -> None:
 
         layout = [
             # Parameters: element_identifier, x_pos, y_pos, width, height, [item properties...]
-            dashboard.Item("first_item", 0, 0, 3.5, 2.5,isResizable=False, isDraggable=False, moved=False),
-            dashboard.Item("second_item", 4, 0, 3.5, 2.5,isResizable=False, isDraggable=False, moved=False),
-            dashboard.Item("third_item", 8, 0, 3.5, 2.5, isResizable=False, isDraggable=False, moved=False),
+            dashboard.Item("first_item", 0, 0, 3.2, 2.5,isResizable=False, isDraggable=False, moved=False),
+            dashboard.Item("second_item", 3.5, 0, 3.2, 2.5,isResizable=False, isDraggable=False, moved=False),
+            dashboard.Item("third_item", 7, 0, 3.2, 2.5, isResizable=False, isDraggable=False, moved=False),
         ]
 
         # Next, create a dashboard layout using the 'with' syntax. It takes the layout
@@ -1009,9 +1009,9 @@ def show_info() -> None:
                     # 添加空行
                     
                     html.br()
-                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/8slsfiw.png"), html.font(" 代码克隆类型", color= "purple"), align="center", color='warning')
-                    html.div("主要有四种类型的代码克隆，分别为文本克隆、词法克隆、语法克隆以及语义克隆。",css={"text-indent":"2em"})
-                    for i in range(7):
+                    html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAAA/UlEQVRIDd1UMQ7CMAysEPwHBp6B+AALYuIX8AomxMIDQPwCBvgPA9zROroOqD6JhVqy7MR3uTaJU1V9shF+Zgm/wl/iHHOe9bA0dhgMxAV8D7/At/CwMRLO0w51sLANpf7yUxm1kzOG/JMw5insIBiIU/hDxprem3rMpbEqEOSfRhW4YeXJl9V5Dqzbpoe8A5uHyb3VraLoDL6C26YCx4a9RpzLSvxyLh51KXWnKvAEnNcwrmI3O4HQM0jAfYgKpLvTkdEtcjrZ0SjYdHeCwbdqU5jthPOsf0y3KN2dQc5EFcjgbUy/BJy3KI3Va+q8RQ62nJvTaA62CPxn8gZKGU3MKogDvQAAAABJRU5ErkJggg=="), html.font(" 代码克隆类型", color= "purple"), align="center", color='warning')
+                    html.div("主要分为两大类:句法克隆和语义克隆。句法克隆指文本相似的代码片段，语义克隆则是指功能相似的代码片段。基于这两大类，句法克降可以被继续细化成三小类，分别为文本克隆、词法克隆、语法克隆。",css={"text-indent":"2em"})
+                    for i in range(4):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
@@ -1019,24 +1019,21 @@ def show_info() -> None:
             with mui.Paper(key = "second_item",elevation=6):
                 with mui.Typography(padding=3):
                     html.br()
-                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnseiw.png"),html.font(" 代码克隆的表现形式", color= "purple"),align="center")
-                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为以下四类：",css={"text-indent":"2em"})
-                    html.div("1.文件克隆：一对相似的程序代码文件。",css={"text-indent":"2em"})
-                    html.div("2.类克隆：在面向对象的代码中，一对相似的类定义代码。",css={"text-indent":"2em"})
-                    html.div("3.函数克隆：一对相似的函数代码。",css={"text-indent":"2em"})
-                    html.div("4.块克隆：一对相似的代码块。",css={"text-indent":"2em"})
+                    html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABKElEQVRIDWNgGOqAEYcHuIDiVkBsAsQcONSgC/8EClwG4sNA/BFdEpmvAeRcB+L/ZOLnQH1eQEx1AHLYHCD+AcXa6Db4AAVOATHIq6S6/ilQz0wgFgBiP6j+dUCaARYHIMM3A/ETIF4JxF+AmBRgCFQMc6A9kH0HiJmBWBqIwQDkcpDhbBAuWWQWUBfI595A3ANlMzABGSCgD8TLgPgXiEMmWAzVpwek4SEAswDk8m9kGgzT9hnKYIcJgGiYBchiVGWPWoArOEGpCQxoGUSgDEvTSD5DawvmgixgARFAAMpgPGAW+QQ3VCsoaNYD8Q1ko0BFxWMgpqSoyAbqhxUVcLPRCztQqQgqMkjN1cZAPZ5AfBqIbYD4LxBjAFhpSGlxjWHwqADeEAAA7BVZDx1YNJsAAAAASUVORK5CYII="),html.font(" 代码克隆表现形式", color= "purple"),align="center")
+                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为四类:文件克座、类克隆、函数克隆和块克隆",css={"text-indent":"2em"})
                     #html.p1("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。")
-                    html.br()
+                    for i in range(4):
+                        html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
                         mui.Typography("Read More")
             with mui.Paper(key = "third_item",elevation=6):
                 with mui.Typography(padding=3):
                     html.br()
-                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnsm8v.png"),html.font(" 抽象语法树", color= "purple"),align="center")
+                    html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABM0lEQVRIDe2UvUoDQRRGN0FIrJPOIhAbX0CL1EL8aYQ8hIXYCFaChaV1qlQ+gpUWFnmFPIFgYScphEQbNefAbEgiC2OYNOoHJ7M3M/fbmTs7k2V/Sbss9hYe4QLqkEybOH3AAG5gFFqaNLrG5gWqwe6c9g1qIS5syoU98x0b82H6aA/LT1hZiRqYj8GyPEHSTS5h+ACv4IuS6xjHL7BNLmfszF2BK0mq/9IUlnNlpfFUH0IPlvlq1snrBI9vN8QWHd6SGountgWxajJwCHm+Xnpma/6gU6jAjgHyWu7CmUGELhnjKW+HsebreRLi7JkHS5MrL1M+o5h2MV/P6Qp84xFs+ydyL/pwZRAhV2DObL6eUy3ugfW0rrEq3IPZ41/GbR+qcAfW9CfyKzqAd7gHP5RfoAn8GlD+HU1JmgAAAABJRU5ErkJggg=="),html.font(" 抽象语法树", color= "purple"),align="center")
                     html.div("抽象语法树可以看作是源代码的一种抽象表示，它去除了源代码中的细节和冗余信息，只保留了语法结构的关键部分。每个节点代表源代码中的一个语法结构元素，如表达式、变量、函数等，而节点之间的关系则表示了它们的层次和相互关联。",css={"text-indent":"2em"})
                     #html.p1("源代码语法结构的一种抽象表示，树上的每个结点代表源代码中的一个token特征。")
-                    for i in range(4):
+                    for i in range(3):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
@@ -1045,10 +1042,10 @@ def show_info() -> None:
             with mui.Paper(key="first_item", elevation=6):
                 with mui.Typography(padding=3):
                     html.br()
-                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnsx1u.png"),html.font(" N-grams特征提取", color = "purple"),align="center")
-                    html.div("通过该方法可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。",css={"text-indent":"2em"})
+                    html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABKElEQVRIDe2VwU7CQBCGCyFoQrzIDU/1HXgNfQafy4OrB+88Bw9h2kRPkpggoIYEvx+aZru0W1uKvTDJl+7OzL+7s5N0g6AFC9nTQASfsClBOTEYkDZjncxslzDF14MJvMIP+OyM4AhuYQ1jeIFcM3g/4Do36ndKI63xpanUJ19CSUxaXW1q3XS0G1zyeXN8VabSDm2B7tq2AZOvxKHEB7hI5kWfOYE7mIG0WiM1t4I00NTArcBeVye6sR11xkev4Ogb+K6oTpP3brHVCk5N3vajTpOfUd7vdbPA0XST9XZkzK1gQbSfZNRp8jnalb2DW4EWvbITKo718Lz7NIbgoQ/Oo71B2ZOp//u3LcgZ61p0cv0YS59M6UPQKWJYwl8e/Yg8A9L+r/0CQWJE+XWXN48AAAAASUVORK5CYII="),html.font(" N-grams特征提取", color = "purple"),align="center")
+                    html.div("N-grams是一种基于统计语言模型的算法，其思想是将待检测序列以结点为单位进行大小为N的滑动窗口操作，形成了长度为N的子序列。该方法主要用于捕捉序列中的局部模式，可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。",css={"text-indent":"2em"})
                     #html.p1("通过该方法可以获取源代码相邻token的信息，便于查找具有相似特征的代码文件。")
-                    for i in range(7):
+                    for i in range(3):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
@@ -1056,10 +1053,10 @@ def show_info() -> None:
             with mui.Paper(key="second_item", elevation=6):
                 with mui.Typography(padding=3):
                     html.br()
-                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vnt58o.png"),html.font(" 代码相似度计算", color = "purple"),align="center")
-                    html.div("可以计算两个代码文件之间的相似程度。",css={"text-indent":"2em"})
+                    html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABwElEQVRIDd2VyytEURzHh0hRiJVQNh5hZWFj6ZWVWFmwkvwPLNiY/8DGQslCbLwWlJINVoo8UpKFkhR2Xsn4fG9zZu6cO3fOzCznW5+55/zO73HP7957JhIpZI2zuRU4gw+IpeEP2zvcwwb0QoqKUmbJSRvDseQ046iR1S7ogFKYhSh4sgvIQc7toEB7HVNCWnuBK7iEWtgGxQ7BPqSomtkRpGuFy/ZNnHbcAJ+wDgEtYZHjFDRDCbhUjkMnHMIvNMEuPEFAj1hWA9bsDK24aZeToP5r7KnYDLjWw4NvnsvwLu6sHOpCQv426KHptctHJs5/w16egCGH7DP4nrj88y0wR+IFuM63gL6HupBgJZ+HZZiGjArbwShR+vwHrGh/cr3OpveWW3IaVuAAl1vYAlMk5+Qq43+LNDd6Y9APKrQDF9ANaks2d/6Fn6ewHWjxFVRkD1ogCtkkxy1yrh/J3oHdUxUZAX0jMXDJ+OnY8eQvoDO/Km63L67klfEA5dCJqucX0DEWHb0VgRW3YQIX3USf7aotGQ0z2IQbULFncN15GT76oxkE9b0HdKqGSkXWQH8gP6ACmdAzOoVFqIEC1D/gn24MNcol5gAAAABJRU5ErkJggg=="),html.font(" 代码相似度计算", color = "purple"),align="center")
+                    html.div("主要使用生成相同N-grams的数量占较长序列生成N-grams数量的百分比以及LCS算法对代码之间的相似度进行计算。LCS算法即最长公共子序列计算方法，使用动态规划的思想，递归求出两段代码生成结点序列间最长的公共序列长度。",css={"text-indent":"2em"})
                     #html.p1("可以计算两个代码文件之间的相似程度。",size='large')
-                    for i in range(8):
+                    for i in range(3):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
@@ -1067,10 +1064,10 @@ def show_info() -> None:
             with mui.Paper(key="third_item", elevation=6):
                 with mui.Typography(padding=3):
                     html.br()
-                    html.h1(html.img(src="https://great.wzznft.com/i/2023/06/12/vntfx9.png"),html.font(" CWE漏洞模板库", color = "purple"),align="center")
-                    html.div("搜集了常见CWE漏洞模板代码，构建起了CWE漏洞模板库，可以用于漏洞检测。",css={"text-indent":"2em"})
+                    html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABfElEQVRIDd2VPS8EURSGh/iqJEj8AQlRaVV+h0Kv0lOIqcj+AIXolCQqNEqVQisK8Q8IhUR8P4+ducnezN3ZyRbEmzx7P855z9mZubObZX9EM3yPPbgvcO5e35qnwgG8wVfBNeNzsWfMnMZawHEIH1AWLsecvWnYgScwx1w9tZog4xg+oSwYjzmxUpNMcngAPXqtkdQJkbhgvM4r3OPsbYBXZI2kXojEBeN1nnRn2TYxawQNhll7Mhqtmy5fMXTUiBs0LVib//8aeA/70QDmjhrxLfKnYB+Gu2ART5bnXnzR5B02wRpBQ2HWntwxzIHJKVlc2UiVY3uVZdYIiq/ggsgi+OKkVDZIxa0RFDfwVR+B5ZDRfGKNrrokegtjiawt9r2KKvTWaokMH14rkZlqoEdvT9olS8NKRXaqgZ6e5TE9B/9o1iJXVQNz9TSSz+AIvNenMAsqbmBO6nn9GLp9eMpW4RF8mc7gCmzqnrH4JLLVXFNY1uGmwLl7v69vvuV7E5M7hD0AAAAASUVORK5CYII="),html.font(" CWE漏洞模板库", color = "purple"),align="center")
+                    html.div("是由美国国土安全部国家计算机安全部门资助的软件安全战略性项目。CWE搜集了常见漏洞模板代码，提示并帮助开发人员降低源代码缺陷带来的开发风险。CWE作为目前最权威的源代码缺陷研究项目，其成果已被越来越多的专业人员所认可，逐渐成为衡量源代码缺陷检测产品检测能力的重要衡量标准。",css={"text-indent":"2em"})
                     #html.p1("搜集了常见CWE漏洞模板代码，构建起了CWE漏洞模板库，可以用于漏洞检测。")
-                    for i in range(7):
+                    for i in range(1):
                         html.br()
                     with mui.Button(align="bottom",color="inherit", size="small",variant="string"):
                         mui.icon.DoubleArrow()
