@@ -1,0 +1,3 @@
+class IllegalEscapeChar {
+    String s = "\!";
+}

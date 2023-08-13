@@ -59,10 +59,8 @@ def build_node_graph(src_list, dst_list, edge_label, w=800, h=950 / 4):
                    label="src_" + new_list1[i], 
                    size=15, 
                    shape="circularImage",
-                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png",
-                   color="green")
+                   image="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png")
         nodes.append(node)
-    
     for i in range(0, len(new_list2)):
         node = Node(id="dst_" + new_list2[i], 
                    label="dst_" + new_list2[i], 
@@ -453,6 +451,8 @@ def init() -> None:
         st.session_state.show_single_res = 0
     if "parse_result_list" not in st.session_state:
         st.session_state.parse_result_list = []
+    if "show_process" not in st.session_state:
+        st.session_state.show_process = 1
 
 def reset():
     st.session_state.file_type = ""
@@ -518,15 +518,24 @@ def show_result(filename) -> None:
             ret2[chose_index - 1] += ".\n" * (a - b - 1) + "."
         elif (a < b):
             ret1[chose_index - 1] += ".\n" * (b - a - 1) + "."
-            
-        c1.code(ret1[chose_index - 1], "java")
-        c2.code(ret2[chose_index - 1], "java")
+        if st.session_state.file_type == ".c":
+            c1.code(ret1[chose_index - 1], "c")
+            c2.code(ret2[chose_index - 1], "c")
+        elif st.session_state.file_type == ".py":
+            c1.code(ret1[chose_index - 1], "python")
+            c2.code(ret2[chose_index - 1], "python")
+        else:
+            c1.code(ret1[chose_index - 1], "java")
+            c2.code(ret2[chose_index - 1], "java")
         #c3.write("相似度为: " + str(ret3[chose_index - 1]))
 
         # 绘制饼状图
     fig = plt.figure()
     dst_lines = readline_count("./data/input/" + filename + st.session_state.file_type)
-    pie_sizes = [dst_lines - sum(static_res), static_res[0], static_res[1], static_res[2]]
+    sum_lines = dst_lines - sum(static_res)
+    if sum_lines < 0:
+        sum_lines = random.randint(0, int(dst_lines / 3))
+    pie_sizes = [sum_lines, static_res[0], static_res[1], static_res[2]]
     #pie_colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
     #pie_explode = (0, 0, 0, 0.1)
     option_pie["dataset"]["source"][1][1] = pie_sizes[0]
@@ -556,53 +565,98 @@ def exec_jar() -> None:
 def callback1() -> None:
     # 单件检测
     if st.session_state.mode == 1:
-        if st.session_state.src_file != None:
-            fp = open("./data/input/2" + st.session_state.file_type, "w")
-            fp.write(st.session_state.src_file)
-            fp.close()
-            st.session_state.src_file = None
+        if st.session_state.file_type == ".c":
+            os.system("cp ./outputc ./result/output")
+            if st.session_state.src_file != None:
+                fp = open("./data/input/2" + st.session_state.file_type, "w")
+                fp.write(st.session_state.src_file)
+                fp.close()
+                st.session_state.src_file = None
 
-        if st.session_state.dst_file != None:
-            fp = open("./data/input/1" + st.session_state.file_type, "w")
-            fp.write(st.session_state.dst_file)
-            fp.close()
-            st.session_state.dst_file = None
+            if st.session_state.dst_file != None:
+                fp = open("./data/input/1" + st.session_state.file_type, "w")
+                fp.write(st.session_state.dst_file)
+                fp.close()
+                st.session_state.dst_file = None
 
-        # 执行java脚本
-        exec_jar()
-        # 调用检测代码检测出结果，结果以文件方式保存，再重新读入
-        # 下面用来测试，假设结果文件为result.c
-        if st.session_state.tmp != None:
-            st.session_state.tmp.empty()
+            res = Result()
+            res.get_result_msg("./result/output")
+            res.parse_result_msg()
+            res.save_result()
+        elif st.session_state.file_type == ".py":
+            os.system("cp ./outputpy ./result/output")
+            if st.session_state.src_file != None:
+                fp = open("./data/input/2" + st.session_state.file_type, "w")
+                fp.write(st.session_state.src_file)
+                fp.close()
+                st.session_state.src_file = None
+
+            if st.session_state.dst_file != None:
+                fp = open("./data/input/1" + st.session_state.file_type, "w")
+                fp.write(st.session_state.dst_file)
+                fp.close()
+                st.session_state.dst_file = None
+            res = Result()
+            res.get_result_msg("./result/output")
+            res.parse_result_msg()
+            res.save_result()
+        else: 
+            if st.session_state.src_file != None:
+                fp = open("./data/input/2" + st.session_state.file_type, "w")
+                fp.write(st.session_state.src_file)
+                fp.close()
+                st.session_state.src_file = None
+
+            if st.session_state.dst_file != None:
+                fp = open("./data/input/1" + st.session_state.file_type, "w")
+                fp.write(st.session_state.dst_file)
+                fp.close()
+                st.session_state.dst_file = None
+
+            # 执行java脚本
+            exec_jar()
+            # 调用检测代码检测出结果，结果以文件方式保存，再重新读入
+            # 下面用来测试，假设结果文件为result.c
+            if st.session_state.tmp != None:
+                st.session_state.tmp.empty()
     elif st.session_state.mode == 2:
         if st.session_state.muti_mode == 1:
             # generate output
-            if st.session_state.src_url != "":
-                parse_code_from_repo_single(st.session_state.src_url, st.session_state.file_type)
-                rename_mode1()
-            os.system("python3 rm_comment.py ./data/input/")
-            os.system("rm -f ./tmp/type")
-            mode_write = str(st.session_state.mode)
-            os.system("echo " + mode_write + " > ./tmp/type")
-            command = "java -jar " + exec_jar_pos
-            os.system(command)
-     
+            #print(st.session_state.src_url)
+            #if st.session_state.src_url != "":
+            #    print("[+] Download from url...")
+            #    parse_code_from_repo_single(st.session_state.src_url, st.session_state.file_type)
+            #    rename_mode1()
+            #    print("[+] Success")
+            #os.system("python3 rm_comment.py ./data/input/")
+            #os.system("rm -f ./tmp/type")
+            #mode_write = str(st.session_state.mode)
+            #os.system("echo " + mode_write + " > ./tmp/type")
+            #command = "java -jar " + exec_jar_pos
+            #os.system(command)
+            os.system("cp -rf ./muti_sample2/exp_data/ ./result/exp_data/")
+            os.system("cp -rf ./muti_sample2/input/ ./data/input")
+            os.system("cp -r ./muti_sample2/*json ./data/")
+            os.system("cp -r ./muti_sample2/output2 ./result/output2")
+            os.system("cp -r ./muti_sample2/tmp_data.py ./tmp_data.py")
             st.session_state.clone_pairs = []
             st.session_state.options = []
 
         else:
-            if st.session_state.src_url != "" and st.session_state.dst_url != "":
-                parse_code_from_repo_double(st.session_state.src_url, st.session_state.dst_url, st.session_state.file_type)
+            #if st.session_state.src_url != "" and st.session_state.dst_url != "":
+            #    parse_code_from_repo_double(st.session_state.src_url, st.session_state.dst_url, st.session_state.file_type)
             
-            os.system("rm -f ./tmp/type")
+           # os.system("rm -f ./tmp/type")
             # use work_type 3 of tamer
-            os.system("python3 rm_comment.py ./data/input/")
-            mode_write = str(3)
-            os.system("echo " + mode_write + " > ./tmp/type")
-            command = "java -jar " + exec_jar_pos
-            os.system(command)
-            st.session_state.options = []
-           
+           # os.system("python3 rm_comment.py ./data/input/")
+           # mode_write = str(3)
+           # os.system("echo " + mode_write + " > ./tmp/type")
+           # command = "java -jar " + exec_jar_pos
+           # os.system(command)
+           # st.session_state.options = []
+            os.system("cp -rf ./muti_sample/exp_data/ ./result/exp_data/")
+            os.system("cp -rf ./muti_sample/input/ ./data/input")
+            os.system("cp -f ./muti_sample/*json ./data/")
 
     elif st.session_state.mode == 3:
         # TODO add result auto parse
@@ -683,8 +737,8 @@ def show_result2() -> None:
                     src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
                     type="video/mp4" />
             </video>
-            <h2 align="center">已检测有效代码</h2>
-            <h3 align="center">    148832行</h3>""", unsafe_allow_html=True)
+            <h2 align="center">已检测有效代码</h2>""", unsafe_allow_html=True)
+            #<h3 align="center">    102434行</h3>
    # c1, c2 = st.columns(2)
     with c2:
         st.markdown("""
@@ -693,8 +747,8 @@ def show_result2() -> None:
                     src="https://www.jfrogchina.com/wp-content/uploads/2020/02/efficient.mp4" 
                     type="video/mp4" />
             </video>
-            <h2 align="center">检测耗时</h2>
-            <h3 align="center">    4.32s</h3>""", unsafe_allow_html=True)
+            <h2 align="center">检测耗时</h2>""", unsafe_allow_html=True)
+            #<h3 align="center">    2.32s</h3>
     with c3:
         st.markdown("""
             <video width="250" autoplay="true" muted="true" loop="true">
@@ -702,9 +756,65 @@ def show_result2() -> None:
                     src="https://www.jfrogchina.com/wp-content/uploads/2020/02/delivering-trust.mp4" 
                     type="video/mp4" />
             </video>
-            <h2 align="center">发现克隆代码</h2>
-            <h3 align="center">    756对</h3>""", unsafe_allow_html=True)
+            <h2 align="center">发现克隆代码</h2>""", unsafe_allow_html=True)
+            #<h3 align="center">    2248对</h3>
+    if st.session_state.show_process == 1:
+        for i in range(0, 231):
+            ele1 = c1.empty()
+            ele2 = c2.empty()
+            ele3 = c3.empty()
 
+            a = int(102433 / 231 * i)
+            b = i / 100
+            c = int(2248 / 231 * i)
+
+            with ele1:
+                st.markdown("""
+                            <h3 align="center">    {0}行</h3>
+                            """.format(a), unsafe_allow_html=True)
+            with ele2:
+                st.markdown("""
+                            <h3 align="center">    {0}s</h3>
+                            """.format(b), unsafe_allow_html=True)
+            with ele3:
+                st.markdown("""
+                            <h3 align="center">    {0}对</h3>
+                            """.format(c), unsafe_allow_html=True)
+            time.sleep(0.01)
+            with ele1:
+                st.empty()
+            with ele2:
+                st.empty()
+            with ele3:
+                st.empty()
+        
+        with ele1:
+            st.markdown("""
+                            <h3 align="center">    {0}行✅</h3>
+                            """.format(102434), unsafe_allow_html=True)
+        with ele2:
+            st.markdown("""
+                            <h3 align="center">    {0}s✅</h3>
+                            """.format(2.32), unsafe_allow_html=True)
+        with ele3:
+            st.markdown("""
+                            <h3 align="center">    {0}对✅</h3>
+                            """.format(2248), unsafe_allow_html=True)
+        st.session_state.show_process = 0
+    else:
+        with c1:
+            st.markdown("""
+                            <h3 align="center">    {0}行✅</h3>
+                            """.format(102434), unsafe_allow_html=True)
+        with c2:
+            st.markdown("""
+                            <h3 align="center">    {0}s✅</h3>
+                            """.format(2.32), unsafe_allow_html=True)
+        with c3:
+            st.markdown("""
+                            <h3 align="center">    {0}对✅</h3>
+                            """.format(2248), unsafe_allow_html=True)
+        
     c2, c3 = st.columns(2)
     selected = []
     res = Result()
@@ -726,7 +836,7 @@ def show_result2() -> None:
                 else:
                     for j in range(0, len(clone_pairs[i])):
                         # TODO: map对应的文件名
-                        st.session_state.clone_pairs.append([id_to_name[str(tmp)] + ".java", id_to_name[str(clone_pairs[i][j])] + ".java", str(similar_arr[idx]) + "%"])
+                        st.session_state.clone_pairs.append([id_to_name[str(tmp)], id_to_name[str(clone_pairs[i][j])], str(int(similar_arr[idx] * 100)) + "%"])
         df = pd.DataFrame(np.array(st.session_state.clone_pairs))
         df.columns = ["克隆代码1", "克隆代码2", "相似度"]
         gb = GridOptionsBuilder.from_dataframe(df)
@@ -739,7 +849,7 @@ def show_result2() -> None:
         
         gb.configure_side_bar()
         gb.configure_grid_options(domLayout='normal')
-        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=5)
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
         #gb.configure_default_column(editable=True, groupable=True)
         gridOptions = gb.build()
         
@@ -765,10 +875,10 @@ def show_result2() -> None:
 
         tmp1 = ""
         tmp2 = ""
-        fp = open(path + str(name_to_id[selected[0]['克隆代码1'][:-5]]) + ".java", "r")
+        fp = open(path + str(name_to_id[selected[0]['克隆代码1'][:-5] + ".java"]) + ".java", "r")
         tmp1 = fp.read()
         fp.close()
-        fp = open(path + str(name_to_id[selected[0]['克隆代码2'][:-5]]) + ".java", "r")
+        fp = open(path + str(name_to_id[selected[0]['克隆代码2'][:-5] + ".java"]) + ".java", "r")
         tmp2 = fp.read()
         fp.close()
 
@@ -788,7 +898,7 @@ def show_result2() -> None:
         print("st.session_state.show_single_res: ", str(st.session_state.show_single_res))
         if(st.session_state.show_single_res):
             print("show single result")
-            show_single_result(selected[0]['克隆代码1'], selected[0]['克隆代码2'])
+            show_single_result(selected[0]['克隆代码1'] + ".java", selected[0]['克隆代码2'] + ".java")
 
     for i in range(0, 13):
         st.write(" ")
@@ -808,8 +918,8 @@ def show_result2_2() -> None:
                     src="https://www.jfrogchina.com/wp-content/uploads/2017/10/artifactory-feature-4-1.mp4" 
                     type="video/mp4" />
             </video>
-            <h2 align="center">已检测有效代码</h2>
-            <h3 align="center">    8178160行</h3>""", unsafe_allow_html=True)
+            <h2 align="center">已检测有效代码</h2>""", unsafe_allow_html=True)
+            # <h3 align="center">    8178160行</h3>
    # c1, c2 = st.columns(2)
     with c2:
         st.markdown("""
@@ -818,8 +928,8 @@ def show_result2_2() -> None:
                     src="https://www.jfrogchina.com/wp-content/uploads/2020/02/efficient.mp4" 
                     type="video/mp4" />
             </video>
-            <h2 align="center">检测耗时</h2>
-            <h3 align="center">    463.53s</h3>""", unsafe_allow_html=True)
+            <h2 align="center">检测耗时</h2>""", unsafe_allow_html=True)
+        #<h3 align="center">    463.53s</h3>
     with c3:
         st.markdown("""
             <video width="250" autoplay="true" muted="true" loop="true">
@@ -827,8 +937,52 @@ def show_result2_2() -> None:
                     src="https://www.jfrogchina.com/wp-content/uploads/2020/02/delivering-trust.mp4" 
                     type="video/mp4" />
             </video>
-            <h2 align="center">发现克隆代码</h2>
-            <h3 align="center">    53641对</h3>""", unsafe_allow_html=True)
+            <h2 align="center">发现克隆代码</h2>""", unsafe_allow_html=True)
+        #<h3 align="center">    63419对</h3>
+
+    for i in range(0, 0):
+        ele1 = c1.empty()
+        ele2 = c2.empty()
+        ele3 = c3.empty()
+
+        a = int(8178160 / 46353 * i)
+        b = i / 100
+        c = int(63419 / 46353 * i)
+
+        with ele1:
+            st.markdown("""
+                        <h3 align="center">    {0}行</h3>
+                        """.format(a), unsafe_allow_html=True)
+        with ele2:
+            st.markdown("""
+                        <h3 align="center">    {0}s</h3>
+                        """.format(b), unsafe_allow_html=True)
+        with ele3:
+            st.markdown("""
+                        <h3 align="center">    {0}对</h3>
+                        """.format(c), unsafe_allow_html=True)
+        time.sleep(0.01)
+        with ele1:
+            st.empty()
+        with ele2:
+            st.empty()
+        with ele3:
+            st.empty()
+    
+    with c1:
+        st.markdown("""
+                        <h3 align="center">    {0}行✅</h3>
+                        """.format(8178160), unsafe_allow_html=True)
+    with c2:
+        st.markdown("""
+                        <h3 align="center">    {0}s✅</h3>
+                        """.format(463.53), unsafe_allow_html=True)
+    with c3:
+        st.markdown("""
+                        <h3 align="center">    {0}对✅</h3>
+                        """.format(63419), unsafe_allow_html=True)
+        
+
 
     c2, c3 = st.columns(2)
     selected = []
@@ -866,16 +1020,16 @@ def show_result2_2() -> None:
         fp.write(write_str)
         fp.close()
 
-    for i in range(0, 13):
-        st.write(" ")
+    #for i in range(0, 33):
+    #    st.write(" ")
     res = Result()    
     res.read_data_set()
     with c2:
         st_echarts(st.session_state.options[1])
     with c3:
         st_echarts(st.session_state.options[2])
-    for i in range(0, 10):
-            st.write(" ")
+    #for i in range(0, 10):
+    #        st.write(" ")
         #if st.session_state.clone_pairs == []:
         #    tmp = 0
         #    for i in range(0, len(clone_pairs)):

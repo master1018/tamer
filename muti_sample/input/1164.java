@@ -1,0 +1,2 @@
+    ClassDoc findClass(String className);
+}

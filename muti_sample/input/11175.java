@@ -1,0 +1,2 @@
+class MissingSVUID implements Serializable {
+}

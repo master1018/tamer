@@ -1,0 +1,3 @@
+class InvalidMethodDecl {
+    m() { }
+}

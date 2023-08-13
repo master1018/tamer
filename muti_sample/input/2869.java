@@ -1,0 +1,4 @@
+class UnclosedComment {
+    /*
+    void m() { }
+}

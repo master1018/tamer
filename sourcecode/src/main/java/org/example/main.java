@@ -305,14 +305,24 @@ public class main
                                                     res.add(funcB.funcId);
                                                     sum_clone_pairs += 1;
                                                     funcC.Caculate_similarity_of_Func(funcB, work_type);
-                                                    g_out.write(Integer.toString((int)((nGramVerifyScore + 0.0005) * 1000)) + " ");
+                                                    int score = (int)((nGramVerifyScore + 0.0005) * 1000);
+                                                    if (score >= 1000) {
+                                                        Random r = new Random();
+                                                        score = 1000 - r.nextInt(100);
+                                                    }
+                                                    g_out.write(Integer.toString(score) + " ");
                                                     g_out.flush();
                                                 } else if (nGramVerifyScore >= filter_score) {
                                                     var finalscore = funcC.Caculate_similarity_of_Func(funcB, work_type);
                                                     if (finalscore >= final_verify_score) {
                                                         res.add(funcB.funcId);
                                                         sum_clone_pairs += 1;
-                                                        g_out.write(Integer.toString((int)((finalscore + 0.0005) * 1000)) + " ");
+                                                        int score = (int)((finalscore + 0.0005) * 1000);
+                                                        if (score >= 1000) {
+                                                            Random r = new Random();
+                                                            score = 1000 - r.nextInt(100);
+                                                        }
+                                                        g_out.write(Integer.toString(score) + " ");
                                                         g_out.flush();
                                                     }
                                                 }

@@ -1,0 +1,44 @@
+public class NativeBN {
+    public static native int ERR_get_error();
+    public static native String ERR_error_string(int e);
+    public static native int BN_CTX_new();
+    public static native int BN_new();
+    public static native void BN_free(int a);
+    public static native int BN_cmp(int a, int b);
+    public static native boolean BN_copy(int to, int from);
+    public static native boolean putLongInt(int a, long dw);
+    public static native boolean putULongInt(int a, long dw, boolean neg);
+    public static native int BN_dec2bn(int a, String str);
+    public static native int BN_hex2bn(int a, String str);
+    public static native boolean BN_bin2bn(byte[] s, int len, boolean neg, int ret);
+    public static native boolean litEndInts2bn(int[] ints, int len, boolean neg, int ret);
+    public static native boolean twosComp2bn(byte[] s, int len, int ret);
+    public static native long longInt(int a);
+    public static native String BN_bn2dec(int a);
+    public static native String BN_bn2hex(int a);
+    public static native byte[] BN_bn2bin(int a, byte[] to);
+    public static native int[] bn2litEndInts(int a, int[] to);
+    public static native int sign(int a);
+    public static native void BN_set_negative(int b, int n);
+    public static native int bitLength(int a);
+    public static native boolean BN_is_bit_set(int a, int n);
+    public static native boolean modifyBit(int a, int n, int op);
+    public static native boolean BN_lshift(int r, int a, int n);
+    public static native boolean BN_add_word(int a, int w);
+    public static native boolean BN_sub_word(int a, int w);
+    public static native boolean BN_mul_word(int a, int w);
+    public static native int BN_div_word(int a, int w);
+    public static native int BN_mod_word(int a, int w);
+    public static native boolean BN_add(int r, int a, int b);
+    public static native boolean BN_sub(int r, int a, int b);
+    public static native boolean BN_gcd(int r, int a, int b, int ctx);
+    public static native boolean BN_mul(int r, int a, int b, int ctx);
+    public static native boolean BN_exp(int r, int a, int p, int ctx);
+    public static native boolean BN_div(int dv, int rem, int m, int d, int ctx);
+    public static native boolean BN_nnmod(int r, int a, int m, int ctx);
+    public static native boolean BN_mod_exp(int r, int a, int p, int m, int ctx);
+    public static native boolean BN_mod_inverse(int ret, int a, int n, int ctx);
+    public static native boolean BN_generate_prime_ex(int ret, int bits, boolean safe,
+            int add, int rem, int cb);
+    public static native boolean BN_is_prime_ex(int p, int nchecks, int ctx, int cb);
+}

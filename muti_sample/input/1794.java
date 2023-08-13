@@ -1,0 +1,2 @@
+public class DuplicateClass2 {
+}

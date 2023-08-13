@@ -1,0 +1,27 @@
+/Users/haoranyan/git_rep/tamer/data/input/1241.java
+/Users/haoranyan/git_rep/tamer/data/input/3019.java
+begin
+92
+Optional[(line 4,col 9)-(line 7,col 9)]
+Optional[(line 3,col 17)-(line 6,col 17)]
+end
+begin
+98
+Optional[(line 12,col 17)-(line 15,col 17)]
+Optional[(line 3,col 17)-(line 6,col 17)]
+end
+begin
+100
+Optional[(line 16,col 17)-(line 18,col 17)]
+Optional[(line 7,col 17)-(line 9,col 17)]
+end
+begin
+51
+Optional[(line 24,col 9)-(line 29,col 9)]
+Optional[(line 3,col 17)-(line 6,col 17)]
+end
+begin
+50
+Optional[(line 24,col 9)-(line 29,col 9)]
+Optional[(line 7,col 17)-(line 9,col 17)]
+end

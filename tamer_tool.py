@@ -93,3 +93,16 @@ def parse_code_from_repo_single(git_repo, file_type):
         os.system("mv " + file + " ./data/input/")
     
     os.system("python3 rm_comment.py ./data/input/")
+
+
+def add_class(path):
+    file_list = os.listdir(path)
+    for file in file_list:
+        file_p = path + file
+        fp = open(file_p, "r")
+        code = fp.read()
+        fp.close()
+        code = "public class test {\n" + code + "\n}"
+        fp = open(file_p, "w")
+        fp.write(code)
+        fp.close()

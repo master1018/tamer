@@ -1,0 +1,3 @@
+class EnumAsIdentifier {
+    int enum;
+}

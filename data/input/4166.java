@@ -1,0 +1,1 @@
+class SerialWarn extends Throwable {}

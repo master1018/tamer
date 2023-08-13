@@ -1,0 +1,2 @@
+public class ParamTest<E> {
+}
