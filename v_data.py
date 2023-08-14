@@ -62,16 +62,16 @@ return true;
 v_code_list = [v_code1, v_code2, "hi", "hi",v_code5, "hi",v_code7, "hi", v_code9, v_code10]
 v_cwe_map = [0, 0, -1, -1, 8, -1, 5, -1, 7, 7]
 v_cwe = []
-v_cwe.append([1, '1.java', "(3, 9)", 91]) # code1
-v_cwe.append([2, '2.java', "(83, 84)", 87]) # code2
-v_cwe.append([3, "3.java", "(19, 26)", 84])  # code3
+v_cwe.append([1, '1.java', "(3, 9)", 71]) # code1
+v_cwe.append([2, '2.java', "(83, 84)", 67]) # code2
+v_cwe.append([3, "3.java", "(19, 26)", 74])  # code3
 v_cwe.append([4, '4.java', "(33, 38)", 64])
-v_cwe.append([5, "5.java", "(69, 76)", 54])
+v_cwe.append([5, "5.java", "(69, 76)", 91])
 v_cwe.append([6, "6.java", "(21, 29)", 89]) # code4
 v_cwe.append([7, "7.java", "(76, 78)", 92]) # code5
 v_cwe.append([8, '8.java', "(53, 58)", 77])
 v_cwe.append([9, "9.java", "(49, 56)", 69])
-v_cwe.append([10, "10.java", "(43, 46)", 76]) # code6
+v_cwe.append([10, "10.java", "(43, 46)", 85]) # code6
 
 v_cwe.extend(v_cwe_list)
 

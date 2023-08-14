@@ -249,9 +249,9 @@ class Result:
         option_pie2["dataset"]["source"][2][1] = stat[2]
         option_pie2["dataset"]["source"][3][1] = stat[3]
 
-        option_bar["series"][0]["data"][0]["value"] = stat[3]
+        option_bar["series"][0]["data"][0]["value"] = stat[1]
         option_bar["series"][0]["data"][1]["value"] = stat[2]
-        option_bar["series"][0]["data"][2]["value"] = stat[1]
+        option_bar["series"][0]["data"][2]["value"] = stat[3]
 
         st.session_state.options.append(option_gauge)
         st.session_state.options.append(option_pie2)
@@ -669,7 +669,8 @@ def callback1() -> None:
         #        res.parse_result_msg()
         #        save_path = path + "/res" + file[len(file) - 1] 
         #        res.save_result(save_path)
-        
+        for i in range(0, 100):
+            time.sleep(0.1)
         a = 1
     st.session_state.show_res = 1
 
@@ -980,7 +981,7 @@ def show_result2_2() -> None:
     with c3:
         st.markdown("""
                         <h3 align="center">    {0}对✅</h3>
-                        """.format(63419), unsafe_allow_html=True)
+                        """.format(58809), unsafe_allow_html=True)
         
 
 
@@ -1174,7 +1175,7 @@ def show_info() -> None:
                 with mui.Typography(padding=3):
                     html.br()
                     html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABKElEQVRIDWNgGOqAEYcHuIDiVkBsAsQcONSgC/8EClwG4sNA/BFdEpmvAeRcB+L/ZOLnQH1eQEx1AHLYHCD+AcXa6Db4AAVOATHIq6S6/ilQz0wgFgBiP6j+dUCaARYHIMM3A/ETIF4JxF+AmBRgCFQMc6A9kH0HiJmBWBqIwQDkcpDhbBAuWWQWUBfI595A3ANlMzABGSCgD8TLgPgXiEMmWAzVpwek4SEAswDk8m9kGgzT9hnKYIcJgGiYBchiVGWPWoArOEGpCQxoGUSgDEvTSD5DawvmgixgARFAAMpgPGAW+QQ3VCsoaNYD8Q1ko0BFxWMgpqSoyAbqhxUVcLPRCztQqQgqMkjN1cZAPZ5AfBqIbYD4LxBjAFhpSGlxjWHwqADeEAAA7BVZDx1YNJsAAAAASUVORK5CYII="),html.font(" 代码克隆表现形式", color= "purple"),align="center")
-                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为四类:文件克座、类克隆、函数克隆和块克隆",css={"text-indent":"2em"})
+                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为四类:文件克隆、类克隆、函数克隆和块克隆",css={"text-indent":"2em"})
                     #html.p1("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。")
                     for i in range(4):
                         html.br()

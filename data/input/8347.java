@@ -1,3 +1,0 @@
-class X {
-    List l;
-}

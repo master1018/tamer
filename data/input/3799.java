@@ -1,3 +1,0 @@
-class IllegalChar {
-    int i = #;
-}

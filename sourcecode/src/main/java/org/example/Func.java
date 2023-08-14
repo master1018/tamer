@@ -122,7 +122,7 @@ public class Func
                         }
                         if (type == 2 && print_similar < 50)
                             continue;
-                        if (type == 1 && print_similar < 50)
+                        if (type == 1 && print_similar < 80)
                             continue;
                         if (type == 3 && print_similar < 50)
                             continue;

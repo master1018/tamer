@@ -1,3 +1,0 @@
-class KindnameClass {
-    NotFound x;
-}
