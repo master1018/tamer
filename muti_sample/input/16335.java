@@ -1,0 +1,3 @@
+class UnicodeNewline {
+    xyzzy plugh; 
+}

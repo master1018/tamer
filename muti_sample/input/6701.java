@@ -1,0 +1,3 @@
+class MissingMethodBody {
+    void m();
+}

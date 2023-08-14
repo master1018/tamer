@@ -1,0 +1,17 @@
+/Users/haoranyan/git_rep/tamer/data/input/1.py
+/Users/haoranyan/git_rep/tamer/data/input/2.py
+begin
+100
+Optional[(line 14,col 9)-(line 18,col 9)]
+Optional[(line 20,col 9)-(line 24,col 9)]
+end
+begin
+79
+Optional[(line 28,col 17)-(line 34,col 17)]
+Optional[(line 45,col 17)-(line 51,col 17)]
+end
+begin
+59
+Optional[(line 39,col 4)-(line 46,col 4)]
+Optional[(line 56,col 4)-(line 66,col 4)]
+end

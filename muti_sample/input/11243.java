@@ -1,0 +1,1 @@
+public class ClassPathTestAux2 {}

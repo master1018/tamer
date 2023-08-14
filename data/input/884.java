@@ -1,0 +1,3 @@
+class UnnamedPackage {
+    class UnnamedPackage { }
+}

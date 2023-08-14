@@ -1,0 +1,54 @@
+public class BasicAdapterTest extends TestCase {
+    public void test_getDefaultAdapter() {
+        assertNotNull(BluetoothAdapter.getDefaultAdapter());
+    }
+    public void test_checkBluetoothAddress() {
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(null));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(""));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("0"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:0"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:0"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:00:"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:00:0"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:00:00:"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:00:00:0"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress("00:00:00:00:00:"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:00:00:00:00:0"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00x00:00:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:00.00:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:00:00-00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:00:00:00900:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:00:00:00:00?00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "a0:00:00:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "0b:00:00:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:c0:00:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:0d:00:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:00:e0:00:00:00"));
+        assertFalse(BluetoothAdapter.checkBluetoothAddress(
+            "00:00:0f:00:00:00"));
+        assertTrue(BluetoothAdapter.checkBluetoothAddress(
+            "00:00:00:00:00:00"));
+        assertTrue(BluetoothAdapter.checkBluetoothAddress(
+            "12:34:56:78:9A:BC"));
+        assertTrue(BluetoothAdapter.checkBluetoothAddress(
+            "DE:F0:FE:DC:B8:76"));
+    }
+}

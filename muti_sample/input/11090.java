@@ -1,0 +1,3 @@
+class DeprecatedPluralAdditional {
+    DeprecatedClass d;
+}
