@@ -16,7 +16,6 @@ from cwe_db import *
 from streamlit_option_menu import option_menu
 from streamlit_ace import st_ace
 from PIL import Image
-from tmp_data import clone_pairs
 from streamlit_elements import elements, mui, html
 from streamlit_elements import dashboard
 import random
@@ -41,7 +40,7 @@ labels1         =   ["no clone", "low clone", "medium clone ", "high clone"]
 labels2         =   ["low", "medium", "high"]
 
 exec_jar_pos        = "./sourcecode/out/artifacts/finals_jar/finals.jar"
-reset_path = "./initshell.sh"
+reset_path = "./init_shell.sh"
 #  1000279=[1000463], 1000533=[1000559, 1000970, 1000499, 1000179]
 # 1000077=[1000140], 1000837=[1000431, 1000814, 1000285, 1000043, 2000166, 1000096], 2000272=[2000223], 
 
@@ -473,6 +472,7 @@ def reset():
     st.session_state.show_single_res = 0
     st.session_state.parse_result_list = []
     os.system(reset_path)
+    
 
 def show_result(filename) -> None:
     ret1, ret2, ret3 = res_visual()
@@ -549,6 +549,7 @@ def show_result(filename) -> None:
 
 def exec_jar() -> None:
     # generate output
+    print("run java jar")
     os.system("python3 rm_comment.py ./data/input/")
     os.system("rm -f ./tmp/type")
     mode_write = str(st.session_state.mode)
@@ -815,7 +816,9 @@ def show_result2() -> None:
             st.markdown("""
                             <h3 align="center">    {0}对✅</h3>
                             """.format(2248), unsafe_allow_html=True)
-        
+            
+    from tmp_data import clone_pairs
+
     c2, c3 = st.columns(2)
     selected = []
     res = Result()
