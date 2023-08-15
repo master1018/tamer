@@ -202,3 +202,47 @@ option_pie3 = {
                 "show":"true"
     },
     }
+
+
+option_bar_cwe = {
+        "toolbox": {
+        "show": "true",
+        "feature": {
+          "dataZoom": {
+            "yAxisIndex": "none"
+          },
+          "dataView": {
+            "readOnly": "false"
+          },
+          "magicType": {
+            "type": ["line", "bar"]
+          },
+          "restore": {"show":"true"},
+        }
+      },
+        "xAxis": {
+            "type": 'category',
+            "data": []
+        },
+        "yAxis": {
+            "type": 'value'
+        },
+        "series": [{
+            "data": [
+                {"value":0, "itemStyle":{"color":"#00FF00"}},
+                {"value":0, "itemStyle":{"color":"#FFFF00"}},
+                {"value":0, "itemStyle":{"color":"#FF7D00"}},
+                {"value":0, "itemStyle":{"color":"#FF0000"}}, 
+                ],
+            "type": 'bar'
+
+        }],
+        "tooltip": {
+                        "show": "true"
+                    },
+        "label": {
+            "show":"true"
+        },
+        
+                        
+        }

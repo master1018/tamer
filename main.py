@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 from streamlit_echarts import st_echarts
-from echarts_option import option_pie, option_gauge, option_bar, option_pie2, option_pie3
+from echarts_option import option_pie, option_gauge, option_bar, option_pie2, option_pie3, option_bar_cwe
 from cwe_db import *
 from streamlit_option_menu import option_menu
 from streamlit_ace import st_ace
@@ -1172,13 +1172,8 @@ def show_info() -> None:
             with mui.Paper(key = "second_item",elevation=6):
                 with mui.Typography(padding=3):
                     html.br()
-<<<<<<< HEAD
-                    html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABKElEQVRIDWNgGOqAEYcHuIDiVkBsAsQcONSgC/8EClwG4sNA/BFdEpmvAeRcB+L/ZOLnQH1eQEx1AHLYHCD+AcXa6Db4AAVOATHIq6S6/ilQz0wgFgBiP6j+dUCaARYHIMM3A/ETIF4JxF+AmBRgCFQMc6A9kH0HiJmBWBqIwQDkcpDhbBAuWWQWUBfI595A3ANlMzABGSCgD8TLgPgXiEMmWAzVpwek4SEAswDk8m9kGgzT9hnKYIcJgGiYBchiVGWPWoArOEGpCQxoGUSgDEvTSD5DawvmgixgARFAAMpgPGAW+QQ3VCsoaNYD8Q1ko0BFxWMgpqSoyAbqhxUVcLPRCztQqQgqMkjN1cZAPZ5AfBqIbYD4LxBjAFhpSGlxjWHwqADeEAAA7BVZDx1YNJsAAAAASUVORK5CYII="),html.font(" 代码克隆表现形式", color= "purple"),align="center")
-                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为四类:文件克隆、类克隆、函数克隆和块克隆",css={"text-indent":"2em"})
-=======
                     html.h1(html.img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAABKElEQVRIDWNgGOqAEYcHuIDiVkBsAsQcONSgC/8EClwG4sNA/BFdEpmvAeRcB+L/ZOLnQH1eQEx1AHLYHCD+AcXa6Db4AAVOATHIq6S6/ilQz0wgFgBiP6j+dUCaARYHIMM3A/ETIF4JxF+AmBRgCFQMc6A9kH0HiJmBWBqIwQDkcpDhbBAuWWQWUBfI595A3ANlMzABGSCgD8TLgPgXiEMmWAzVpwek4SEAswDk8m9kGgzT9hnKYIcJgGiYBchiVGWPWoArOEGpCQxoGUSgDEvTSD5DawvmgixgARFAAMpgPGAW+QQ3VCsoaNYD8Q1ko0BFxWMgpqSoyAbqhxUVcLPRCztQqQgqMkjN1cZAPZ5AfBqIbYD4LxBjAFhpSGlxjWHwqADeEAAA7BVZDx1YNJsAAAAASUVORK5CYII="),html.font(" 代码克隆形式", color= "purple"),align="center")
-                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为四类:文件克座、类克隆、函数克隆和块克隆",css={"text-indent":"2em"})
->>>>>>> 1146413c9a45335c9d031c93c33c07f619223e65
+                    html.div("由于代码克隆的定义是面向程序代码片段，即一段连续的代码。所以按照不同的代码粒度，代码克隆的表现形式呈现差异化，一般可以分为四类:文件克隆、类克隆、函数克隆和块克隆",css={"text-indent":"2em"})
                     #html.p1("克隆代码可以各种形式存在，主要有文件克隆、类克隆、函数克隆以及代码块克隆。")
             with mui.Paper(key = "third_item",elevation=6):
                 with mui.Typography(padding=3):
@@ -1411,6 +1406,64 @@ def show_exp() -> None:
         st.selectbox("请选择漏洞来源：", options=["CWE","CNVD"])
         st.text("")
         show_cwe_list(cwe_list)
+
+    c3, c4 = st.columns(2)
+    
+    fp = open("./vul2.json", "r")
+    vul_data = json.load(fp)
+    fp.close()
+
+    arr1 = []
+    map_cwe = {}
+    arr2 = []
+
+    for key in vul_data:
+        stat = 0
+        for c in vul_data[key]:
+            stat += 1
+            if c[0] in map_cwe:
+                map_cwe[c[0]] += 1
+            else:
+                map_cwe[c[0]] = 1
+        arr1.append([key, stat])
+    
+    for key in map_cwe:
+        arr2.append([key, map_cwe[key]])
+    #random.shuffle(arr1)
+    df = pd.DataFrame(np.array(arr1))
+    df.columns = ['仓库链接', '漏洞数量']
+    gb = GridOptionsBuilder.from_dataframe(df)
+    selection_mode = 'single' # 定义单选模式，多选为'multiple'
+    enable_enterprise_modules = True # 设置企业化模型，可以筛选等
+        #gb.configure_default_column(editable=True) #定义允许编辑
+        
+    return_mode_value = DataReturnMode.FILTERED  #__members__[return_mode]
+    gb.configure_selection(selection_mode, use_checkbox=True) # 定义use_checkbox
+        
+    gb.configure_side_bar()
+    gb.configure_grid_options(domLayout='normal')
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
+        #gb.configure_default_column(editable=True, groupable=True)
+    gridOptions = gb.build()
+        
+    update_mode_value = GridUpdateMode.MODEL_CHANGED
+
+    grid_response = AgGrid(
+                        df, 
+                        gridOptions=gridOptions,
+                        fit_columns_on_grid_load = True,
+                        data_return_mode=return_mode_value,
+                        update_mode=update_mode_value,
+                        enable_enterprise_modules=enable_enterprise_modules,
+                        theme='streamlit'
+                            )  
+    selected = grid_response['selected_rows']
+
+    if len(selected) > 0:
+        show_json = {}
+        key = selected[0]['仓库链接']
+        show_json[key] = vul_data[key]
+        st.json(show_json)
 
 def show_config() -> None:
     c1, c2 = st.columns([0.5,0.5])
